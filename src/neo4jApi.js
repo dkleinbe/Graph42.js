@@ -4,7 +4,7 @@ var MovieCast = require('./models/MovieCast');
 var _ = require('lodash');
 
 var neo4j = window.neo4j.v1;
-var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "abcde"));
+var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "642lccost"));
 
 function searchMovies(queryString) {
   var session = driver.session();
@@ -82,7 +82,37 @@ function getGraph() {
     });
 }
 
+function getMovieGraph(title) {
+  var session = driver.session();
+  return session.run(
+    'MATCH (m:Movie)<-[:ACTED_IN]-(a:Person) WHERE m.title =~ {title} \
+    RETURN m.title AS movie, collect(a.name) AS cast \
+    LIMIT {limit}', {limit: 100, title})
+    .then(results => {
+      session.close();
+      var nodes = [], rels = [], i = 0;
+      results.records.forEach(res => {
+        nodes.push({title: res.get('movie'), label: 'movie'});
+        var target = i;
+        i++;
+
+        res.get('cast').forEach(name => {
+          var actor = {title: name, label: 'actor'};
+          var source = _.findIndex(nodes, actor);
+          if (source == -1) {
+            nodes.push(actor);
+            source = i;
+            i++;
+          }
+          rels.push({source, target})
+        })
+      });
+
+      return {nodes, links: rels};
+    });
+}
+
 exports.searchMovies = searchMovies;
 exports.getMovie = getMovie;
 exports.getGraph = getGraph;
-
+exports.getMovieGraph = getMovieGraph;
