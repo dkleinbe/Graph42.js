@@ -109,7 +109,7 @@ function renderGraph() {
 }
 
 function renderMovieGraph(title) {
-  var width = 800, height = 800;
+  var width = 1800, height = 1000;
   var forceSim = d3.forceSimulation().force("charge", d3.forceManyBody(-200))
       .force("center", d3.forceCenter(width / 2, height / 2));
                                 //.force.linkDistance(30)
