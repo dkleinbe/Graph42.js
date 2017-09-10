@@ -1,3 +1,4 @@
+/*
 var _ = require('lodash');
 
 function Movie(_node) {
@@ -10,5 +11,19 @@ function Movie(_node) {
     this.duration = this.duration.toNumber();
   }
 }
+*/
+'use strict';
+var _ = require('lodash');
+export default class MyMovie {
+	constructor(_node) {
 
-module.exports = Movie;
+		console.log('MyMovie::construtor');
+		this.title = 'THE TITLE';
+		_.extend(this, _node.properties);
+	}
+	wxc() {
+		console.log('MyMovie::wxc');
+	}
+}
+
+//module.exports = Movie;

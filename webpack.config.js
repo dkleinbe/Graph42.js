@@ -13,6 +13,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
  * a release mode, false otherwise
  * @return {object} Webpack configuration
  */
+const path = require('path');
 module.exports = {
   entry: {
     app: './src/app.js'
@@ -20,12 +21,15 @@ module.exports = {
 
   output: {
     filename: 'app.js',
-    path: './build/',
-    publicPatch: './build/'
+    path: path.resolve(__dirname, 'build'),
+    
   },
 
-  debug: true,
+  
   devtool: 'source-map',
+  devServer: {
+    contentBase: './build'
+  },
 
   stats: {
     colors: true,
@@ -37,23 +41,31 @@ module.exports = {
   ],
 
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx']
+    extensions: ['.webpack.js', '.web.js', '.js', '.jsx']
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
-        loader: 'style!css'
+        use: [ 'style-loader', 'css-loader' ]
       },
       {
         test:  /\.(jpe?g|png|gif|svg)$/i,
-        loader: 'file-loader?name=[name].[ext]'
+        use: [
+         {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]'
+            }
+         }]
       },
       {
         test: /\.js|\.jsx/,
         exclude: /node_modules|bower_components/,
-        loader: 'babel'
+        use: {
+          loader: 'babel-loader'
+        }
       }
     ]
   }

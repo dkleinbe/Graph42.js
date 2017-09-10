@@ -1,5 +1,8 @@
-require('file?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
-var Movie = require('./models/Movie');
+'use strict';
+
+require('file-loader?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
+import MyMovie from './models/Movie';
+//var Movie = require('./models/Movie');
 var MovieCast = require('./models/MovieCast');
 var _ = require('lodash');
 
@@ -8,6 +11,8 @@ var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "642lcco
 
 function searchMovies(queryString) {
   var session = driver.session();
+  //var aze = new MyMovie();
+  //aze.wxc();
   return session
     .run(
       'MATCH (movie:Movie) \
@@ -18,7 +23,7 @@ function searchMovies(queryString) {
     .then(result => {
       session.close();
       return result.records.map(record => {
-        return new Movie(record.get('movie'));
+        return new MyMovie(record.get('movie'));
       });
     })
     .catch(error => {
