@@ -1,5 +1,7 @@
 var api = require('./neo4jApi');
 
+
+
 $(function () {
   //renderGraph();
   //renderMovieGraph("The Matrix");
@@ -108,17 +110,20 @@ function renderGraph() {
     });
 }
 
-function renderMovieGraph(title) {
-  var width = 1800, height = 1000;
-  var forceSim = d3.forceSimulation().force("charge", d3.forceManyBody(-200))
-      .force("center", d3.forceCenter(width / 2, height / 2));
-                                //.force.linkDistance(30)
-                                //.force.size([width, height]);
+var width = 1500, height = 1000;
+var forceSim = d3.forceSimulation().force("charge", d3.forceManyBody(-200))
+  .force("center", d3.forceCenter(width / 2, height / 2));
 
-  d3.select("#graph svg").remove();
-  var svg = d3.select("#graph").append("svg")
+function renderMovieGraph(title) {
+
+  var gr = d3.select("#graph");
+  var svg = gr.selectAll("svg").data(['svg']);
+
+  svg.enter().append("svg")
     .attr("width", "100%").attr("height", "100%")
     .attr("pointer-events", "all");
+
+  svg = gr.select("svg");
 
   api
     .getMovieGraph(title)
@@ -127,11 +132,20 @@ function renderMovieGraph(title) {
       forceSim.force("link", d3.forceLink().links(graph.links));
 
       var link = svg.selectAll(".link")
-        .data(graph.links).enter()
-        .append("line").attr("class", "link");
+        .data(graph.links);
+
+      link.enter().append("line").attr("class", "link");
+
+      link.exit().remove();
+
+      var links = svg.selectAll(".link");
 
       var node = svg.selectAll(".node")
-        .data(graph.nodes).enter()
+        .data(graph.nodes, d => { return d.title; });
+
+      node.attr("class", d => { return "node " + d.label + " update" });
+
+      node.enter()
         .append("circle")
         .attr("class", d => {
           return "node " + d.label
@@ -140,17 +154,19 @@ function renderMovieGraph(title) {
         .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)
-          .on("end", dragended));
-
-      // html title attribute
-      node.append("title")
-        .text(d => {
-          return d.title;
+          .on("end", dragended))
+        .append("title")
+          .text(d => {
+            return d.title;
         });
 
+      node.exit().remove();
+      // html title attribute
+      var nodes = svg.selectAll(".node");
+      
       // force feed algo ticks
       forceSim.on("tick", () => {
-        link.attr("x1", d => {
+        links.attr("x1", d => {
           return d.source.x;
         }).attr("y1", d => {
           return d.source.y;
@@ -160,12 +176,16 @@ function renderMovieGraph(title) {
           return d.target.y;
         });
 
-        node.attr("cx", d => {
+        nodes.attr("cx", d => {
           return d.x;
         }).attr("cy", d => {
           return d.y;
         });
       });
+      //
+      // restart simulation
+      //
+      forceSim = forceSim.alpha(1).restart();
     });
 
   function dragstarted(d) {
