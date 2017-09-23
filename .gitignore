@@ -8,6 +8,9 @@ bower_components
 # build files
 build
 
+# doc files
+doc
+
 # misc
 .DS_Store
 npm-debug.log
