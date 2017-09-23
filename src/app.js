@@ -1,10 +1,14 @@
 var api = require('./neo4jApi');
+import GraphDatabase from './GraphDatabase';
 
-
+var grdb = new GraphDatabase();
 
 $(function () {
   //renderGraph();
   //renderMovieGraph("The Matrix");
+  grdb.connect();
+  showLabelSet();
+  showRelationTypes();
   search();
 
   $("#search").submit(e => {
@@ -12,6 +16,30 @@ $(function () {
     search();
   });
 });
+
+function showLabelSet() {
+  grdb.getNodeLabelsSet().then(labels => {
+    if (!labels)
+      return;
+    console.log(labels);
+    var t = $("table#roles tbody").empty();
+    labels.forEach(label => {
+      $("<tr><td class='role'>" + label + "</td></tr>").appendTo(t);
+    })
+  });
+  
+}
+
+function showRelationTypes() {
+  grdb.getRelationshipTypes().then(types => {
+    if (!types)
+      return;
+    var t = $("table#rel_types tbody").empty();
+    types.forEach(type => {
+      $("<tr><td class='role'>" + type + "</td></tr>").appendTo(t);
+    })
+  })
+}
 
 function showMovie(title) {
   api
