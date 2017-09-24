@@ -1,11 +1,19 @@
 var api = require('./neo4jApi');
 import GraphDatabase from './GraphDatabase';
+import {GraphEditor} from './view/GraphEditor';
 
 var grdb = new GraphDatabase();
+var svg = d3.select("#graph_").append("svg")
+    .attr("width", "100%").attr("height", "100%")
+    .attr("pointer-events", "all");
+
+var graphEditor = new GraphEditor(svg);
 
 $(function () {
   //renderGraph();
   //renderMovieGraph("The Matrix");
+ 
+
   grdb.connect();
   showLabelSet();
   showRelationTypes();
@@ -47,7 +55,9 @@ function showMovie(title) {
     .then(movie => {
       if (!movie) return;
 
-      renderMovieGraph(title);
+      //renderMovieGraph(title);
+      newRenderGraph(title);
+
       $("#title").text(movie.title);
       $("#poster").attr("src", "http://neo4j-contrib.github.io/developer-resources/language-guides/assets/posters/" + movie.title + ".jpg");
       var $list = $("#crew").empty();
@@ -79,6 +89,11 @@ function search() {
         }
       }
     });
+}
+
+function newRenderGraph(title) {
+
+    api.getMovieGraph(title).then(graph => graphEditor.renderGraph(graph));
 }
 
 function renderGraph() {
@@ -138,9 +153,6 @@ function renderGraph() {
     });
 }
 
-var width = 1500, height = 1000;
-var forceSim = d3.forceSimulation().force("charge", d3.forceManyBody(-200))
-  .force("center", d3.forceCenter(width / 2, height / 2));
 
 function renderMovieGraph(title) {
 

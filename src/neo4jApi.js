@@ -2,6 +2,8 @@
 
 require('file-loader?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
 import MyMovie from './models/Movie';
+import * as Graph from './models/Graph';
+
 //var Movie = require('./models/Movie');
 var MovieCast = require('./models/MovieCast');
 var _ = require('lodash');
