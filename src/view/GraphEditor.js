@@ -10,38 +10,46 @@ export class GraphEditor {
 	**/
 	constructor(svg) {
 		this._svg = svg; 
-		
 		var width = 1500, height = 500;
-		this._forceSim = d3.forceSimulation().force("charge", d3.forceManyBody(-200))
-  .force("center", d3.forceCenter(width / 2, height / 2));
 
+		this._svg.on("mouseup", () => { this.onMouseUp(); });
+
+		this._forceSim = d3.forceSimulation().force("charge", d3.forceManyBody(-200))
+  			.force("center", d3.forceCenter(width / 2, height / 2));
+  		this._forceSim.force("link", d3.forceLink());
+
+  		this._links = svg.append("g").selectAll(".link");
+  		this._nodes = svg.append("g").selectAll(".node");
 	}
 	/**
 	**/
 	renderGraph(graph) {
 		this._graph = graph;
-		
-		this._forceSim.nodes(graph.nodes);
-      	this._forceSim.force("link", d3.forceLink().links(graph.links));
+	
       	var svg = this._svg;
+      	var links = this._links;
+      	var nodes = this._nodes;
 
+      	//
+      	// Update links
+      	//
+      	links = links.data(graph.links, function(d) { return d.source.title + "-" + d.target.title; });
+      	links = links.enter().append("line").attr("class", "link").merge(links);
 
-      	var link = svg.selectAll(".link")
-        	.data(graph.links);
+	    links.exit().remove();
 
-      	link.enter().append("line").attr("class", "link");
+	    this._links = links;
+      	//
+      	// Update nodes
+      	//
+      	nodes = nodes.data(graph.nodes, d => { return d.title; });
 
-	    link.exit().remove();
+      	nodes.attr("class", d => { return "node " + d.label + " update" });
 
-      	var links = svg.selectAll(".link");
+      	nodes.exit().remove();
 
-      	var node = svg.selectAll(".node")
-        	.data(graph.nodes, d => { return d.title; });
-
-      	node.attr("class", d => { return "node " + d.label + " update" });
-
-      	node.enter()
-	        .append("circle")
+      	var newNodes = nodes.enter()
+	        .append("circle")   
 	        .attr("class", d => {
 	          return "node " + d.label
 	        })
@@ -49,17 +57,18 @@ export class GraphEditor {
 	        .call(d3.drag()
 	          .on("start", (d) => this.dragstarted(d))
 	          .on("drag", (d) => this.dragged(d))
-	          .on("end", (d) => this.dragended(d)))
-	        .append("title")
+	          .on("end", (d) => this.dragended(d)));
+
+	    newNodes.append("title")
 	          .text(d => {
 	            return d.title;
 	        });
-
-      	node.exit().remove();
-      	// html title attribute
-      	var nodes = svg.selectAll(".node");
-      
-      // force feed algo ticks
+      	
+      	nodes = nodes.merge(newNodes);      
+      	this._nodes = nodes;
+      	//
+      	// force feed algo ticks
+      	//
       	this._forceSim.on("tick", () => {
 	        links.attr("x1", d => {
 	          return d.source.x;
@@ -80,6 +89,8 @@ export class GraphEditor {
      	//
       	// restart simulation
       	//
+      	this._forceSim.nodes(graph.nodes);
+      	this._forceSim.force("link").links(graph.links);
       	this._forceSim = this._forceSim.alpha(1).restart();
 	}
 
@@ -99,5 +110,16 @@ export class GraphEditor {
     	d.fx = null;
     	d.fy = null;
   	}  	
+
+  	onMouseUp() {
+  		var point = d3.mouse(this._svg.node());
+  		var count = this._graph.nodes.length;
+  		var newNode = {title: "actor name" + count, label: 'actor', x: point[0], y: point[1]};
+  		this._graph.nodes.push(newNode);
+  		this._graph.links.push({source: this._graph.nodes[0], target: newNode });
+  		//this._graph.links.pop();
+  		this.renderGraph(this._graph);
+
+  	}
 } /* /class */
 
