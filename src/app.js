@@ -26,7 +26,7 @@ function showLabelSet() {
   grdb.getNodeLabelsSet().then(labels => {
     if (!labels)
       return;
-    console.log(labels);
+
     var t = $("table#roles tbody").empty();
     labels.forEach(label => {
       $("<tr><td class='role'>" + label + "</td></tr>").appendTo(t);

@@ -2,6 +2,9 @@
 'use strict';
 
 var _ = require('lodash');
+import * as state from "@steelbreeze/state";
+
+var model = new state.StateMachine("model");
 /**
 Class to access Neo4j database
 **/
@@ -13,6 +16,7 @@ export class GraphEditor {
 		var width = 1500, height = 500;
 
 		this._svg.on("mouseup", () => { this.onMouseUp(); });
+		this.initFSM();
 
 		this._forceSim = d3.forceSimulation().force("charge", d3.forceManyBody(-200))
   			.force("center", d3.forceCenter(width / 2, height / 2));
@@ -20,6 +24,29 @@ export class GraphEditor {
 
   		this._links = svg.append("g").selectAll(".link");
   		this._nodes = svg.append("g").selectAll(".node");
+	}
+	/**
+	**/
+	initFSM() {
+		// create the state machine model elements
+		this._model = new state.StateMachine("model");
+		this._stateInitial = new state.PseudoState("sateInitial", this._model, state.PseudoStateKind.Initial);
+		this._stateIdle = new state.State("stateIdle", this._model);
+		this._stateB = new state.State("stateB", this._model);
+		//
+		// create the state machine model transitions
+		// 
+		this._stateInitial.to(this._stateIdle);
+		this._stateIdle.to(this._stateIdle).when((fsm, msg) => msg === "mouseup").effect((fsm, msg) => { this.addNode(); });
+		// mouseover_node
+		this._stateIdle.to(this._stateB).when((fsm, msg) => msg === "mouseover_node").effect((fsm, msg) => { console.log("mouseover_node: " + msg); });
+		this._stateB.to(this._stateIdle).when((fsm, msg) => msg === "mouseout_node").effect((fsm, msg) => { console.log("mouseout_node: " + msg); });
+		//
+		// create the a state machine instante
+		//
+		this._fsm = new state.JSONInstance("FSM");
+		this._model.initialise(this._fsm);
+		console.log(this._fsm.toJSON());
 	}
 	/**
 	**/
@@ -54,10 +81,13 @@ export class GraphEditor {
 	          return "node " + d.label
 	        })
 	        .attr("r", 10)
+	        .on("mouseover", d => { this._model.evaluate(this._fsm, "mouseover_node");})
+	        .on("mouseout", d => { this._model.evaluate(this._fsm, "mouseout_node");})
 	        .call(d3.drag()
 	          .on("start", (d) => this.dragstarted(d))
 	          .on("drag", (d) => this.dragged(d))
-	          .on("end", (d) => this.dragended(d)));
+	          .on("end", (d) => this.dragended(d))
+	          .filter(() => this.filterDrag()));
 
 	    newNodes.append("title")
 	          .text(d => {
@@ -94,6 +124,10 @@ export class GraphEditor {
       	this._forceSim = this._forceSim.alpha(1).restart();
 	}
 
+	filterDrag() {
+		return true;
+	}
+
 	dragstarted(d) {
     	if (!d3.event.active) this._forceSim.alphaTarget(0.3).restart();
     	d.fx = d.x;
@@ -112,6 +146,13 @@ export class GraphEditor {
   	}  	
 
   	onMouseUp() {
+
+  		this._model.evaluate(this._fsm, "mouseup");
+  		console.log(this._fsm.toJSON());
+  	}
+
+  	addNode() {
+
   		var point = d3.mouse(this._svg.node());
   		var count = this._graph.nodes.length;
   		var newNode = {title: "actor name" + count, label: 'actor', x: point[0], y: point[1]};
