@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.acceleo.module.sample.main;
+package graph42js.uml2js.fsm;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class GenerateSM extends AbstractAcceleoGenerator {
      *
      * @generated
      */
-    public static final String MODULE_FILE_NAME = "/org/eclipse/acceleo/module/sample/main/generateSM";
+    public static final String MODULE_FILE_NAME = "/graph42js/uml2js/fsm/generateSM";
     
     /**
      * The name of the templates that are to be generated.
