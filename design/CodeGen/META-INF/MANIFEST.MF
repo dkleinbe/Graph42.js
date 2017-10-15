@@ -20,7 +20,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
-Export-Package: org.eclipse.acceleo.module.sample.main
+Export-Package: graph42js.uml2js.fsm
 Bundle-ClassPath: bin/,
  .
 

@@ -58,18 +58,19 @@ export class GraphEditor {
       	//
       	nodes = nodes.data(graph.nodes, d => { return d.title; });
 
-      	nodes.attr("class", d => { return "node " + d.label + " update" });
+      	nodes.attr("class", d => { return "node " + d.label });
 
       	nodes.exit().remove();
 
       	var newNodes = nodes.enter()
 	        .append("circle")   
 	        .attr("class", d => {
-	          return "node " + d.label
+	          return "node " + d.label + " update" 
 	        })
 	        .attr("r", 10)
-	        .on("mouseover", d => { this._fsm.evaluate("mouseover_node");})
-	        .on("mouseout", d => { this._fsm.evaluate("mouseout_node");})
+	        .on("mouseover", (d, i, nodes) => { this._fsm.evaluate("mouseover_node", d, nodes[i]); })
+	        .on("mouseleave", (d, i, nodes) => { this._fsm.evaluate("mouseleave_node", d, nodes[i]); })
+	        .on("click", (d, i, nodes) => { this._fsm.evaluate("click", d, nodes[i]); })
 	        .call(d3.drag()
 	          .on("start", (d) => this.dragstarted(d))
 	          .on("drag", (d) => this.dragged(d))
@@ -111,11 +112,17 @@ export class GraphEditor {
       	this._forceSim = this._forceSim.alpha(1).restart();
 	}
 
+	isShiftDown() {
+		return d3.event.shiftKey;
+	}
+
 	filterDrag() {
 		return true;
 	}
 
 	dragstarted(d) {
+		this._fsm.evaluate("drag_node_started"); 
+
     	if (!d3.event.active) this._forceSim.alphaTarget(0.3).restart();
     	d.fx = d.x;
     	d.fy = d.y;
@@ -127,6 +134,9 @@ export class GraphEditor {
   	}
 
 	dragended(d) {
+
+		this._fsm.evaluate("drag_node_ended"); 
+
     	if (!d3.event.active) this._forceSim.alphaTarget(0);
     	d.fx = null;
     	d.fy = null;
@@ -148,6 +158,21 @@ export class GraphEditor {
   		//this._graph.links.pop();
   		this.renderGraph(this._graph);
 
+  	}
+
+  	highlightNode(d, n) {
+  		//d.classed('update');
+  		d3.select(n).classed('over', true); 
+  	}
+
+  	unHighlightNode(d, n) {
+  		//d.classed('update');
+  		d3.select(n).classed('over', false); 
+  	}
+
+  	selectNode(d, n) {
+  		console.log('Node selected: '+ d);
+  		d3.select(n).classed('selected', true); 
   	}
 } /* /class */
 

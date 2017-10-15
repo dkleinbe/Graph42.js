@@ -436,7 +436,7 @@
         <styles xmi:type="notation:DiagramStyle" xmi:id="_zQCXQqw9Eee1tK58gDkznQ"/>
       </data>
     </ownedAnnotationEntries>
-    <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_1sX20Kw9Eee1tK58gDkznQ" name="GraphEditor" tooltipText="GraphIt::GraphEditor" width="12" height="10">
+    <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_1sX20Kw9Eee1tK58gDkznQ" name="GraphEditor" tooltipText="GraphIt42.js::GraphEditor" width="12" height="10">
       <target xmi:type="uml:Class" href="model.uml#_0izmsKw9Eee1tK58gDkznQ"/>
       <semanticElements xmi:type="uml:Class" href="model.uml#_0izmsKw9Eee1tK58gDkznQ"/>
       <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>

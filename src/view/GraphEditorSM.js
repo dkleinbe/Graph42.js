@@ -13,23 +13,55 @@ export class GraphEditorSM {
 		//
 		// states
 		//
-		// state
-		this._stateIdle = new state.State("Idle", this._model);
-
-		// initial state
+		// initial state: <Initial>
 		this._stateInitial = new state.PseudoState("Initial", this._model, state.PseudoStateKind.Initial);
 
-		// state
-		this._stateDummy = new state.State("Dummy", this._model);
+		// state: <Idle>
+		this._stateIdle = new state.State("Idle", this._model);
+
+		// state: <NodeDesignated>
+		this._stateNodeDesignated = new state.State("NodeDesignated", this._model);
+
+		// state: <NodeSelected>
+		this._stateNodeSelected = new state.State("NodeSelected", this._model);
+		this._stateNodeSelected.entry((fsm, msg, ...args) => { this._owner.selectNode(...args); });
+
+		// state: <DraggingNode>
+		this._stateDraggingNode = new state.State("DraggingNode", this._model);
 		//
 		// transitions
 		//
-		this._stateIdle.to(this._stateIdle).when((fsm, msg) => msg === "mouseup").effect((fsm, msg) => { this._owner.addNode(); });
+		this._stateInitial.to(this._stateIdle)
+			
+			;
 
-		this._stateInitial.to(this._stateIdle);
+		this._stateNodeDesignated.to(this._stateNodeSelected)
+			.when((fsm, msg) => { return (((msg === "click")) ); })
+			;
 
-		this._stateIdle.to(this._stateDummy).when((fsm, msg) => msg === "mouseover_node");
-					
+		this._stateDraggingNode.to(this._stateNodeDesignated)
+			.when((fsm, msg) => { return (((msg === "drag_node_ended")) ); })
+			;
+
+		this._stateNodeDesignated.to(this._stateIdle)
+			.when((fsm, msg) => { return (((msg === "mouseleave_node")) ); })
+			.effect((fsm, msg, ...args) => { this._owner.unHighlightNode(...args); });
+
+		this._stateNodeSelected.to(this._stateIdle)
+			.when((fsm, msg) => { return (((msg === "mouseleave_node")) ); })
+			;
+
+		this._stateIdle.to(this._stateNodeDesignated)
+			.when((fsm, msg) => { return (((msg === "mouseover_node")) ); })
+			.effect((fsm, msg, ...args) => { this._owner.highlightNode(...args); });
+
+		this._stateIdle.to(this._stateIdle)
+			.when((fsm, msg) => { return (((msg === "mouseup")) && this._owner.isShiftDown()); })
+			.effect((fsm, msg, ...args) => { this._owner.addNode(...args); });
+
+		this._stateNodeDesignated.to(this._stateDraggingNode)
+			.when((fsm, msg) => { return (((msg === "drag_node_started")) ); })
+			;
 		//
 		// create the a state machine instance
 		//
