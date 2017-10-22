@@ -8,7 +8,9 @@
 
 var _ = require('lodash');
 import * as state from "@steelbreeze/state";
-
+/**
+	FSM ****
+**/
 export class [aSM.name.toUpperFirst()/] {
 	constructor(owner) {
 		this._owner = owner;
@@ -32,6 +34,12 @@ export class [aSM.name.toUpperFirst()/] {
 		this._state[s.name/] = new state.State("[s.name/]", this._model);
 			[if s.entry <> null]
 		this._state[s.name/].entry((fsm, msg, ...args) => { this._owner.[s.entry.name/](...args); });
+			[/if]
+			[if s.doActivity <> null]
+		this._state[s.name/].entry((fsm, msg, ...args) => { this._owner.[s.doActivity.name/](...args); });
+			[/if]
+			[if s.exit <> null]
+		this._state[s.name/].exit((fsm, msg, ...args) => { this._owner.[s.exit.name/](...args); });
 			[/if]
 			[/let]
 		[/for]
@@ -83,7 +91,12 @@ this._state[aTrans.source.name/].to(this._state[aTrans.target.name/])
 
 [template public genGuard(aTrans : Transition) post (trim())]
 	[if (aTrans.guard <> null)]
- && this._owner.[aTrans.guard.name/][/if]
+		[for (g : Element | aTrans.guard.ownedElement)]
+			[let oe : OpaqueExpression = g]
+ && (this._owner.[oe._body/])
+			[/let]
+		[/for]
+	[/if]
 [/template]
 
 

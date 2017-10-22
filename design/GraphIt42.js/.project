@@ -9,4 +9,11 @@
 	<natures>
 		<nature>org.eclipse.sirius.nature.modelingproject</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>fsm</name>
+			<type>2</type>
+			<location>D:/Users/denis/DevLab/JS/Projects/Graph42.js/src/view/fsm</location>
+		</link>
+	</linkedResources>
 </projectDescription>

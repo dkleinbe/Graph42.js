@@ -1,7 +1,7 @@
 {
-  "name": "movies-neo4j-javascript-driver",
+  "name": "Graph42.js",
   "version": "0.0.1",
-  "description": "Demo application using Neo4j Driver for Javascript",
+  "description": "Graph every thing",
   "repository": "",
   "license": "PRIVATE",
   "dependencies": {
