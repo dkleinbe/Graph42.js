@@ -74,7 +74,7 @@ this._state[aTrans.source.name/].to(this._state[aTrans.target.name/])
 
 [template public genWhen(aTrans : Transition) post(trim())]
 	[if aTrans.trigger <> Set {}]
-	.when((fsm, msg) => { return (([genTrigger(aTrans)/]) [genGuard(aTrans)/]); })
+	.when((fsm, msg, ...args) => { return (([genTrigger(aTrans)/]) [genGuard(aTrans)/]); })
 	[/if]
 [/template]
 

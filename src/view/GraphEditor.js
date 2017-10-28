@@ -50,7 +50,12 @@ export class GraphEditor {
   	// Update links
   	//
   	links = links.data(graph.links, function(d) { return d.source.title + "-" + d.target.title; });
-  	links = links.enter().append("line").attr("class", "link").merge(links);
+  	links = links.enter()
+      .append("line")
+      .attr("class", "link")
+      .on("mouseover", (d, i, links) => { this._fsm.evaluate("mouseover_link", d, links[i]); })
+      .on("mouseleave", (d, i, links) => { this._fsm.evaluate("mouseleave_link", d, links[i]); })      
+      .merge(links);
 
     links.exit().remove();
 
@@ -60,7 +65,7 @@ export class GraphEditor {
   	//
   	nodes = nodes.data(graph.nodes, d => { return d.title; });
 
-  	nodes.attr("class", d => { return "node " + d.label });
+  	//nodes.attr("class", d => { return "node " + d.label });
 
   	nodes.exit().remove();
 
@@ -125,7 +130,7 @@ export class GraphEditor {
   }
 
   isSelectedNode(n) {
-    return d === this._selection;
+    return n === this._selection;
   }
 
 	filterDrag() {
