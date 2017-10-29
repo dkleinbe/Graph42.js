@@ -60,6 +60,7 @@ export class GraphEditor {
       .attr("class", "link")
       .on("mouseover", (d, i, links) => { this._fsm.evaluate("mouseover_link", d, links[i]); })
       .on("mouseleave", (d, i, links) => { this._fsm.evaluate("mouseleave_link", d, links[i]); })      
+      .on("click", (d, i, links) => { if (d3.event.defaultPrevented) return;  this._fsm.evaluate("click", d, links[i]); })
       .merge(links);
 
     links.exit().remove();
@@ -222,8 +223,13 @@ export class GraphEditor {
     this._selection = d;
 	}
 
+  selectLink(d, n) {
+    this.unselectAll();
+    d3.select(n).classed('selected', true);
+  }
+
   unselectAll() {
-    d3.selectAll(".node").classed('selected', false); 
+    d3.selectAll(".node, .link").classed('selected', false); 
     this._selection = null;
   }
 } /* /class */

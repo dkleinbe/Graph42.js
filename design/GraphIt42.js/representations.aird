@@ -12,7 +12,6 @@
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']"/>
       <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" xmi:id="_7rfRIKuvEeeJtIPnzzjBXQ" name="GraphEditor State Machine Diagram" repPath="#_7ra_sKuvEeeJtIPnzzjBXQ">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']"/>
-        <target xmi:type="uml:StateMachine" href="model.uml#_5lcxsKuvEeeJtIPnzzjBXQ"/>
       </ownedRepresentationDescriptors>
       <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" xmi:id="_zP3YIKw9Eee1tK58gDkznQ" name="GraphIt Class Diagram" repPath="#_zP1i8Kw9Eee1tK58gDkznQ">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Class%20Diagram']"/>
@@ -382,8 +381,6 @@
       </data>
     </ownedAnnotationEntries>
     <ownedDiagramElements xmi:type="diagram:DNodeContainer" xmi:id="_7ra_tKuvEeeJtIPnzzjBXQ" name="GraphEditorSM-ori" childrenPresentation="HorizontalStack">
-      <target xmi:type="uml:StateMachine" href="model.uml#_5lcxsKuvEeeJtIPnzzjBXQ"/>
-      <semanticElements xmi:type="uml:StateMachine" href="model.uml#_5lcxsKuvEeeJtIPnzzjBXQ"/>
       <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
       <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
       <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
@@ -392,8 +389,6 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_reusedMappingsForStateMachine']/@subContainerMappings[name='SM_StateMachineHorizontal']"/>
       <ownedDiagramElements xmi:type="diagram:DNodeContainer" xmi:id="_7ra_tquvEeeJtIPnzzjBXQ" name="Region1">
-        <target xmi:type="uml:Region" href="model.uml#_5lcxsauvEeeJtIPnzzjBXQ"/>
-        <semanticElements xmi:type="uml:Region" href="model.uml#_5lcxsauvEeeJtIPnzzjBXQ"/>
         <graphicalFilters xmi:type="diagram:HideLabelFilter" xmi:id="_7ra_t6uvEeeJtIPnzzjBXQ"/>
         <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_7ra_uKuvEeeJtIPnzzjBXQ" labelSize="9" borderSize="1" borderSizeComputationExpression="1" borderLineStyle="dash" hideLabelByDefault="true" backgroundStyle="Liquid" foregroundColor="230,230,230">
           <labelFormat>bold</labelFormat>
@@ -401,8 +396,6 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']"/>
         <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_PJErMKuwEeepA5OGuRApKQ" name="Initial" outgoingEdges="_nnblIKwsEee1tK58gDkznQ" width="3" height="3" resizeKind="NSEW">
-          <target xmi:type="uml:Pseudostate" href="model.uml#_OxeqkKuwEeepA5OGuRApKQ"/>
-          <semanticElements xmi:type="uml:Pseudostate" href="model.uml#_OxeqkKuwEeepA5OGuRApKQ"/>
           <graphicalFilters xmi:type="diagram:HideLabelFilter" xmi:id="_PJGgYKuwEeepA5OGuRApKQ"/>
           <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
           <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
@@ -413,8 +406,6 @@
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subNodeMappings[name='SM_PseudoState']"/>
         </ownedDiagramElements>
         <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_TW8Z0KuwEeepA5OGuRApKQ" name="Idle" outgoingEdges="_T4hcoKxPEee1tK58gDkznQ _sBSLALDyEeeXUa9_65H_HQ _VzKIcLaDEeej_tpVZRCl2Q" incomingEdges="_nnblIKwsEee1tK58gDkznQ _8IoLsK92Eeecyru8yCufrg _sBSLALDyEeeXUa9_65H_HQ _VzKIcLaDEeej_tpVZRCl2Q">
-          <target xmi:type="uml:State" href="model.uml#_Rz22cKuwEeepA5OGuRApKQ"/>
-          <semanticElements xmi:type="uml:State" href="model.uml#_Rz22cKuwEeepA5OGuRApKQ"/>
           <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
           <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
           <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
@@ -424,8 +415,6 @@
           <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']"/>
         </ownedDiagramElements>
         <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_S9PgIKxPEee1tK58gDkznQ" name="NodeDesignated" outgoingEdges="_hnI4wK9wEeecyru8yCufrg _lkPOMK91Eeecyru8yCufrg _8IoLsK92Eeecyru8yCufrg" incomingEdges="_T4hcoKxPEee1tK58gDkznQ _xJzjIK91Eeecyru8yCufrg _Rqps0LdFEee54eABXqkgLg">
-          <target xmi:type="uml:State" href="model.uml#_Rgkt0KxPEee1tK58gDkznQ"/>
-          <semanticElements xmi:type="uml:State" href="model.uml#_Rgkt0KxPEee1tK58gDkznQ"/>
           <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
           <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
           <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
@@ -435,8 +424,6 @@
           <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']"/>
         </ownedDiagramElements>
         <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_gD3IIK9wEeecyru8yCufrg" name="NodeSelected" outgoingEdges="_DdZbYLcuEee54eABXqkgLg" incomingEdges="_hnI4wK9wEeecyru8yCufrg _USYUILcxEee54eABXqkgLg _wJ4t4LcuEee54eABXqkgLg">
-          <target xmi:type="uml:State" href="model.uml#_fCWn0K9wEeecyru8yCufrg"/>
-          <semanticElements xmi:type="uml:State" href="model.uml#_fCWn0K9wEeecyru8yCufrg"/>
           <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
           <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
           <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
@@ -445,8 +432,6 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']"/>
           <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_rKrscLDtEeeXUa9_65H_HQ" name="entry selectNode">
-            <target xmi:type="uml:Activity" href="model.uml#_pGPvgLDtEeeXUa9_65H_HQ"/>
-            <semanticElements xmi:type="uml:Activity" href="model.uml#_pGPvgLDtEeeXUa9_65H_HQ"/>
             <ownedStyle xmi:type="diagram:Square" xmi:id="_rKrscbDtEeeXUa9_65H_HQ" labelAlignment="LEFT" labelPosition="node">
               <description xmi:type="style:SquareDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']/@subNodeMappings[name='SM_Entry']/@style"/>
             </ownedStyle>
@@ -454,8 +439,6 @@
           </ownedElements>
         </ownedDiagramElements>
         <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_jMEc8K91Eeecyru8yCufrg" name="DraggingNode" outgoingEdges="_xJzjIK91Eeecyru8yCufrg _BVyWALcrEee54eABXqkgLg _Rqps0LdFEee54eABXqkgLg" incomingEdges="_lkPOMK91Eeecyru8yCufrg _BVyWALcrEee54eABXqkgLg">
-          <target xmi:type="uml:State" href="model.uml#_gSMs0K91Eeecyru8yCufrg"/>
-          <semanticElements xmi:type="uml:State" href="model.uml#_gSMs0K91Eeecyru8yCufrg"/>
           <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
           <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
           <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
@@ -464,8 +447,6 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']"/>
           <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_i8vJYLcpEee54eABXqkgLg" name="do dragged">
-            <target xmi:type="uml:Activity" href="model.uml#_i8Nk8LcpEee54eABXqkgLg"/>
-            <semanticElements xmi:type="uml:Activity" href="model.uml#_i8Nk8LcpEee54eABXqkgLg"/>
             <ownedStyle xmi:type="diagram:Square" xmi:id="_i8vwcLcpEee54eABXqkgLg" labelAlignment="LEFT" labelPosition="node">
               <description xmi:type="style:SquareDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']/@subNodeMappings[name='SM_Do']/@style"/>
             </ownedStyle>
@@ -473,8 +454,6 @@
           </ownedElements>
         </ownedDiagramElements>
         <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_-w4o8LctEee54eABXqkgLg" name="DraggingLink" outgoingEdges="_TSSQcLcuEee54eABXqkgLg _USYUILcxEee54eABXqkgLg" incomingEdges="_DdZbYLcuEee54eABXqkgLg _Vo20ULcwEee54eABXqkgLg">
-          <target xmi:type="uml:State" href="model.uml#_757C4LctEee54eABXqkgLg"/>
-          <semanticElements xmi:type="uml:State" href="model.uml#_757C4LctEee54eABXqkgLg"/>
           <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
           <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
           <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
@@ -484,23 +463,17 @@
           <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']"/>
         </ownedDiagramElements>
         <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_PNkd0LcuEee54eABXqkgLg" name="TargetNodeSelected" outgoingEdges="_wJ4t4LcuEee54eABXqkgLg _Vo20ULcwEee54eABXqkgLg" incomingEdges="_TSSQcLcuEee54eABXqkgLg">
-          <target xmi:type="uml:State" href="model.uml#_MU6OoLcuEee54eABXqkgLg"/>
-          <semanticElements xmi:type="uml:State" href="model.uml#_MU6OoLcuEee54eABXqkgLg"/>
           <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_PNkd0bcuEee54eABXqkgLg" labelSize="9" showIcon="false" labelColor="39,76,114" borderSize="1" borderSizeComputationExpression="1" borderColor="39,76,114" backgroundStyle="Liquid" foregroundColor="194,239,255">
             <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']/@style"/>
           </ownedStyle>
           <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']"/>
           <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_3W2OYLcvEee54eABXqkgLg" name="entry highlightNode">
-            <target xmi:type="uml:Activity" href="model.uml#_r8DmELcvEee54eABXqkgLg"/>
-            <semanticElements xmi:type="uml:Activity" href="model.uml#_r8DmELcvEee54eABXqkgLg"/>
             <ownedStyle xmi:type="diagram:Square" xmi:id="_3W2OYbcvEee54eABXqkgLg" labelAlignment="LEFT" labelPosition="node">
               <description xmi:type="style:SquareDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']/@subNodeMappings[name='SM_Entry']/@style"/>
             </ownedStyle>
             <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']/@subNodeMappings[name='SM_Entry']"/>
           </ownedElements>
           <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_3W21cLcvEee54eABXqkgLg" name="exit unHighlightNode">
-            <target xmi:type="uml:Activity" href="model.uml#_0WeNoLcvEee54eABXqkgLg"/>
-            <semanticElements xmi:type="uml:Activity" href="model.uml#_0WeNoLcvEee54eABXqkgLg"/>
             <ownedStyle xmi:type="diagram:Square" xmi:id="_3W21cbcvEee54eABXqkgLg" labelAlignment="LEFT" labelPosition="node">
               <description xmi:type="style:SquareDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subContainerMappings[name='SM_SimpleState']/@subNodeMappings[name='SM_Exit']/@style"/>
             </ownedStyle>
@@ -510,8 +483,6 @@
       </ownedDiagramElements>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_nnblIKwsEee1tK58gDkznQ" sourceNode="_PJErMKuwEeepA5OGuRApKQ" targetNode="_TW8Z0KuwEeepA5OGuRApKQ">
-      <target xmi:type="uml:Transition" href="model.uml#_nnWsoKwsEee1tK58gDkznQ"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_nnWsoKwsEee1tK58gDkznQ"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_nncMMKwsEee1tK58gDkznQ" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_nncMMawsEee1tK58gDkznQ" showIcon="false">
@@ -521,8 +492,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_T4hcoKxPEee1tK58gDkznQ" name="mouseover_node/highlightNode" sourceNode="_TW8Z0KuwEeepA5OGuRApKQ" targetNode="_S9PgIKxPEee1tK58gDkznQ">
-      <target xmi:type="uml:Transition" href="model.uml#_T4aH4KxPEee1tK58gDkznQ"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_T4aH4KxPEee1tK58gDkznQ"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_T4hcoaxPEee1tK58gDkznQ" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_T4hcoqxPEee1tK58gDkznQ" showIcon="false">
@@ -532,8 +501,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_hnI4wK9wEeecyru8yCufrg" name="click" sourceNode="_S9PgIKxPEee1tK58gDkznQ" targetNode="_gD3IIK9wEeecyru8yCufrg">
-      <target xmi:type="uml:Transition" href="model.uml#_hm_u0K9wEeecyru8yCufrg"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_hm_u0K9wEeecyru8yCufrg"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_hnI4wa9wEeecyru8yCufrg" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_hnI4wq9wEeecyru8yCufrg" showIcon="false">
@@ -543,8 +510,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_lkPOMK91Eeecyru8yCufrg" name="node_dragged" sourceNode="_S9PgIKxPEee1tK58gDkznQ" targetNode="_jMEc8K91Eeecyru8yCufrg">
-      <target xmi:type="uml:Transition" href="model.uml#_lkJuoK91Eeecyru8yCufrg"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_lkJuoK91Eeecyru8yCufrg"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_lkP1QK91Eeecyru8yCufrg" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_lkP1Qa91Eeecyru8yCufrg" showIcon="false">
@@ -554,9 +519,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_xJzjIK91Eeecyru8yCufrg" name="drag_node_ended[isShiftDown() == false]/unPinNode" sourceNode="_jMEc8K91Eeecyru8yCufrg" targetNode="_S9PgIKxPEee1tK58gDkznQ">
-      <target xmi:type="uml:Transition" href="model.uml#_xJuDkK91Eeecyru8yCufrg"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_xJuDkK91Eeecyru8yCufrg"/>
-      <semanticElements xmi:type="uml:OpaqueExpression" href="model.uml#_p471wbdFEee54eABXqkgLg"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_xJzjIa91Eeecyru8yCufrg" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_xJzjIq91Eeecyru8yCufrg" showIcon="false">
@@ -566,8 +528,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_8IoLsK92Eeecyru8yCufrg" name="mouseleave_node/unHighlightNode" sourceNode="_S9PgIKxPEee1tK58gDkznQ" targetNode="_TW8Z0KuwEeepA5OGuRApKQ">
-      <target xmi:type="uml:Transition" href="model.uml#_8IfBwK92Eeecyru8yCufrg"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_8IfBwK92Eeecyru8yCufrg"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_8IoLsa92Eeecyru8yCufrg" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_8IoLsq92Eeecyru8yCufrg" showIcon="false">
@@ -577,9 +537,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_sBSLALDyEeeXUa9_65H_HQ" name="mouseup[isShiftDown()]/addNode" sourceNode="_TW8Z0KuwEeepA5OGuRApKQ" targetNode="_TW8Z0KuwEeepA5OGuRApKQ">
-      <target xmi:type="uml:Transition" href="model.uml#_sBOgoLDyEeeXUa9_65H_HQ"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_sBOgoLDyEeeXUa9_65H_HQ"/>
-      <semanticElements xmi:type="uml:OpaqueExpression" href="model.uml#_8_z0ULZmEeej_tpVZRCl2Q"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_sBSLAbDyEeeXUa9_65H_HQ" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_sBSLArDyEeeXUa9_65H_HQ" showIcon="false">
@@ -589,9 +546,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_VzKIcLaDEeej_tpVZRCl2Q" name="mouseup[isShiftDown() == false]/unselectAll" sourceNode="_TW8Z0KuwEeepA5OGuRApKQ" targetNode="_TW8Z0KuwEeepA5OGuRApKQ">
-      <target xmi:type="uml:Transition" href="model.uml#_VzEB0LaDEeej_tpVZRCl2Q"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_VzEB0LaDEeej_tpVZRCl2Q"/>
-      <semanticElements xmi:type="uml:OpaqueExpression" href="model.uml#_2NOAAbaDEeej_tpVZRCl2Q"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_VzKvgLaDEeej_tpVZRCl2Q" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_VzKvgbaDEeej_tpVZRCl2Q" showIcon="false">
@@ -601,8 +555,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_BVyWALcrEee54eABXqkgLg" name="node_dragged" sourceNode="_jMEc8K91Eeecyru8yCufrg" targetNode="_jMEc8K91Eeecyru8yCufrg">
-      <target xmi:type="uml:Transition" href="model.uml#_BVnW4LcrEee54eABXqkgLg"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_BVnW4LcrEee54eABXqkgLg"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_BVy9ELcrEee54eABXqkgLg" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_BVy9EbcrEee54eABXqkgLg" showIcon="false">
@@ -612,8 +564,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_DdZbYLcuEee54eABXqkgLg" name="node_dragged" sourceNode="_gD3IIK9wEeecyru8yCufrg" targetNode="_-w4o8LctEee54eABXqkgLg">
-      <target xmi:type="uml:Transition" href="model.uml#_DdLY8LcuEee54eABXqkgLg"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_DdLY8LcuEee54eABXqkgLg"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_DdaCcLcuEee54eABXqkgLg" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_DdaCcbcuEee54eABXqkgLg" showIcon="false">
@@ -623,8 +573,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_TSSQcLcuEee54eABXqkgLg" name="mouseover_node" sourceNode="_-w4o8LctEee54eABXqkgLg" targetNode="_PNkd0LcuEee54eABXqkgLg">
-      <target xmi:type="uml:Transition" href="model.uml#_TSCY0LcuEee54eABXqkgLg"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_TSCY0LcuEee54eABXqkgLg"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_TSS3gLcuEee54eABXqkgLg" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_TSS3gbcuEee54eABXqkgLg" showIcon="false">
@@ -634,8 +582,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_wJ4t4LcuEee54eABXqkgLg" name="drag_node_ended/addRelation" sourceNode="_PNkd0LcuEee54eABXqkgLg" targetNode="_gD3IIK9wEeecyru8yCufrg">
-      <target xmi:type="uml:Transition" href="model.uml#_wJzOULcuEee54eABXqkgLg"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_wJzOULcuEee54eABXqkgLg"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_wJ4t4bcuEee54eABXqkgLg" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_wJ4t4rcuEee54eABXqkgLg" showIcon="false">
@@ -645,8 +591,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_Vo20ULcwEee54eABXqkgLg" name="mouseleave_node" sourceNode="_PNkd0LcuEee54eABXqkgLg" targetNode="_-w4o8LctEee54eABXqkgLg">
-      <target xmi:type="uml:Transition" href="model.uml#_DG3f0LcwEee54eABXqkgLg"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_DG3f0LcwEee54eABXqkgLg"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_Vo20UbcwEee54eABXqkgLg" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_Vo20UrcwEee54eABXqkgLg" showIcon="false">
@@ -656,8 +600,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_USYUILcxEee54eABXqkgLg" name="drag_node_ended" sourceNode="_-w4o8LctEee54eABXqkgLg" targetNode="_gD3IIK9wEeecyru8yCufrg">
-      <target xmi:type="uml:Transition" href="model.uml#_USSNgLcxEee54eABXqkgLg"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_USSNgLcxEee54eABXqkgLg"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_USYUIbcxEee54eABXqkgLg" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_USYUIrcxEee54eABXqkgLg" showIcon="false">
@@ -667,9 +609,6 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_Rqps0LdFEee54eABXqkgLg" name="drag_node_ended[isShiftDown()]/dragged" sourceNode="_jMEc8K91Eeecyru8yCufrg" targetNode="_S9PgIKxPEee1tK58gDkznQ">
-      <target xmi:type="uml:Transition" href="model.uml#_RqjmMLdFEee54eABXqkgLg"/>
-      <semanticElements xmi:type="uml:Transition" href="model.uml#_RqjmMLdFEee54eABXqkgLg"/>
-      <semanticElements xmi:type="uml:OpaqueExpression" href="model.uml#_b66bsbdFEee54eABXqkgLg"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_RqqT4LdFEee54eABXqkgLg" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_RqqT4bdFEee54eABXqkgLg" showIcon="false">
@@ -681,7 +620,6 @@
     <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']"/>
     <filterVariableHistory xmi:type="diagram:FilterVariableHistory" xmi:id="_7ra_uauvEeeJtIPnzzjBXQ"/>
     <activatedLayers xmi:type="description_1:Layer" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer"/>
-    <target xmi:type="uml:StateMachine" href="model.uml#_5lcxsKuvEeeJtIPnzzjBXQ"/>
   </diagram:DSemanticDiagram>
   <diagram:DSemanticDiagram xmi:id="_zP1i8Kw9Eee1tK58gDkznQ" name="GraphIt Class Diagram">
     <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_zP1i8aw9Eee1tK58gDkznQ" source="DANNOTATION_CUSTOMIZATION_KEY">
@@ -966,7 +904,7 @@
                     <styles xmi:type="notation:FilteringStyle" xmi:id="_srl1grm0Eeei4vW41dEgbw"/>
                   </children>
                   <styles xmi:type="notation:ShapeStyle" xmi:id="_srlOcbm0Eeei4vW41dEgbw" fontColor="7490599" fontName="Segoe UI"/>
-                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_srlOcrm0Eeei4vW41dEgbw" x="319" y="554" width="195"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_srlOcrm0Eeei4vW41dEgbw" x="319" y="554" width="195" height="83"/>
                 </children>
                 <children xmi:type="notation:Node" xmi:id="_SBybQLv3Eee17qOKs27_SA" type="3007" element="_SBA_MLv3Eee17qOKs27_SA">
                   <children xmi:type="notation:Node" xmi:id="_SB_2oLv3Eee17qOKs27_SA" type="5003">
@@ -1296,6 +1234,22 @@
           <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_escgRrwIEee17qOKs27_SA" id="(0.0,0.6555555555555556)"/>
           <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_escgR7wIEee17qOKs27_SA" id="(0.0,0.7222222222222222)"/>
         </edges>
+        <edges xmi:type="notation:Edge" xmi:id="_kYLuQLy8Eee17qOKs27_SA" type="4001" element="_kYJ5ELy8Eee17qOKs27_SA" source="_srlOcLm0Eeei4vW41dEgbw" target="_srlOcLm0Eeei4vW41dEgbw">
+          <children xmi:type="notation:Node" xmi:id="_kYMVULy8Eee17qOKs27_SA" type="6001">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_kYMVUby8Eee17qOKs27_SA" x="38" y="-4"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_kYMVUry8Eee17qOKs27_SA" type="6002">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_kYMVU7y8Eee17qOKs27_SA" x="30" y="-10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_kYMVVLy8Eee17qOKs27_SA" type="6003">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_kYMVVby8Eee17qOKs27_SA" x="-2" y="25"/>
+          </children>
+          <styles xmi:type="notation:ConnectorStyle" xmi:id="_kYLuQby8Eee17qOKs27_SA" routing="Rectilinear"/>
+          <styles xmi:type="notation:FontStyle" xmi:id="_kYLuQry8Eee17qOKs27_SA" fontName="Segoe UI" fontHeight="8" italic="true"/>
+          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kYLuQ7y8Eee17qOKs27_SA" points="[-23, -21, -36, 39]$[-96, -21, -109, 39]$[-96, -55, -109, 5]$[-23, -55, -36, 5]"/>
+          <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_kYMVVry8Eee17qOKs27_SA" id="(0.11917098445595854,1.0)"/>
+          <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_kYMVV7y8Eee17qOKs27_SA" id="(0.18652849740932642,0.25925925925925924)"/>
+        </edges>
       </data>
     </ownedAnnotationEntries>
     <ownedDiagramElements xmi:type="diagram:DNodeContainer" xmi:id="_UQ1cBLmiEeei4vW41dEgbw" name="GraphEditorSM" childrenPresentation="HorizontalStack">
@@ -1427,7 +1381,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@containerMappings[name='SM_ReusedMappings']/@subContainerMappings[name='SM_Region']/@subNodeMappings[name='SM_PseudoState']"/>
         </ownedDiagramElements>
-        <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_srMM4Lm0Eeei4vW41dEgbw" name="HoveringLink" outgoingEdges="_6DHQQLm0Eeei4vW41dEgbw" incomingEdges="_x-mAMLm0Eeei4vW41dEgbw">
+        <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_srMM4Lm0Eeei4vW41dEgbw" name="HoveringLink" outgoingEdges="_6DHQQLm0Eeei4vW41dEgbw _kYJ5ELy8Eee17qOKs27_SA" incomingEdges="_x-mAMLm0Eeei4vW41dEgbw _kYJ5ELy8Eee17qOKs27_SA">
           <target xmi:type="uml:State" href="model.uml#_qSHcsLm0Eeei4vW41dEgbw"/>
           <semanticElements xmi:type="uml:State" href="model.uml#_qSHcsLm0Eeei4vW41dEgbw"/>
           <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_srMz8Lm0Eeei4vW41dEgbw" labelSize="9" showIcon="false" labelColor="39,76,114" borderSize="1" borderSizeComputationExpression="1" borderColor="39,76,114" backgroundStyle="Liquid" foregroundColor="194,239,255">
@@ -1647,6 +1601,17 @@
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_esaEAbwIEee17qOKs27_SA" routingStyle="manhattan" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_esaEArwIEee17qOKs27_SA" showIcon="false">
+          <labelFormat>italic</labelFormat>
+        </centerLabelStyle>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_kYJ5ELy8Eee17qOKs27_SA" name="click/selectLink" sourceNode="_srMM4Lm0Eeei4vW41dEgbw" targetNode="_srMM4Lm0Eeei4vW41dEgbw">
+      <target xmi:type="uml:Transition" href="model.uml#_kYCkULy8Eee17qOKs27_SA"/>
+      <semanticElements xmi:type="uml:Transition" href="model.uml#_kYCkULy8Eee17qOKs27_SA"/>
+      <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_kYJ5Eby8Eee17qOKs27_SA" routingStyle="manhattan" strokeColor="69,69,69">
+        <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']/@style"/>
+        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_kYJ5Ery8Eee17qOKs27_SA" showIcon="false">
           <labelFormat>italic</labelFormat>
         </centerLabelStyle>
       </ownedStyle>

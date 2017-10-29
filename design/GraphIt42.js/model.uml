@@ -1,93 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_Zm38QKuvEeeJtIPnzzjBXQ" name="GraphIt42.js">
-  <packagedElement xmi:type="uml:StateMachine" xmi:id="_5lcxsKuvEeeJtIPnzzjBXQ" name="GraphEditorSM-ori">
-    <region xmi:id="_5lcxsauvEeeJtIPnzzjBXQ" name="Region1">
-      <transition xmi:id="_nnWsoKwsEee1tK58gDkznQ" source="_OxeqkKuwEeepA5OGuRApKQ" target="_Rz22cKuwEeepA5OGuRApKQ"/>
-      <transition xmi:id="_T4aH4KxPEee1tK58gDkznQ" source="_Rz22cKuwEeepA5OGuRApKQ" target="_Rgkt0KxPEee1tK58gDkznQ">
-        <effect xmi:type="uml:Activity" xmi:id="_NBnw4LEeEeeXUa9_65H_HQ" name="highlightNode"/>
-        <trigger xmi:id="_WfAWsKxPEee1tK58gDkznQ" name="mouseover_node"/>
-      </transition>
-      <transition xmi:id="_hm_u0K9wEeecyru8yCufrg" source="_Rgkt0KxPEee1tK58gDkznQ" target="_fCWn0K9wEeecyru8yCufrg">
-        <trigger xmi:id="_jd8pYK9wEeecyru8yCufrg" name="click"/>
-      </transition>
-      <transition xmi:id="_lkJuoK91Eeecyru8yCufrg" source="_Rgkt0KxPEee1tK58gDkznQ" target="_gSMs0K91Eeecyru8yCufrg">
-        <trigger xmi:id="_Xtr7YLdHEee54eABXqkgLg" name="node_dragged"/>
-      </transition>
-      <transition xmi:id="_xJuDkK91Eeecyru8yCufrg" guard="_p471wLdFEee54eABXqkgLg" source="_gSMs0K91Eeecyru8yCufrg" target="_Rgkt0KxPEee1tK58gDkznQ">
-        <ownedRule xmi:id="_p471wLdFEee54eABXqkgLg" name="null_transition">
-          <specification xmi:type="uml:OpaqueExpression" xmi:id="_p471wbdFEee54eABXqkgLg" name="null_guard">
-            <body>isShiftDown() == false</body>
-          </specification>
-        </ownedRule>
-        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_kPX5ILctEee54eABXqkgLg" name="unPinNode"/>
-        <trigger xmi:id="_x7VtwK91Eeecyru8yCufrg" name="drag_node_ended"/>
-      </transition>
-      <transition xmi:id="_8IfBwK92Eeecyru8yCufrg" source="_Rgkt0KxPEee1tK58gDkznQ" target="_Rz22cKuwEeepA5OGuRApKQ">
-        <effect xmi:type="uml:Activity" xmi:id="_CsGmMLEsEeeXUa9_65H_HQ" name="unHighlightNode"/>
-        <trigger xmi:id="_EtpgwK93Eeecyru8yCufrg" name="mouseleave_node"/>
-      </transition>
-      <transition xmi:id="_sBOgoLDyEeeXUa9_65H_HQ" name="Idle_mouseup_Idle" guard="_wupksLZmEeej_tpVZRCl2Q" source="_Rz22cKuwEeepA5OGuRApKQ" target="_Rz22cKuwEeepA5OGuRApKQ">
-        <ownedRule xmi:id="_wupksLZmEeej_tpVZRCl2Q">
-          <specification xmi:type="uml:OpaqueExpression" xmi:id="_8_z0ULZmEeej_tpVZRCl2Q" name="isShiftDown">
-            <body>isShiftDown()</body>
-          </specification>
-        </ownedRule>
-        <effect xmi:type="uml:Activity" xmi:id="_9o2eoLDyEeeXUa9_65H_HQ" name="addNode"/>
-        <trigger xmi:id="_BuFOoLDzEeeXUa9_65H_HQ" name="mouseup"/>
-      </transition>
-      <transition xmi:id="_VzEB0LaDEeej_tpVZRCl2Q" name="UnselectAll" guard="_2NOAALaDEeej_tpVZRCl2Q" source="_Rz22cKuwEeepA5OGuRApKQ" target="_Rz22cKuwEeepA5OGuRApKQ">
-        <ownedRule xmi:id="_2NOAALaDEeej_tpVZRCl2Q" name="UnselectAll_transition">
-          <specification xmi:type="uml:OpaqueExpression" xmi:id="_2NOAAbaDEeej_tpVZRCl2Q" name="UnselectAll_guard">
-            <body>isShiftDown() == false</body>
-          </specification>
-        </ownedRule>
-        <effect xmi:type="uml:Activity" xmi:id="_9ENF8LaDEeej_tpVZRCl2Q" name="unselectAll"/>
-        <trigger xmi:id="_hRbikLaDEeej_tpVZRCl2Q" name="mouseup"/>
-      </transition>
-      <transition xmi:id="_BVnW4LcrEee54eABXqkgLg" source="_gSMs0K91Eeecyru8yCufrg" target="_gSMs0K91Eeecyru8yCufrg">
-        <trigger xmi:id="_C6uTgLcrEee54eABXqkgLg" name="node_dragged"/>
-      </transition>
-      <transition xmi:id="_DdLY8LcuEee54eABXqkgLg" source="_fCWn0K9wEeecyru8yCufrg" target="_757C4LctEee54eABXqkgLg">
-        <trigger xmi:id="_LU5jILcuEee54eABXqkgLg" name="node_dragged"/>
-      </transition>
-      <transition xmi:id="_TSCY0LcuEee54eABXqkgLg" source="_757C4LctEee54eABXqkgLg" target="_MU6OoLcuEee54eABXqkgLg">
-        <trigger xmi:id="_VB5z8LcuEee54eABXqkgLg" name="mouseover_node"/>
-      </transition>
-      <transition xmi:id="_wJzOULcuEee54eABXqkgLg" source="_MU6OoLcuEee54eABXqkgLg" target="_fCWn0K9wEeecyru8yCufrg">
-        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_3d9_gLcuEee54eABXqkgLg" name="addRelation"/>
-        <trigger xmi:id="_Nl0ncLcvEee54eABXqkgLg" name="drag_node_ended"/>
-      </transition>
-      <transition xmi:id="_DG3f0LcwEee54eABXqkgLg" source="_MU6OoLcuEee54eABXqkgLg" target="_757C4LctEee54eABXqkgLg">
-        <trigger xmi:id="_iwSkoLcwEee54eABXqkgLg" name="mouseleave_node"/>
-      </transition>
-      <transition xmi:id="_USSNgLcxEee54eABXqkgLg" source="_757C4LctEee54eABXqkgLg" target="_fCWn0K9wEeecyru8yCufrg">
-        <trigger xmi:id="_Wd2GILcxEee54eABXqkgLg" name="drag_node_ended"/>
-      </transition>
-      <transition xmi:id="_RqjmMLdFEee54eABXqkgLg" guard="_b66bsLdFEee54eABXqkgLg" source="_gSMs0K91Eeecyru8yCufrg" target="_Rgkt0KxPEee1tK58gDkznQ">
-        <ownedRule xmi:id="_b66bsLdFEee54eABXqkgLg" name="null_transition">
-          <specification xmi:type="uml:OpaqueExpression" xmi:id="_b66bsbdFEee54eABXqkgLg" name="null_guard">
-            <body>isShiftDown()</body>
-          </specification>
-        </ownedRule>
-        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_U_L_sLdFEee54eABXqkgLg" name="dragged"/>
-        <trigger xmi:id="_U_L_sbdFEee54eABXqkgLg" name="drag_node_ended"/>
-      </transition>
-      <subvertex xmi:type="uml:Pseudostate" xmi:id="_OxeqkKuwEeepA5OGuRApKQ" name="Initial"/>
-      <subvertex xmi:type="uml:State" xmi:id="_Rz22cKuwEeepA5OGuRApKQ" name="Idle"/>
-      <subvertex xmi:type="uml:State" xmi:id="_Rgkt0KxPEee1tK58gDkznQ" name="NodeDesignated"/>
-      <subvertex xmi:type="uml:State" xmi:id="_fCWn0K9wEeecyru8yCufrg" name="NodeSelected">
-        <entry xmi:type="uml:Activity" xmi:id="_pGPvgLDtEeeXUa9_65H_HQ" name="selectNode"/>
-      </subvertex>
-      <subvertex xmi:type="uml:State" xmi:id="_gSMs0K91Eeecyru8yCufrg" name="DraggingNode">
-        <doActivity xmi:type="uml:Activity" xmi:id="_i8Nk8LcpEee54eABXqkgLg" name="dragged"/>
-      </subvertex>
-      <subvertex xmi:type="uml:State" xmi:id="_757C4LctEee54eABXqkgLg" name="DraggingLink"/>
-      <subvertex xmi:type="uml:State" xmi:id="_MU6OoLcuEee54eABXqkgLg" name="TargetNodeSelected">
-        <entry xmi:type="uml:Activity" xmi:id="_r8DmELcvEee54eABXqkgLg" name="highlightNode"/>
-        <exit xmi:type="uml:Activity" xmi:id="_0WeNoLcvEee54eABXqkgLg" name="unHighlightNode"/>
-      </subvertex>
-    </region>
-  </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_0izmsKw9Eee1tK58gDkznQ" name="GraphEditor" visibility="public">
     <ownedRule xmi:id="_d5OmsLmvEeei4vW41dEgbw" name="GraphEditor" constrainedElement="_0izmsKw9Eee1tK58gDkznQ">
       <specification xmi:type="uml:Expression" xmi:id="_d5OmsbmvEeei4vW41dEgbw" name="expression" symbol="aze"/>
@@ -115,7 +27,7 @@
         <effect xmi:type="uml:Activity" xmi:id="_D5YFZLmiEeei4vW41dEgbw" name="highlightNode"/>
         <trigger xmi:id="_D5YFZbmiEeei4vW41dEgbw" name="mouseover_node"/>
       </transition>
-      <transition xmi:id="_D5YFZrmiEeei4vW41dEgbw" source="_D5Yse7miEeei4vW41dEgbw" target="_D5Yse7miEeei4vW41dEgbw">
+      <transition xmi:id="_D5YFZrmiEeei4vW41dEgbw" name="HoveringNode-HoveringNode" source="_D5Yse7miEeei4vW41dEgbw" target="_D5Yse7miEeei4vW41dEgbw">
         <effect xmi:type="uml:OpaqueBehavior" xmi:id="_t_BRcLmiEeei4vW41dEgbw" name="selectNode"/>
         <trigger xmi:id="_D5YFZ7miEeei4vW41dEgbw" name="click"/>
       </transition>
@@ -208,6 +120,10 @@
       </transition>
       <transition xmi:id="_esQTALwIEee17qOKs27_SA" source="_D5YsgLmiEeei4vW41dEgbw" target="_D5YsgLmiEeei4vW41dEgbw">
         <trigger xmi:id="_qhbxQLwIEee17qOKs27_SA" name="node_dragged"/>
+      </transition>
+      <transition xmi:id="_kYCkULy8Eee17qOKs27_SA" name="HoveringLink-HoveringLink" source="_qSHcsLm0Eeei4vW41dEgbw" target="_qSHcsLm0Eeei4vW41dEgbw">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ob40QLy8Eee17qOKs27_SA" name="selectLink"/>
+        <trigger xmi:id="_ob5bULy8Eee17qOKs27_SA" name="click"/>
       </transition>
       <subvertex xmi:type="uml:Pseudostate" xmi:id="_D5YsebmiEeei4vW41dEgbw" name="Initial"/>
       <subvertex xmi:type="uml:State" xmi:id="_D5YsermiEeei4vW41dEgbw" name="Idle"/>
