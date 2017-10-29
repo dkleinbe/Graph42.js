@@ -16,6 +16,11 @@ export class GraphEditor {
 		this._svg = svg; 
 		var width = 1500, height = 500;
 
+    this._dragline = svg.append('svg:path')
+          .attr('class', 'link dragline hidden')
+          .attr('d', 'M0,0L0,0');
+          //.style('marker-end', 'url(#mark-end-arrow)');
+
 		this._svg.on("mouseup", () => { this.onMouseUp(); }); 
 		
 
@@ -163,6 +168,14 @@ export class GraphEditor {
   	//d.fy = null;
   }  	
 
+  dragLine(d, n) {
+    this._dragline.attr('d', 'M' + d.x + ',' + d.y + 'L' + d3.event.x + ',' + d3.event.y);
+  }
+
+  dragLineVisibility(v) {
+    this._dragline.classed('hidden', !v);
+  }
+
   onMouseUp() {
 
   	this._fsm.evaluate("mouseup");
@@ -185,6 +198,7 @@ export class GraphEditor {
     var newRel = { source: this._selection, target: this._targetNode };
     this._graph.links.push(newRel);
 
+    this.dragLineVisibility(false);
     this.renderGraph(this._graph);
   }
 
@@ -201,14 +215,16 @@ export class GraphEditor {
 
 	selectNode(d, n) {
 		console.log('Node selected: '+ d);
-    this._selection = d;
+    
     this.unselectAll();
     this.unHighlightNode(d, n);
 		d3.select(n).classed('selected', true); 
+    this._selection = d;
 	}
 
   unselectAll() {
     d3.selectAll(".node").classed('selected', false); 
+    this._selection = null;
   }
 } /* /class */
 
