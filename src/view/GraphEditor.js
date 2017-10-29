@@ -21,6 +21,12 @@ export class GraphEditor {
           .attr('d', 'M0,0L0,0');
           //.style('marker-end', 'url(#mark-end-arrow)');
 
+    // listen for key events
+    d3.select(window)
+      .on("keydown", () => { this.onKeyDown(); })
+      .on("keyup", () => { this.onKeyUp(); });
+
+    // list for mouse button  
 		this._svg.on("mouseup", () => { this.onMouseUp(); }); 
 		
 
@@ -55,23 +61,23 @@ export class GraphEditor {
   	// Update links
   	//
   	links = links.data(graph.links, function(d) { return d.source.title + "-" + d.target.title; });
-  	links = links.enter()
+
+    links.exit().remove();
+
+  	var newLinks = links.enter()
       .append("line")
       .attr("class", "link")
       .on("mouseover", (d, i, links) => { this._fsm.evaluate("mouseover_link", d, links[i]); })
       .on("mouseleave", (d, i, links) => { this._fsm.evaluate("mouseleave_link", d, links[i]); })      
       .on("click", (d, i, links) => { if (d3.event.defaultPrevented) return;  this._fsm.evaluate("click", d, links[i]); })
       .merge(links);
-
-    links.exit().remove();
-
+    
+    links = links.merge(newLinks); 
     this._links = links;
   	//
   	// Update nodes
   	//
   	nodes = nodes.data(graph.nodes, d => { return d.title; });
-
-  	//nodes.attr("class", d => { return "node " + d.label });
 
   	nodes.exit().remove();
 
@@ -183,13 +189,25 @@ export class GraphEditor {
 
   }
 
+  onKeyDown() {
+
+    switch(d3.event.keyCode) {
+      case 0x8:
+        this._fsm.evaluate("BACKSPACE_KEY");
+        break;
+    }
+  }
+
+  onKeyUp() {
+  }
+
   addNode() {
 
 		var point = d3.mouse(this._svg.node());
 		var count = this._graph.nodes.length;
 		var newNode = {title: "actor name" + count, label: 'actor', x: point[0], y: point[1]};
 		this._graph.nodes.push(newNode);
-		this._graph.links.push({source: this._graph.nodes[0], target: newNode });
+		//this._graph.links.push({source: this._graph.nodes[0], target: newNode });
 		//this._graph.links.pop();
 		this.renderGraph(this._graph);
 
@@ -202,6 +220,23 @@ export class GraphEditor {
     this.dragLineVisibility(false);
     this.renderGraph(this._graph);
   }
+
+  deleteSelection(d, n) {
+    if (this._selection != null) {
+      this._graph.nodes.splice(this._graph.nodes.indexOf(this._selection), 1);
+      this.spliceLinksForNode(this._selection);
+      this.renderGraph(this._graph);
+    }
+  }
+
+  spliceLinksForNode(node) {
+    var toSplice = this._graph.links.filter( (l) => {
+      return (l.source === node || l.target === node);
+    });
+    toSplice.map((l) => {
+      this._graph.links.splice(this._graph.links.indexOf(l), 1);
+    });
+  };
 
 	highlightNode(d, n) {
 		//d.classed('update');
