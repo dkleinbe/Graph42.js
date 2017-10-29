@@ -37,7 +37,8 @@ export class GraphEditor {
   	this._links = svg.append("g").selectAll(".link");
   	this._nodes = svg.append("g").selectAll(".node");
 
-    this._selection = null;
+    this._nodeSelection = null;
+    this._relationSelection = null;
     this._targetNode = null;
  		this.initFSM();
 	}
@@ -142,7 +143,7 @@ export class GraphEditor {
   }
 
   isSelectedNode(n) {
-    return n === this._selection;
+    return n === this._nodeSelection;
   }
 
 	filterDrag() {
@@ -214,7 +215,7 @@ export class GraphEditor {
   }
 
   addRelation(d, n) {
-    var newRel = { source: this._selection, target: this._targetNode };
+    var newRel = { source: this._nodeSelection, target: this._targetNode };
     this._graph.links.push(newRel);
 
     this.dragLineVisibility(false);
@@ -222,11 +223,20 @@ export class GraphEditor {
   }
 
   deleteSelection(d, n) {
-    if (this._selection != null) {
-      this._graph.nodes.splice(this._graph.nodes.indexOf(this._selection), 1);
-      this.spliceLinksForNode(this._selection);
-      this.renderGraph(this._graph);
+    //
+    // delete nodes
+    //
+    if (this._nodeSelection != null) {
+      this._graph.nodes.splice(this._graph.nodes.indexOf(this._nodeSelection), 1);
+      this.spliceLinksForNode(this._nodeSelection);
     }
+    //
+    // delete relations
+    //
+    if (this._relationSelection != null) {
+      this._graph.links.splice(this._graph.links.indexOf(this._relationSelection), 1);
+    }
+    this.renderGraph(this._graph);
   }
 
   spliceLinksForNode(node) {
@@ -255,17 +265,19 @@ export class GraphEditor {
     this.unselectAll();
     this.unHighlightNode(d, n);
 		d3.select(n).classed('selected', true); 
-    this._selection = d;
+    this._nodeSelection = d;
 	}
 
   selectLink(d, n) {
     this.unselectAll();
     d3.select(n).classed('selected', true);
+    this._relationSelection = d;
   }
 
   unselectAll() {
     d3.selectAll(".node, .link").classed('selected', false); 
-    this._selection = null;
+    this._nodeSelection = null;
+    this._relationSelection = null;
   }
 } /* /class */
 
