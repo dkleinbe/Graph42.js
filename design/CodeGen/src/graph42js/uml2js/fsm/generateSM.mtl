@@ -1,0 +1,125 @@
+[comment encoding = UTF-8 /]
+[module generateSM('http://www.eclipse.org/uml2/5.0.0/UML')/]
+ 
+[template public generateElement(aSM : StateMachine)] 
+  [comment @main /]
+[file (aSM.name.concat('.js'), false)]
+'use strict';
+
+var _ = require('lodash');
+import * as state from "@steelbreeze/state";
+/**
+	FSM ****
+**/
+export class [aSM.name.toUpperFirst()/] {
+	constructor(owner) {
+		this._owner = owner;
+		this._model = new state.StateMachine("[aSM.name/]");
+	}
+	init() {
+	[for (r: Region | aSM.region) separator('\n')]
+		//Region [r.name/];
+		//
+		// states
+		//
+		[for (v: Vertex | r.subvertex) separator('\n')]
+			[let i: Pseudostate = v]
+				[if (i.kind = PseudostateKind::initial)]
+					[comment INITIAL state /]				
+		// initial state: <[i.name/]>
+		this._state[i.name/] = new state.PseudoState("[i.name/]", this._model, state.PseudoStateKind.Initial);
+				[elseif (i.kind = PseudostateKind::choice)]
+					[comment CHOICE state/]
+		// choice state: <[i.name/]>
+		this._state[i.name/] = new state.PseudoState("[i.name/]", this._model, state.PseudoStateKind.Choice);			
+				[/if]
+			[/let]
+			[let s: State = v]
+		// state: <[s.name/]>
+		this._state[s.name/] = new state.State("[s.name/]", this._model);
+			[if s.entry <> null]
+		this._state[s.name/].entry((fsm, msg, ...args) => { this._owner.[s.entry.name/](...args); });
+			[/if]
+			[if s.doActivity <> null]
+		this._state[s.name/].entry((fsm, msg, ...args) => { this._owner.[s.doActivity.name/](...args); });
+			[/if]
+			[if s.exit <> null]
+		this._state[s.name/].exit((fsm, msg, ...args) => { this._owner.[s.exit.name/](...args); });
+			[/if]
+			[/let]
+		[/for]
+		//
+		// transitions
+		//
+		[for (t: Transition | r.transition) separator('\n')]
+		[genTransition(t)/]
+			[genWhen(t)/]
+			[genEffect(t)/];
+		[/for]
+	[/for]
+		//
+		// create the a state machine instance
+		//
+		this._fsm = new state.JSONInstance("FSM");
+		this._model.initialise(this._fsm);
+		return this._fsm;
+	} 
+	/**
+	**/
+	evaluate(...args) {
+		this._model.evaluate(this._fsm, ...args);
+	}
+}
+[/file]
+[/template]
+
+[template public genTransition(aTrans : Transition) post (trim())]
+this._state[aTrans.source.name/].to(this._state[aTrans.target.name/])
+[/template]
+
+[template public genWhen(aTrans : Transition) post(trim())]
+	[if aTrans.trigger <> Set {}]
+	[comment triger and a guard if any /]
+	.when((fsm, msg, ...args) => { return (([genTrigger(aTrans)/])[if (aTrans.guard <> null)] && [genGuard(aTrans)/][/if]); })
+	[elseif (aTrans.guard <> null)]
+	[comment only a guard for choice pseudo state /]
+	.when((fsm, msg, ...args) => { return ([genGuard(aTrans)/]); })	
+	[/if]
+	
+[/template]
+
+[template public genTrigger(aTrans : Transition) post (trim())]
+	[for (trigger : Trigger | aTrans.trigger) separator(' ||')]
+(msg === "[trigger.name/]")[/for]
+[/template]
+
+[template public genEffect(aTrans : Transition) post (trim())]
+	[if aTrans.effect <> null]
+		[let e : OpaqueBehavior = aTrans.effect]
+			[comment OpaqueBehavior has a body, use it /]
+			[if (e._body <> Sequence {})]
+	.effect((fsm, msg, ...args) => { this._owner.[e._body/]; })
+			[else]
+	.effect((fsm, msg, ...args) => { this._owner.[aTrans.effect.name/](...args); })				
+			[/if]
+		[/let]
+		[comment Activity has no parameter /]
+		[let a : Activity = aTrans.effect]
+	.effect((fsm, msg, ...args) => { this._owner.[aTrans.effect.name/](...args); })
+		[/let]
+	[/if]
+[/template]
+
+[template public genGuard(aTrans : Transition) post (trim())]
+	[if (aTrans.guard <> null)]
+		[for (g : Element | aTrans.guard.ownedElement)]
+			[let oe : OpaqueExpression = g]
+ (this._owner.[oe._body/])
+			[/let]
+		[/for]
+	[/if]
+[/template]
+
+
+
+

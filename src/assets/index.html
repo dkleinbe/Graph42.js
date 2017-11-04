@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<div id="graph">
+<div id="graph_">
 </div>
 <div role="navigation" class="navbar navbar-default navbar-static-top">
     <div class="container">
@@ -104,8 +104,15 @@
     .node { stroke: #222; stroke-width: 1.5px; }
     .node.actor { fill: #888; }
     .node.movie { fill: #BBB; }
-    .node.actor.update {fill: #F00;}
-    .link { stroke: #999; stroke-opacity: .6; stroke-width: 1px; }
+    .node.actor.update { fill: #FF0; }
+    .node.movie.over {fill: #F00;}
+    .node.actor.over {fill: #F00;}
+    .node.movie.selected {fill: #0F0;}
+    .node.actor.selected {fill: #0F0;}
+    .link { stroke: #999; stroke-opacity: .6; stroke-width: 2px; }
+    .link.over { stroke-width: 4px; }
+    .link.dragline.hidden { stroke-width: 0px; }
+    .link.selected {stroke: #0F0;}
 </style>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
