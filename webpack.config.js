@@ -16,18 +16,18 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 module.exports = {
   entry: {
-    app: './src/app.js'
+    app: './src/main.js'
   },
   output: {
     filename: 'build.js',
-    path: path.resolve(__dirname, 'build'),
-    //publicPath: '/assets/'
+    path: path.resolve(__dirname, './build'),
+    //publicPath: '/dist/'
   },
 
   
   devtool: 'source-map',
   devServer: {
-    contentBase: 'build'
+    contentBase: 'dist'
   },
 
   stats: {
@@ -45,7 +45,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.vue-$/,
+        test: /\.vue$/,
         loader: 'vue-loader',
         options: {
           loaders: {
