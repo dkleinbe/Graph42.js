@@ -16,7 +16,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/app.js'
   },
   output: {
     filename: 'build.js',
@@ -27,7 +27,7 @@ module.exports = {
   
   devtool: 'source-map',
   devServer: {
-   // contentBase: 'build'
+    contentBase: 'build'
   },
 
   stats: {
@@ -45,7 +45,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.vue$/,
+        test: /\.vue-$/,
         loader: 'vue-loader',
         options: {
           loaders: {
