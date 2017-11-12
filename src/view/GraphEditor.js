@@ -14,7 +14,8 @@ export class GraphEditor {
 	**/
 	constructor(svg) {
 		this._svg = svg; 
-		var width = 1500, height = 500;
+
+		var width = parseInt(svg.style('width')), height = parseInt(svg.style('height'));
 
     this._dragline = svg.append('svg:path')
           .attr('class', 'link dragline hidden')
