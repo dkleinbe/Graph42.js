@@ -3,10 +3,18 @@
 
 require('file-loader?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
 var _ = require('lodash');
+
+
 /**
 Class to access Neo4j database
 **/
 export default class GraphDatabase {
+	/**
+	*/
+	constructor() {
+		console.log('new GraphDatabase');
+		this.connect();
+	}
 	/**
 	Initialize de connection to the database
 	**/
@@ -63,3 +71,5 @@ export default class GraphDatabase {
 			});
 	}
 }
+
+export let grdb = new GraphDatabase();
