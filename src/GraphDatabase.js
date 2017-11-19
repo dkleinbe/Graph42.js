@@ -10,7 +10,7 @@ Class to access Neo4j database
 **/
 export default class GraphDatabase {
 	/**
-	*/
+	 */
 	constructor() {
 		console.log('new GraphDatabase');
 		this.connect();
@@ -18,7 +18,7 @@ export default class GraphDatabase {
 	/**
 	Initialize de connection to the database
 	**/
-	connect(){
+	connect() {
 		this.neo4j = window.neo4j.v1;
 		this.driver = this.neo4j.driver("bolt://localhost", this.neo4j.auth.basic("neo4j", "642lccost"));
 	}
@@ -30,20 +30,20 @@ export default class GraphDatabase {
 		var session = this.driver.session();
 		return session
 			.run(
-			  "MATCH (n) RETURN DISTINCT LABELS(n) as label;")
+				"MATCH (n) RETURN DISTINCT LABELS(n) as label;")
 			.then(result => {
-			  session.close();
+				session.close();
 
-			  if (_.isEmpty(result.records))
-			    return null;
+				if (_.isEmpty(result.records))
+					return null;
 
-			  return result.records.map(record => {
-        		return record.get('label')
-        		});
+				return result.records.map(record => {
+					return record.get('label')
+				});
 			})
 			.catch(error => {
-			  session.close();
-			  throw error;
+				session.close();
+				throw error;
 			});
 	}
 	/**
@@ -54,21 +54,46 @@ export default class GraphDatabase {
 		var session = this.driver.session();
 		return session
 			.run(
-			  "MATCH (s)-[n]-(e) RETURN DISTINCT type(n) as type;")
+				"MATCH (s)-[n]-(e) RETURN DISTINCT type(n) as type;")
 			.then(result => {
-			  session.close();
+				session.close();
 
-			  if (_.isEmpty(result.records))
-			    return null;
+				if (_.isEmpty(result.records))
+					return null;
 
-			  return result.records.map(record => {
-        		return record.get('type')
-        		});
+				return result.records.map(record => {
+					return record.get('type')
+				});
 			})
 			.catch(error => {
-			  session.close();
-			  throw error;
+				session.close();
+				throw error;
 			});
+	}
+	/**
+	 **/
+	getGraphNodesByLabel(labels, limit) {
+		let session = this.driver.session();
+		let query = "MATCH (n) WHERE labels(n) in [" 
+			+ labels.map(function(item) { return "'" + item + "'" }).join(',') 
+			+ "] RETURN n LIMIT {limit};";
+
+		return session
+			.run(query, { limit: limit })
+			.then(result => {
+				session.close();
+				let nodes = [];
+				let links = [];
+
+				if (_.isEmpty(result.records))
+					return null;
+
+				result.records.map(record => {
+					nodes.push(record);
+				})
+
+				return { nodes, links: links };
+			})
 	}
 }
 
