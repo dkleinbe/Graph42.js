@@ -78,8 +78,8 @@
 <script>
 var api = require('./neo4jApi')
 import { grdb } from './GraphDatabase';
-// import GraphDatabase from './GraphDatabase';
 import { GraphEditor } from './view/GraphEditor';
+import { Graph } from './models/Graph';
 import Roles from './view/Roles.vue';
 export default {
   components: {
@@ -111,7 +111,7 @@ export default {
     var graphEditor = new GraphEditor(svg)
     grdb.connect()
     //api.getMovieGraph('The Matrix').then(graph => graphEditor.renderGraph(graph))
-    grdb.getGraphNodesByLabel(["Movie", "Person"], 5).then(graph => graphEditor.renderGraph(graph));
+    grdb.getGraphNodesByLabel(["Movie", "Person"], 5).then(graph => graphEditor.renderGraph(new Graph(graph.nodes, graph.links)));
   }
 }
 
@@ -132,7 +132,7 @@ export default {
   stroke-width: 1.5px;
 }
 
-.node.actor {
+.node {
   fill: #888;
 }
 
@@ -140,11 +140,11 @@ export default {
   fill: #BBB;
 }
 
-.node.actor.update {
+.node.update {
   fill: #FF0;
 }
 
-.node.movie.over {
+.node.over {
   fill: #F00;
 }
 
@@ -152,7 +152,7 @@ export default {
   fill: #F00;
 }
 
-.node.movie.selected {
+.node.selected {
   fill: #0F0;
 }
 

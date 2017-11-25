@@ -89,11 +89,21 @@ export default class GraphDatabase {
 					return null;
 
 				result.records.map(record => {
-					nodes.push(record);
+					nodes.push(record.get('n'));
 				})
 
 				return { nodes, links: links };
 			})
+	}
+	/**
+	**/
+	createNode() {
+		return new this.neo4j.Node();
+	}
+	/**
+	**/
+	createRelationship(identity, start, end, type, properties) {
+		return new this.neo4j.types.Relationship(identity, start, end, type, properties);
 	}
 }
 
