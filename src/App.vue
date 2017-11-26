@@ -17,7 +17,7 @@
           <v-list-tile-title v-text="item.title"></v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <roles></roles>
+      <roles :coucou="coucou" :graphEditor="graphEditor"></roles>
     </v-list>
   </v-navigation-drawer>
   <v-toolbar fixed
@@ -99,7 +99,9 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Graph42js'
+      title: 'Graph42js',
+      coucou: 'COUCOU',
+      graphEditor: Object
     }
   },
   mounted() {
@@ -108,10 +110,10 @@ export default {
       .attr('width', '100%').attr('height', '100%')
       .attr('pointer-events', 'all')
 
-    var graphEditor = new GraphEditor(svg)
+    this.graphEditor = new GraphEditor(svg)
     grdb.connect()
     //api.getMovieGraph('The Matrix').then(graph => graphEditor.renderGraph(graph))
-    grdb.getGraphNodesByLabel(["Movie", "Person"], 5).then(graph => graphEditor.renderGraph(new Graph(graph.nodes, graph.links)));
+    grdb.getGraphNodesByLabel(["Movie", "Person"], 5).then(graph => this.graphEditor.renderGraph(new Graph(graph.nodes, graph.links)));
   }
 }
 
