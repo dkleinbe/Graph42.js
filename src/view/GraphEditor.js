@@ -34,6 +34,8 @@ export class GraphEditor {
 
     this._forceSim = d3.forceSimulation().force("charge", d3.forceManyBody(-200))
       .force("center", d3.forceCenter(width / 2, height / 2));
+    this._forceSim.force("charge").strength(0);
+    
     this._forceSim.force("link", d3.forceLink());
 
     this._links = svg.append("g").selectAll(".link");
@@ -63,7 +65,7 @@ export class GraphEditor {
     //
     // Update links
     //
-    links = links.data(graph.links, function(d) { return d.source.identity + "-" + d.target.identity; });
+    links = links.data(graph.links, function(d) { return d.identity; });
 
     links.exit().remove();
 
@@ -76,6 +78,11 @@ export class GraphEditor {
         this._fsm.evaluate("click", d, links[i]); })
       .merge(links);
 
+    newLinks.append("title")
+      .text(d => {
+        return d.identity;
+      });
+      
     links = links.merge(newLinks);
     this._links = links;
     //
