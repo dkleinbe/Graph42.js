@@ -17,7 +17,7 @@
           <v-list-tile-title v-text="item.title"></v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <roles :coucou="coucou" :graphEditor="graphEditor"></roles>
+      <roles :graphEditor="graphEditor"></roles>
     </v-list>
   </v-navigation-drawer>
   <v-toolbar fixed
@@ -69,7 +69,8 @@
   </v-navigation-drawer>
   <v-footer :fixed="fixed"
             app>
-    <span>&copy; 2017</span>
+    <span>&copy; 2017 </span>
+    <v-progress-linear v-model="forceActivity"></v-progress-linear>
   </v-footer>
 </v-app>
 
@@ -82,39 +83,47 @@ import { GraphEditor } from './view/GraphEditor';
 import { Graph } from './models/Graph';
 import Roles from './view/Roles.vue';
 export default {
-  components: {
-    Roles
-  },
-  data() {
-    return {
-      clipped: false,
-      drawer: true,
-      fixed: false,
-      items: [
-        {
-          icon: 'bubble_chart',
-          title: 'Inspire'
+    components: {
+        Roles
+    },
+    data() {
+        return {
+            clipped: false,
+            drawer: true,
+            fixed: false,
+            items: [
+                {
+                    icon: 'bubble_chart',
+                    title: 'Inspire'
+                }
+            ],
+            miniVariant: false,
+            right: true,
+            rightDrawer: false,
+            title: 'Graph42js',
+            forceActivity: 50,
+            graphEditor: Object
         }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Graph42js',
-      coucou: 'COUCOU',
-      graphEditor: Object
-    }
-  },
-  mounted() {
-    // var grdb = new GraphDatabase();
-    var svg = d3.select('#graph_').append('svg')
-      .attr('width', '100%').attr('height', '100%')
-      .attr('pointer-events', 'all')
+    },
+    mounted() {
+        // var grdb = new GraphDatabase();
+        var svg = d3.select('#graph_').append('svg')
+            .attr('width', '100%').attr('height', '100%')
+            .attr('pointer-events', 'all')
 
-    this.graphEditor = new GraphEditor(svg)
-    grdb.connect()
-    //api.getMovieGraph('The Matrix').then(graph => graphEditor.renderGraph(graph))
-    grdb.getGraphNodesByLabel(["Movie", "Person"], 5).then(graph => this.graphEditor.renderGraph(new Graph(graph.nodes, graph.links)));
-  }
+        this.graphEditor = new GraphEditor(svg)
+
+        this.graphEditor.addTickListener((alpha) => this.forceActivity = alpha * 100)
+
+        grdb.connect()
+        // api.getMovieGraph('The Matrix').then(graph => graphEditor.renderGraph(graph))
+        /*
+        grdb.getGraphNodesByLabel([
+            'Movie',
+            'Person'
+        ], 5).then(graph => this.graphEditor.renderGraph(new Graph(graph.nodes, graph.links)))
+        */
+    }
 }
 
 </script>

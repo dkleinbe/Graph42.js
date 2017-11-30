@@ -74,9 +74,9 @@ export default class GraphDatabase {
 	 **/
 	getGraphNodesByLabel(labels, limit) {
 		let session = this.driver.session();
-		let query = "MATCH (n) WHERE labels(n) in [" 
-			+ labels.map(function(item) { return "'" + item + "'" }).join(',') 
-			+ "] RETURN n LIMIT {limit};";
+		let query = "MATCH (n) WHERE labels(n) in [" +
+			labels.map(function(item) { return "'" + item + "'" }).join(',') +
+			"] RETURN n LIMIT {limit};";
 
 		return session
 			.run(query, { limit: limit })
@@ -85,8 +85,8 @@ export default class GraphDatabase {
 				let nodes = [];
 				let links = [];
 
-				if (_.isEmpty(result.records))
-					return null;
+				//if (_.isEmpty(result.records))
+				//	return null;
 
 				result.records.map(record => {
 					nodes.push(record.get('n'));
@@ -96,12 +96,12 @@ export default class GraphDatabase {
 			})
 	}
 	/**
-	**/
+	 **/
 	createNode() {
 		return new this.neo4j.Node();
 	}
 	/**
-	**/
+	 **/
 	createRelationship(identity, start, end, type, properties) {
 		return new this.neo4j.types.Relationship(identity, start, end, type, properties);
 	}

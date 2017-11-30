@@ -13,6 +13,8 @@ export class GraphEditor {
   /**
    **/
   constructor(svg) {
+
+    this._tickListeners = [];
     this._svg = svg;
 
     var width = parseInt(svg.style('width')),
@@ -34,7 +36,7 @@ export class GraphEditor {
 
     this._forceSim = d3.forceSimulation().force("charge", d3.forceManyBody(-200))
       .force("center", d3.forceCenter(width / 2, height / 2));
-    this._forceSim.force("charge").strength(0);
+    this._forceSim.force("charge").strength(-100);
     
     this._forceSim.force("link", d3.forceLink());
 
@@ -137,13 +139,19 @@ export class GraphEditor {
       }).attr("cy", d => {
         return d.y;
       });
+
+      this._tickListeners.map((listener) => listener(this._forceSim.alpha()));
     });
     //
     // restart simulation
     //
     this._forceSim.nodes(graph.nodes);
     this._forceSim.force("link").links(graph.links);
-    this._forceSim = this._forceSim.alpha(1).restart();
+    if (graph.links.length == 0)
+      this._forceSim.force("charge").strength(-10);
+    else
+      this._forceSim.force("charge").strength(-100);
+    this._forceSim = this._forceSim.alpha(0.3).restart();
   }
 
   isShiftDown() {
@@ -164,7 +172,7 @@ export class GraphEditor {
 
   unPinNode(d, n) {
 
-    if (!d3.event.active) this._forceSim.alphaTarget(0.3).restart();
+    if (!d3.event.active) this._forceSim.alphaTarget(0.0001).restart();
     d.fx = null;
     d.fy = null;
   }
@@ -183,7 +191,7 @@ export class GraphEditor {
 
   dragended(d, n) {
 
-    if (!d3.event.active) this._forceSim.alphaTarget(0);
+    if (!d3.event.active) this._forceSim.alphaTarget(0.0001);
     //d.fx = null;
     //d.fy = null;
   }
@@ -289,5 +297,9 @@ export class GraphEditor {
     d3.selectAll(".node, .link").classed('selected', false);
     this._nodeSelection = null;
     this._relationSelection = null;
+  }
+
+  addTickListener(listener) {
+    this._tickListeners.push(listener);
   }
 } /* /class */
