@@ -13,6 +13,18 @@
     </v-chip>
   </v-container>
   <v-divider></v-divider>
+  <v-container>
+    <v-chip v-for="relation in relations"
+            :key="relation.relation"
+            v-on:click="toggleRelation(relation)"
+            color="teal"
+            text-color="white">
+      <v-avatar>
+        <v-icon v-if="relation.checked">check_circle</v-icon>
+      </v-avatar>
+      {{relation.relation}}
+    </v-chip>
+  </v-container>  
   <!-- <pre>{{ $data }}</pre> -->
 </div>
 
@@ -32,9 +44,7 @@ export default {
 	data() {
 		return {
 			roles: [],
-			relations: [],
-			checked: {},
-			dirty: false
+			relations: []
 		}
 	},
 	created: function() {
@@ -57,9 +67,20 @@ export default {
 			
 			grdb.getGraphNodesByLabel(selectedRoles, selectedRoles.length * 5)
 					.then(graph => this.graphEditor.renderGraph(new Graph(graph.nodes, graph.links)))
-		// this.dirty = !this.dirty;
+	
 		},
+		toggleRelation: function(relation) {
 
+			relation.checked = !relation.checked
+			// reduce to selected relation
+			let selectedRelation = this.relation.reduce((acc, curr) => {
+				if (curr.checked) {
+					return acc.concat(curr.relation)
+				}
+				return acc
+			}, [])
+
+		},
 		showRoles: function() {
 
 			return grdb.getNodeLabelsSet().then(roles => {
@@ -71,8 +92,7 @@ export default {
 						role: role[0],
 						checked: false
 					})
-					this.checked[role[0]] = false
-				}, [])
+				})
 			})
 		},
 		showRelationTypes: function() {
@@ -80,9 +100,13 @@ export default {
 				if (!types) {
 					return
 				}
+
 				this.relations.length = 0
 				types.forEach(type => {
-					this.relations.push(type)
+					this.relations.push({
+						relation: type,
+						checked: false
+					})
 				})
 			})
 		}
