@@ -96,6 +96,35 @@ export default class GraphDatabase {
 			})
 	}
 	/**
+	*/
+	getGraphByRelationship(labels, relationships, limit) {
+		let session = this.driver.session();
+		let query = 
+			"MATCH (n)-[r" + relationships.map(r =>{ return ":" + r }).join('|') + "]-(m) " +
+			"WHERE labels(n) in [" + labels.map(function(item) { return "'" + item + "'" }).join(',') + "] " +
+				"AND labels(m) in [" + labels.map(function(item) { return "'" + item + "'" }).join(',') + "] " +
+			"RETURN n,r,m LIMIT {limit};"
+
+		console.log(query);
+		return session
+			.run(query, {limit: limit})
+			.then(result => {
+				session.close();
+				let nodes = [];
+				let links = [];
+
+				console.log(result.records);
+				result.records.map(record => {
+					nodes.push(record.get('n'));
+					nodes.push(record.get('m'));
+					links.push(record.get('r'));
+				})
+				nodes = _.uniqBy(nodes, n => { return n.identity.toString(); });
+
+				return { nodes, links: links};
+			})
+	}
+	/**
 	 **/
 	createNode() {
 		return new this.neo4j.Node();

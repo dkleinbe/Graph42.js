@@ -17,7 +17,7 @@
           <v-list-tile-title v-text="item.title"></v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <roles :graphEditor="graphEditor"></roles>
+      <roles :graphEditor="graphEditor" :graph="graph"></roles>
     </v-list>
   </v-navigation-drawer>
   <v-toolbar fixed
@@ -69,7 +69,7 @@
   </v-navigation-drawer>
   <v-footer :fixed="fixed"
             app>
-    <span>&copy; 2017 </span>
+    <span>&copy; 2017 {{graph._nodes.length}}</span>
     <v-progress-linear v-model="forceActivity"></v-progress-linear>
   </v-footer>
 </v-app>
@@ -101,9 +101,22 @@ export default {
             right: true,
             rightDrawer: false,
             title: 'Graph42js',
-            forceActivity: 50,
-            graphEditor: Object
+            forceActivity: 0,
+            graphEditor: Object,
         }
+    },
+    computed: {
+        graph: function() {
+            if (this._graph === undefined) {
+                this._graph = new Graph();
+            }
+            
+            return this._graph;
+            
+        }
+    },
+    beforeCreate() {
+        //this.graph = new Graph()      
     },
     mounted() {
         // var grdb = new GraphDatabase();
@@ -111,7 +124,9 @@ export default {
             .attr('width', '100%').attr('height', '100%')
             .attr('pointer-events', 'all')
 
-        this.graphEditor = new GraphEditor(svg)
+        
+        //this.graph = new Graph()
+        this.graphEditor = new GraphEditor(svg, this.graph)
 
         this.graphEditor.addTickListener((alpha) => this.forceActivity = alpha * 100)
 
@@ -121,7 +136,7 @@ export default {
         grdb.getGraphNodesByLabel([
             'Movie',
             'Person'
-        ], 5).then(graph => this.graphEditor.renderGraph(new Graph(graph.nodes, graph.links)))
+        ], 100).then(graph => this.graphEditor.renderGraph(new Graph(graph.nodes, graph.links)))
         */
     }
 }
@@ -151,8 +166,12 @@ export default {
   fill: #BBB;
 }
 
-.node.update {
+.node.new {
   fill: #FF0;
+}
+
+.node.update {
+  fill: #F0F;
 }
 
 .node.over {

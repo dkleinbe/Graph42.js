@@ -12,10 +12,11 @@ Class to access GraphEditor
 export class GraphEditor {
   /**
    **/
-  constructor(svg) {
+  constructor(svg, graph) {
 
     this._tickListeners = [];
     this._svg = svg;
+    this._graph = graph;
 
     var width = parseInt(svg.style('width')),
       height = parseInt(svg.style('height'));
@@ -59,11 +60,15 @@ export class GraphEditor {
    **/
   renderGraph(graph) {
     this._graph = graph;
-
+    this.render();
+  }
+  /**
+  **/
+  render() {
     var svg = this._svg;
     var links = this._links;
     var nodes = this._nodes;
-
+    let graph = this._graph;
     //
     // Update links
     //
@@ -90,14 +95,14 @@ export class GraphEditor {
     //
     // Update nodes
     //
-    nodes = nodes.data(graph.nodes, d => { return d.identity; });
+    nodes = nodes.data(graph.nodes, d => { return d.identity; }).classed('update', true);;
 
     nodes.exit().remove();
 
     var newNodes = nodes.enter()
       .append("circle")
       .attr("class", d => {
-        return "node " + d.label + " update"
+        return "node " + d.label + " new"
       })
       .attr("r", 10)
       .on("mouseover", (d, i, nodes) => { this._fsm.evaluate("mouseover_node", d, nodes[i]); })

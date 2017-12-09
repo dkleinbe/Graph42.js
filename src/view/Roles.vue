@@ -1,6 +1,7 @@
 <template>
 <div class="roles">
   <v-container>
+  	<p>{{nbNodes()}}</p>
     <v-chip v-for="role in roles"
             :key="role.role"
             v-on:click="toggleRole(role)"
@@ -39,24 +40,48 @@ export default {
 		graphEditor: {
 			// type: Object,
 			required: true
+		},
+		graph: {
+			required: true
 		}
 	},
 	data() {
 		return {
 			roles: [],
-			relations: []
+			relations: [],
 		}
-	},
+	},	
 	created: function() {
 
 		this.showRoles()
 		this.showRelationTypes()
 	},
 	methods: {
+		nbNodes: function () { 
+			return this.graph._nodes.length; 
+		},
 		toggleRole: function(role) {
 
-			role.checked = !role.checked
-			// reduce to selected roles
+			role.checked = !role.checked;
+
+			if (role.checked) {
+				grdb.getGraphNodesByLabel([role.role], 5)
+					.then(graph => { 
+						this.graph.addNodeSet(graph.nodes);
+						this.graphEditor.render();
+
+					})
+			}
+			else {
+				grdb.getGraphNodesByLabel([role.role], 5)
+					.then(graph => { 
+						this.graph.removeNodeSet(graph.nodes);
+						this.graphEditor.render();
+		
+					})
+			}
+			
+			/* reduce to selected roles
 			let selectedRoles = this.roles.reduce((acc, curr) => {
 				if (curr.checked) {
 					return acc.concat(curr.role)
@@ -66,20 +91,27 @@ export default {
 
 			
 			grdb.getGraphNodesByLabel(selectedRoles, selectedRoles.length * 5)
-					.then(graph => this.graphEditor.renderGraph(new Graph(graph.nodes, graph.links)))
-	
+					.then(graph => { 
+						this.graph.addNodeSet(graph.nodes);
+						this.graphEditor.Render();
+					})
+	*/
 		},
 		toggleRelation: function(relation) {
 
 			relation.checked = !relation.checked
 			// reduce to selected relation
-			let selectedRelation = this.relation.reduce((acc, curr) => {
+			let selectedRelations = this.relations.reduce((acc, curr) => {
 				if (curr.checked) {
 					return acc.concat(curr.relation)
 				}
 				return acc
 			}, [])
-
+			grdb.getGraphByRelationship(["Movie", "Person"], selectedRelations, 25).then(graph => {
+				this.graph.addNodeSet(graph.nodes);
+				this.graph.addLinkSet(graph.links);
+				this.graphEditor.render();
+			});
 		},
 		showRoles: function() {
 
