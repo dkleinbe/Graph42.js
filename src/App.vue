@@ -158,7 +158,7 @@ export default {
   stroke-width: 1.5px;
 }
 
-.node {
+.node>circle {
   fill: #888;
 }
 
@@ -166,15 +166,15 @@ export default {
   fill: #BBB;
 }
 
-.node.new {
+.node.new>circle {
   fill: #FF0;
 }
 
-.node.update {
+.node.update>circle {
   fill: #F0F;
 }
 
-.node.over {
+.node.over>circle {
   fill: #F00;
 }
 
@@ -182,7 +182,7 @@ export default {
   fill: #F00;
 }
 
-.node.selected {
+.node.selected>circle {
   fill: #0F0;
 }
 

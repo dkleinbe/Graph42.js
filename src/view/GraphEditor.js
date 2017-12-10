@@ -98,31 +98,55 @@ export class GraphEditor {
     nodes = nodes.data(graph.nodes, d => { return d.identity; }).classed('update', true);;
 
     nodes.exit().remove();
+    //
+    // node group
+    //
+    var newNodes = nodes.enter().append("g")
+        .attr("class", d => {
+            return "node " + d.label + " new"
+          })
+        .call(d3.drag()
+          .on("start", (d, i, nodes) => { d3.event.sourceEvent.stopPropagation();
+            this._fsm.evaluate("drag_node_started", d, nodes[i]) })
+          .on("drag", (d, i, nodes) => this._fsm.evaluate("node_dragged", d, nodes[i]))
+          .on("end", (d, i, nodes) => this._fsm.evaluate("drag_node_ended", d, nodes[i]))
+          .filter(() => this.filterDrag())
+          .clickDistance(0))
+        .on("mouseover", (d, i, nodes) => { this._fsm.evaluate("mouseover_node", d, nodes[i]); })
+        .on("mouseleave", (d, i, nodes) => { this._fsm.evaluate("mouseleave_node", d, nodes[i]); })
+        .on("click", (d, i, nodes) => { if (d3.event.defaultPrevented) return;
+           this._fsm.evaluate("click", d, nodes[i]); })
+        .on("dblclick", (d, i, nodes) => { this._fsm.evaluate("dblclick", d, nodes[i]); });
+    //
+    // node circle
+    //
+    newNodes.append("circle").attr("r", 30);
+    //
+    // node text
+    //
+    newNodes.each(function(n,j) {
+      let label = n.properties.name;
+      let words = label.split(/\s+/g)
+      let g = d3.select(this);
 
-    var newNodes = nodes.enter()
-      .append("circle")
-      .attr("class", d => {
-        return "node " + d.label + " new"
-      })
-      .attr("r", 10)
-      .on("mouseover", (d, i, nodes) => { this._fsm.evaluate("mouseover_node", d, nodes[i]); })
-      .on("mouseleave", (d, i, nodes) => { this._fsm.evaluate("mouseleave_node", d, nodes[i]); })
-      .on("click", (d, i, nodes) => { if (d3.event.defaultPrevented) return;
-        this._fsm.evaluate("click", d, nodes[i]); })
-      .on("dblclick", (d, i, nodes) => { this._fsm.evaluate("dblclick", d, nodes[i]); })
-      .call(d3.drag()
-        .on("start", (d, i, nodes) => { d3.event.sourceEvent.stopPropagation();
-          this._fsm.evaluate("drag_node_started", d, nodes[i]) })
-        .on("drag", (d, i, nodes) => this._fsm.evaluate("node_dragged", d, nodes[i]))
-        .on("end", (d, i, nodes) => this._fsm.evaluate("drag_node_ended", d, nodes[i]))
-        .filter(() => this.filterDrag())
-        .clickDistance(0));
+      let t = g.append("text").attr("text-anchor","middle");
 
+      words.forEach((w,i) => {
+        let tspan = t.append('tspan').text(w);
+        if (i > 0)
+          tspan.attr('x', 0).attr('dy', '15');
+      });
+    });
+    //
+    // node tooltip
+    //
     newNodes.append("title")
       .text(d => {
         return d.identity;
       });
-
+    //
+    // merge nodes
+    //
     nodes = nodes.merge(newNodes);
     this._nodes = nodes;
     //
@@ -139,12 +163,16 @@ export class GraphEditor {
         return d.target.y;
       });
 
+      nodes.attr("transform", function(d, i) {     
+        return "translate(" + d.x + "," + d.y + ")"; 
+      });
+      /*
       nodes.attr("cx", d => {
         return d.x;
       }).attr("cy", d => {
         return d.y;
       });
-
+      */
       this._tickListeners.map((listener) => listener(this._forceSim.alpha()));
     });
     //
