@@ -74,9 +74,9 @@ export default class GraphDatabase {
 	 **/
 	getGraphNodesByLabel(labels, limit) {
 		let session = this.driver.session();
-		let query = "MATCH (n) WHERE labels(n) in [" +
-			labels.map(function(item) { return "'" + item + "'" }).join(',') +
-			"] RETURN n LIMIT {limit};";
+		let query = "MATCH (n) WHERE " +
+			labels.map(function(item) { return "n:" + item; }).join(' OR ') +
+			"  RETURN n LIMIT {limit};";
 
 		return session
 			.run(query, { limit: limit })
@@ -101,9 +101,9 @@ export default class GraphDatabase {
 		let session = this.driver.session();
 		let query = 
 			"MATCH (n)-[r" + relationships.map(r =>{ return ":" + r }).join('|') + "]-(m) " +
-			"WHERE labels(n) in [" + labels.map(function(item) { return "'" + item + "'" }).join(',') + "] " +
-				"AND labels(m) in [" + labels.map(function(item) { return "'" + item + "'" }).join(',') + "] " +
-			"RETURN n,r,m LIMIT {limit};"
+			"WHERE (" + labels.map(function(item) { return "n:" + item; }).join(' OR ') +
+				") AND " + labels.map(function(item) { return "m:" + item; }).join(' OR ') +
+			" RETURN n,r,m LIMIT {limit};"
 
 		console.log(query);
 		return session
