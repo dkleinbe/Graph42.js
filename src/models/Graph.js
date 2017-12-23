@@ -10,8 +10,8 @@ export class Graph {
 	/**
 	 **/
 	constructor(nodes = [], links = []) {
-		this._nodes = new Set();
-		this._links = new Set();
+		this._nodes = [];
+		this._links = [];
 
 		nodes.map(node => this.addNode(node));
 		links.map(node => this.addLink(link));
@@ -19,16 +19,19 @@ export class Graph {
 	/**
 	return array of nodes
 	*/
-	get nodes() { return [...this._nodes] }
+	get nodes() { return this._nodes; }
 	/**
 	returns array of links
 	*/
-	get links() { return [...this._links] }
+	get links() { return this._links; }
 	/**
 	 **/
 	addNode(node) {
-		node._graph = this;
-	 	this._nodes.add(node);
+		// add node if not already in graph
+		if (_.findIndex(this._nodes, n => {return n.isSame(node) }) == -1) {	
+			node._graph = this;
+	 		this._nodes.push(node);
+	 	}
 	}
 	/**
 	**/
@@ -39,21 +42,15 @@ export class Graph {
 	/**
 	**/
 	removeNodeSet(nodes) {
-		//_.pullAllWith(this._nodes, nodes, (v1, v2) => { return v1.isSame(v2); });
-		nodes.forEach(n1 => { 
-			for (var n2 of this._nodes) {
-				if (n1.isSame(n2)) {
-					this._nodes.delete(n2);
-					break;
-				}
-			}
-		});
+		_.pullAllWith(this._nodes, nodes, (v1, v2) => { return v1.isSame(v2); });
 	}
 	/**
 	 **/
 	addLink(link) {
-		link._graph = this;
-		this._links.add(link);
+		if (_.findIndex(this._links, l => {return l.isSame(link) }) == -1) {
+			link._graph = this;
+			this._links.push(link);
+		}
 	}
 	/**
 	**/
@@ -73,6 +70,7 @@ export class Node {
 		_.extend(this, node);
 		this._graph = undefined;
 	}
+	get key() { return this.identity.toString(); }
 	get label() { return this.labels[0]; }
 	isSame(node) { return Graph.isSameIdentity(this.identity, node.identity); }
 }
@@ -84,4 +82,5 @@ export class Link {
 	}
 	get source() { return _.find(this._graph._nodes, (n) => { return Graph.isSameIdentity(n.identity, this.start); }); }
 	get target() { return _.find(this._graph._nodes, (n) => { return Graph.isSameIdentity(n.identity, this.end); }); }
+	isSame(link) { return Graph.isSameIdentity(this.identity, link.identity); }
 }

@@ -83,17 +83,16 @@ export default class GraphDatabase {
 			.run(query, { limit: limit })
 			.then(result => {
 				session.close();
-				let nodes = new Set();
-				let links = [];
+				let graph = new Graph();
 
 				//if (_.isEmpty(result.records))
 				//	return null;
 
 				result.records.map(record => {
-					nodes.add(new Node(record.get('n')));
+					graph.addNode(new Node(record.get('n')));
 				})
 
-				return { nodes, links: links };
+				return graph;
 			})
 	}
 	/**
@@ -111,17 +110,16 @@ export default class GraphDatabase {
 			.run(query, {limit: limit})
 			.then(result => {
 				session.close();
-				let nodes = new Set();
-				let links = new Set();
-
+				let graph = new Graph();
+				
 				console.log(result.records);
 				result.records.map(record => {
-					nodes.add(new Node(record.get('n')));
-					nodes.add(new Node(record.get('m')));
-					links.add(new Link(record.get('r')));
+					graph.addNode(new Node(record.get('n')));
+					graph.addNode(new Node(record.get('m')));
+					graph.addLink(new Link(record.get('r')));
 				})
 
-				return { nodes, links: links};
+				return graph;
 			})
 	}
 	/**
