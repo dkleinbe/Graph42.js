@@ -106,8 +106,17 @@ export default {
 					return acc.concat(curr.relation)
 				}
 				return acc
-			}, [])
-			grdb.getGraphByRelationship(["Movie", "Person"], selectedRelations, 25).then(graph => {
+			}, []);
+			
+			// reduce to selected roles
+			let selectedRoles = this.roles.reduce((acc, curr) => {
+				if (curr.checked) {
+					return acc.concat(curr.role)
+				}
+				return acc
+			}, []);
+
+			grdb.getGraphByRelationship(selectedRoles, selectedRelations, 25).then(graph => {
 				this.graph.addNodeSet(graph.nodes);
 				this.graph.addLinkSet(graph.links);
 				this.graphEditor.render();
