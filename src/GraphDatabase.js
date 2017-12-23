@@ -2,6 +2,7 @@
 'use strict';
 
 require('file-loader?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
+import {Graph, Node, Link } from './models/Graph.js';
 var _ = require('lodash');
 
 
@@ -82,14 +83,14 @@ export default class GraphDatabase {
 			.run(query, { limit: limit })
 			.then(result => {
 				session.close();
-				let nodes = [];
+				let nodes = new Set();
 				let links = [];
 
 				//if (_.isEmpty(result.records))
 				//	return null;
 
 				result.records.map(record => {
-					nodes.push(record.get('n'));
+					nodes.add(new Node(record.get('n')));
 				})
 
 				return { nodes, links: links };
@@ -110,16 +111,15 @@ export default class GraphDatabase {
 			.run(query, {limit: limit})
 			.then(result => {
 				session.close();
-				let nodes = [];
-				let links = [];
+				let nodes = new Set();
+				let links = new Set();
 
 				console.log(result.records);
 				result.records.map(record => {
-					nodes.push(record.get('n'));
-					nodes.push(record.get('m'));
-					links.push(record.get('r'));
+					nodes.add(new Node(record.get('n')));
+					nodes.add(new Node(record.get('m')));
+					links.add(new Link(record.get('r')));
 				})
-				nodes = _.uniqBy(nodes, n => { return n.identity.toString(); });
 
 				return { nodes, links: links};
 			})
