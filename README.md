@@ -1,6 +1,4 @@
-# Neo4j Movies Example Application - `neo4j-driver` Edition
-
-![image of application](./img/demo.png)
+# Neo4j Graph Application - `neo4j-driver` Edition
 
 ## Stack
 
