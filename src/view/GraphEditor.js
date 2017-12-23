@@ -125,10 +125,12 @@ export class GraphEditor {
     // node text
     //
     newNodes.each(function(n,j) {
-      let label = n.properties.name;
-      let words = label.split(/\s+/g)
+      
       let g = d3.select(this);
-
+      var words = ["no name"];
+      if (n.properties.hasOwnProperty('name')) {
+        words = n.properties.name.split(/\s+/g)    
+      }
       let t = g.append("text").attr("text-anchor","middle");
 
       words.forEach((w,i) => {
