@@ -1,6 +1,7 @@
 var api = require('./neo4jApi');
 import GraphDatabase from './GraphDatabase';
 import {GraphEditor} from './view/GraphEditor';
+import Vue from 'vue'
 
 var grdb = new GraphDatabase();
 var svg = d3.select("#graph_").append("svg")
@@ -12,8 +13,64 @@ var graphEditor = new GraphEditor(svg);
 $(function () { 
 
   grdb.connect();
-  showLabelSet();
-  showRelationTypes();
+  var vroles = new Vue({
+    el: '#roles_',
+    data: {
+      roles:  [],
+      relations: []
+    },
+    created() {
+      this.showRoles();
+      this.showRelationTypes();
+    },
+    methods: {
+      showRoles: function() {
+        
+        return grdb.getNodeLabelsSet().then(roles => { 
+          console.log(roles); 
+          
+          // Reset roles array
+          this.roles.length = 0;
+          roles.forEach(role => { this.roles.push(role[0])}); 
+        });
+      },
+      showRelationTypes: function() {
+        grdb.getRelationshipTypes().then(types => {
+          if (!types)
+            return;
+          this.relations.length = 0;
+          types.forEach(type => {
+              this.relations.push(type);
+            });
+          });
+      }
+    }
+
+  });  
+
+  var vRelType = new Vue({
+    el: '#rel_types_',
+    data: {
+      relations: []
+    },
+    created() {
+      this.showRelationTypes();
+    },
+    methods: {
+      showRelationTypes: function() {
+        grdb.getRelationshipTypes().then(types => {
+          if (!types)
+            return;
+          this.relations.length = 0;
+          types.forEach(type => {
+              this.relations.push(type);
+            });
+          });
+      }
+    }
+  });  
+  //showLabelSet();
+  //showRelationTypes();
   search();
 
   $("#search").submit(e => {
