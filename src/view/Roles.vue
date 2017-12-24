@@ -64,6 +64,7 @@ export default {
 
 			role.checked = !role.checked;
 
+			// add  nodes for checked role
 			if (role.checked) {
 				grdb.getGraphNodesByLabel([role.role], 5)
 					.then(graph => { 
@@ -72,30 +73,12 @@ export default {
 
 					})
 			}
+			// remove node for unchecked role
 			else {
-				grdb.getGraphNodesByLabel([role.role], 5)
-					.then(graph => { 
-						this.graph.removeNodeSet(graph.nodes);
-						this.graphEditor.render();
-		
-					})
+				this.graph.removeNodesByLabels([role.role]);
+				this.graphEditor.render();
 			}
 			
-			/* reduce to selected roles
-			let selectedRoles = this.roles.reduce((acc, curr) => {
-				if (curr.checked) {
-					return acc.concat(curr.role)
-				}
-				return acc
-			}, [])
-
-			
-			grdb.getGraphNodesByLabel(selectedRoles, selectedRoles.length * 5)
-					.then(graph => { 
-						this.graph.addNodeSet(graph.nodes);
-						this.graphEditor.Render();
-					})
-	*/
 		},
 		toggleRelation: function(relation) {
 
