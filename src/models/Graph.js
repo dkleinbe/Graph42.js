@@ -34,6 +34,14 @@ export class Graph {
 	 	}
 	}
 	/**
+	 **/
+	addLink(link) {
+		if (_.findIndex(this._links, l => {return l.isSame(link) }) == -1) {
+			link._graph = this;
+			this._links.push(link);
+		}
+	}	
+	/**
 	**/
 	addNodeSet(nodes) {
 		
@@ -41,23 +49,40 @@ export class Graph {
 	}
 	/**
 	**/
-	removeNodeSet(nodes) {
-		_.pullAllWith(this._nodes, nodes, (v1, v2) => { return v1.isSame(v2); });
-	}
-	/**
-	 **/
-	addLink(link) {
-		if (_.findIndex(this._links, l => {return l.isSame(link) }) == -1) {
-			link._graph = this;
-			this._links.push(link);
-		}
-	}
-	/**
-	**/
 	addLinkSet(links) {
 		
 		links.forEach(link => this.addLink(link));
-	}	
+	}		
+	/**
+	**/
+	removeNodeSet(nodes) {
+		// remove connected links
+		_.pullAllWith(this._links, nodes, (l, n) => {
+			return l.source.isSame(n) || l.target.isSame(n); 
+		})
+		// remove nodes
+		_.pullAllWith(this._nodes, nodes, (v1, v2) => { return v1.isSame(v2); });
+	}
+	/**
+	*/
+	removeNodesByLabels(labels) {
+		// get nodes to remove
+		let nodes = [];
+		this._nodes.forEach(n => {
+			let res = _.intersection(labels, n.labels);
+
+			if (res.length > 0)
+				nodes.push(n);
+		})
+		// remove node set
+		this.removeNodeSet(nodes);
+
+	}
+	/**
+	*/
+	removeLinksByType(types) {
+		_.pullAllWith(this._links, types, (l, t) => { return l.type == t; });
+	}
 	/**
 	**/
 	static isSameIdentity(e1, e2) {
