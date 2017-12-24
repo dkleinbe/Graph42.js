@@ -84,26 +84,32 @@ export default {
 
 			relation.checked = !relation.checked
 			// reduce to selected relation
-			let selectedRelations = this.relations.reduce((acc, curr) => {
-				if (curr.checked) {
-					return acc.concat(curr.relation)
-				}
-				return acc
-			}, []);
-			
-			// reduce to selected roles
-			let selectedRoles = this.roles.reduce((acc, curr) => {
-				if (curr.checked) {
-					return acc.concat(curr.role)
-				}
-				return acc
-			}, []);
+			if (relation.checked) {
+				let selectedRelations = this.relations.reduce((acc, curr) => {
+					if (curr.checked) {
+						return acc.concat(curr.relation)
+					}
+					return acc
+				}, []);
+				
+				// reduce to selected roles
+				let selectedRoles = this.roles.reduce((acc, curr) => {
+					if (curr.checked) {
+						return acc.concat(curr.role)
+					}
+					return acc
+				}, []);
 
-			grdb.getGraphByRelationship(selectedRoles, selectedRelations, 25).then(graph => {
-				this.graph.addNodeSet(graph.nodes);
-				this.graph.addLinkSet(graph.links);
+				grdb.getGraphByRelationship(selectedRoles, selectedRelations, 25).then(graph => {
+					this.graph.addNodeSet(graph.nodes);
+					this.graph.addLinkSet(graph.links);
+					this.graphEditor.render();
+				});
+			}
+			else {
+				this.graph.removeLinksByTypes([relation.relation]);
 				this.graphEditor.render();
-			});
+			}
 		},
 		showRoles: function() {
 

@@ -80,7 +80,7 @@ export class Graph {
 	}
 	/**
 	*/
-	removeLinksByType(types) {
+	removeLinksByTypes(types) {
 		_.pullAllWith(this._links, types, (l, t) => { return l.type == t; });
 	}
 	/**
