@@ -42,7 +42,7 @@
       <transition xmi:id="_D5YFarmiEeei4vW41dEgbw" guard="_D5YFa7miEeei4vW41dEgbw" source="_D5YsfrmiEeei4vW41dEgbw" target="_D5Yse7miEeei4vW41dEgbw">
         <ownedRule xmi:id="_D5YFa7miEeei4vW41dEgbw" name="null_transition">
           <specification xmi:type="uml:OpaqueExpression" xmi:id="_D5YFbLmiEeei4vW41dEgbw" name="null_guard">
-            <body>isShiftDown() == false</body>
+            <body>isShiftDown() == true</body>
           </specification>
         </ownedRule>
         <effect xmi:type="uml:OpaqueBehavior" xmi:id="_D5YFbbmiEeei4vW41dEgbw" name="unPinNode"/>
@@ -102,7 +102,7 @@
       <transition xmi:id="_D5YsdLmiEeei4vW41dEgbw" guard="_D5YsdbmiEeei4vW41dEgbw" source="_D5YsfrmiEeei4vW41dEgbw" target="_D5Yse7miEeei4vW41dEgbw">
         <ownedRule xmi:id="_D5YsdbmiEeei4vW41dEgbw" name="null_transition">
           <specification xmi:type="uml:OpaqueExpression" xmi:id="_D5YsdrmiEeei4vW41dEgbw" name="null_guard">
-            <body>isShiftDown()</body>
+            <body>isShiftDown() == false</body>
           </specification>
         </ownedRule>
         <effect xmi:type="uml:OpaqueBehavior" xmi:id="_D5Ysd7miEeei4vW41dEgbw" name="dragended"/>
