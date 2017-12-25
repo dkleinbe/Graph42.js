@@ -113,21 +113,22 @@ export class GraphEditor {
                 this._fsm.evaluate("click", d, links[i]);
             });
 
-        var path = newLinks.append("path")
+        // add paht line
+        newLinks.append("path")
             .attr("id", (d, i) => {
                 return 'edgepath' + i
             });
 
-
-        var textPath = newLinks.append("path")
+        // add path for text and arrow
+        newLinks.append("path")
             .attr("id", (d, i) => {
                 return 'edgepath' + i
             })
             .style('stroke-width', 2)
             .style('marker-end', 'url(#end-arrow)');
 
+        // add label on path
         var edgeLabels = newLinks.append('text');
-        //.attr("dx", "80");
 
         edgeLabels.append('textPath')
             .attr('text-anchor', 'middle')
@@ -140,15 +141,20 @@ export class GraphEditor {
                 return d.type;
             });
 
+        // add tooltip
         newLinks.append("title")
             .text(d => {
                 return d.identity;
             });
+       
+       	links = links.merge(newLinks);
+       	this._links = links;
 
-        links = links.merge(newLinks);
-        path = links.selectAll("path");
+        var path = links.selectAll("path");
+        var textPath = links.selectAll("textPath");
         edgeLabels = links.selectAll("text");
-        this._links = links;
+        
+        
         //
         // Update nodes
         //
@@ -224,11 +230,13 @@ export class GraphEditor {
         // force feed algo ticks
         //
         this._forceSim.on("tick", () => {
+
             path.attr('d', function(d) {
                 var path = 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
                 //console.log(d)
                 return path
             });
+            // switch label according to orientation            
             edgeLabels.attr('transform', (d, i, labels) => {
                 if (d.target.x < d.source.x) {
                     let bbox = labels[i].getBBox();
@@ -238,6 +246,13 @@ export class GraphEditor {
                 }
                 else {
                     return 'rotate(0)';
+                }
+            }).attr('dy', (d, i, labels) => {
+            	if (d.target.x < d.source.x) {
+                    return 15;
+                }
+                else {
+                    return -5;
                 }
             });
 
