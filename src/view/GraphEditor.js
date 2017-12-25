@@ -61,7 +61,14 @@ export class GraphEditor {
             .force("center", d3.forceCenter(width / 2, height / 2));
         this._forceSim.force("charge").strength(-100);
 
+        this._forceSim.force("collide", d3.forceCollide())
+        this._forceSim.force("collide")
+        	.strength(0.7)
+        	.radius(30)
+        	.iterations(1);
+
         this._forceSim.force("link", d3.forceLink());
+        this._forceSim.force("link").distance(100);
 
         this._links = svg.append("g").selectAll(".link");
         this._nodes = svg.append("g").selectAll(".node");
