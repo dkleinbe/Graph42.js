@@ -37,7 +37,11 @@ export class GraphEditor {
             .append('svg:path')
             .attr('d', 'M0,-5L10,0L0,5');
 
-        this._dragline = svg.append('svg:path')
+        //add encompassing group for the zoom 
+		var canvas = svg.append("g").attr("class", "canvas");
+		this._canvas = canvas;
+
+        this._dragline = canvas.append('svg:path')
             .attr('class', 'link dragline hidden')
             .attr('d', 'M0,0L0,0');
         //.style('marker-end', 'url(#mark-end-arrow)');
@@ -55,7 +59,9 @@ export class GraphEditor {
         this._svg.on("mouseup", () => {
             this.onMouseUp();
         });
-
+        // install zoom behavior
+        var dragSvg = d3.zoom().on("zoom", () => this.zoomed());
+        this._svg.call(dragSvg);
 
         this._forceSim = d3.forceSimulation().force("charge", d3.forceManyBody(-200))
             .force("center", d3.forceCenter(width / 2, height / 2));
@@ -70,8 +76,8 @@ export class GraphEditor {
         this._forceSim.force("link", d3.forceLink());
         this._forceSim.force("link").distance(100);
 
-        this._links = svg.append("g").selectAll(".link");
-        this._nodes = svg.append("g").selectAll(".node");
+        this._links = canvas.append("g").selectAll(".link");
+        this._nodes = canvas.append("g").selectAll(".node");
 
         this._nodeSelection = null;
         this._relationSelection = null;
@@ -94,7 +100,7 @@ export class GraphEditor {
     /**
      **/
     render() {
-        var svg = this._svg;
+        var svg = this._canvas;
         var links = this._links;
         var nodes = this._nodes;
         let graph = this._graph;
@@ -213,12 +219,19 @@ export class GraphEditor {
             if (n.properties.hasOwnProperty('name')) {
                 words = n.properties.name.split(/\s+/g)
             }
+            else
+            {
+            	// get first property as label
+            	words = n.properties[_.keys(n.properties)[0]].split(/\s+/g)
+            }
             let t = g.append("text").attr("text-anchor", "middle");
 
             words.forEach((w, i) => {
                 let tspan = t.append('tspan').text(w);
                 if (i > 0)
                     tspan.attr('x', 0).attr('dy', '15');
+                else
+                	tspan.attr('x', 0).attr('dy', '-15');
             });
         });
         //
@@ -344,6 +357,10 @@ export class GraphEditor {
                 this._fsm.evaluate("BACKSPACE_KEY");
                 break;
         }
+    }
+
+    zoomed() {
+    	this._canvas.attr("transform", d3.event.transform)
     }
 
     onKeyUp() {}
