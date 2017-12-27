@@ -83,6 +83,11 @@ export class GraphEditor {
         this._relationSelection = null;
         this._targetNode = null;
         this.initFSM();
+
+        this._svg.on("click", () => {
+            this._fsm.evaluate("click") 
+        });
+       
     }
     /**
      **/
@@ -183,15 +188,6 @@ export class GraphEditor {
             .attr("class", d => {
                 return "node " + d.label + " new"
             })
-            .call(d3.drag()
-                .on("start", (d, i, nodes) => {
-                    d3.event.sourceEvent.stopPropagation();
-                    this._fsm.evaluate("drag_node_started", d, nodes[i])
-                })
-                .on("drag", (d, i, nodes) => this._fsm.evaluate("node_dragged", d, nodes[i]))
-                .on("end", (d, i, nodes) => this._fsm.evaluate("drag_node_ended", d, nodes[i]))
-                .filter(() => this.filterDrag())
-                .clickDistance(0))
             .on("mouseover", (d, i, nodes) => {
                 this._fsm.evaluate("mouseover_node", d, nodes[i]);
             })
@@ -200,11 +196,29 @@ export class GraphEditor {
             })
             .on("click", (d, i, nodes) => {
                 if (d3.event.defaultPrevented) return;
+                d3.event.stopPropagation();
                 this._fsm.evaluate("click", d, nodes[i]);
             })
             .on("dblclick", (d, i, nodes) => {
                 this._fsm.evaluate("dblclick", d, nodes[i]);
-            });
+            })
+            .call(d3.drag()
+                .on("start", (d, i, nodes) => {
+                    //d3.event.sourceEvent.stopPropagation();
+                    //console.log('******** START ***********');
+                    this._fsm.evaluate("drag_node_started", d, nodes[i]);
+                })               	
+            	.on("drag", (d, i, nodes) => {
+					//console.log('******** DRAG *********** dx: ' + d3.event.dx + " dy: " + d3.event.dy);
+					// Only fire drag event if we get an effective move
+					if (d3.event.dx || d3.event.dy)
+            			this._fsm.evaluate("node_dragged", d, nodes[i]);
+            	})
+                .on("end", (d, i, nodes) => {
+                	//console.log('******** END ***********');
+                	this._fsm.evaluate("drag_node_ended", d, nodes[i]);
+                })
+            );
         //
         // node circle
         //
@@ -319,12 +333,14 @@ export class GraphEditor {
 
     dragstarted(d, n) {
 
-        if (!d3.event.active) this._forceSim.alphaTarget(0.3).restart();
+        //if (!d3.event.active) 
+        	this._forceSim.alphaTarget(0.3).restart();
         d.fx = d.x;
         d.fy = d.y;
     }
 
     dragged(d) {
+    		
         d.fx = d3.event.x;
         d.fy = d3.event.y;
     }
@@ -332,8 +348,6 @@ export class GraphEditor {
     dragended(d, n) {
 
         if (!d3.event.active) this._forceSim.alphaTarget(0.0001);
-        //d.fx = null;
-        //d.fy = null;
     }
 
     dragLine(d, n) {
@@ -431,12 +445,22 @@ export class GraphEditor {
     }
 
     selectNode(d, n) {
-        console.log('Node selected: ' + d);
+    	// select or deselect node
+        // deselect node, re-highlight it
+    	if (d == this._nodeSelection) {
+    		this._nodeSelection = null;	
+    		this.unselectAll();
 
-        this.unselectAll();
-        this.unHighlightNode(d, n);
-        d3.select(n).classed('selected', true);
-        this._nodeSelection = d;
+        	this.highlightNode(d, n);
+    	}
+    	// select node un-highlight it
+    	else {
+    		console.log('Node selected: ' + d);
+    		this.unselectAll();
+	        this.unHighlightNode(d, n);
+        	d3.select(n).classed('selected', true);
+        	this._nodeSelection = d;
+    	}
     }
 
     selectLink(d, n) {

@@ -68,7 +68,7 @@
           </specification>
         </ownedRule>
         <effect xmi:type="uml:Activity" xmi:id="_D5YFermiEeei4vW41dEgbw" name="unselectAll"/>
-        <trigger xmi:id="_D5YFe7miEeei4vW41dEgbw" name="mouseup"/>
+        <trigger xmi:id="_1WGygOsgEeeKcrO4PnygXg" name="click"/>
       </transition>
       <transition xmi:id="_D5YFfLmiEeei4vW41dEgbw" source="_D5YsfrmiEeei4vW41dEgbw" target="_D5YsfrmiEeei4vW41dEgbw">
         <trigger xmi:id="_D5YFfbmiEeei4vW41dEgbw" name="node_dragged"/>
@@ -117,7 +117,7 @@
         <trigger xmi:id="_zvPB8Lm1Eeei4vW41dEgbw" name="mouseleave_link"/>
       </transition>
       <transition xmi:id="_gYlhsLv3Eee17qOKs27_SA" source="_D5Yse7miEeei4vW41dEgbw" target="_QGB5MLv3Eee17qOKs27_SA">
-        <trigger xmi:id="_is_NQLv3Eee17qOKs27_SA" name="drag_node_started"/>
+        <trigger xmi:id="_q_YBgOsbEeeKcrO4PnygXg" name="node_dragged"/>
       </transition>
       <transition xmi:id="_esQTALwIEee17qOKs27_SA" name="CreateLink-CreateLink" source="_D5YsgLmiEeei4vW41dEgbw" target="_D5YsgLmiEeei4vW41dEgbw">
         <trigger xmi:id="_qhbxQLwIEee17qOKs27_SA" name="node_dragged"/>
