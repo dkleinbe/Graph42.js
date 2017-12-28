@@ -20,6 +20,7 @@ export class GraphEditor {
         this._tickListeners = [];
         this._svg = svg;
         this._graph = graph;
+        this._nodesTypesParameters = new Map();
 
         var width = parseInt(svg.style('width')),
             height = parseInt(svg.style('height'));
@@ -59,13 +60,18 @@ export class GraphEditor {
         this._svg.on("mouseup", () => {
             this.onMouseUp();
         });
+
+        // init nodes color scale
+        this._nodesColorScale = d3.scaleOrdinal(d3.schemeSet3);
+        
         // install zoom behavior
         var dragSvg = d3.zoom().on("zoom", () => this.zoomed());
         this._svg.call(dragSvg);
 
-        this._forceSim = d3.forceSimulation().force("charge", d3.forceManyBody(-200))
+        this._forceSim = d3.forceSimulation()
+        	.force("charge", d3.forceManyBody(-200))
             .force("center", d3.forceCenter(width / 2, height / 2));
-        this._forceSim.force("charge").strength(-100);
+        this._forceSim.force("charge").strength(-100).distanceMax(150);
 
         this._forceSim.force("collide", d3.forceCollide())
         this._forceSim.force("collide")
@@ -88,6 +94,22 @@ export class GraphEditor {
             this._fsm.evaluate("click") 
         });
        
+    }
+    /**
+    */
+    setNodesTypesSet(types) {
+    	// set default parameters for node rendering
+    	types.forEach((t,i) => {
+    		this._nodesTypesParameters.set(t, {
+    			color: this._nodesColorScale(i),
+    			size: 10
+    		});
+    	})
+    }
+    /**
+    */
+    addTickListener(listener) {
+        this._tickListeners.push(listener);
     }
     /**
      **/
@@ -222,7 +244,11 @@ export class GraphEditor {
         //
         // node circle
         //
-        newNodes.append("circle").attr("r", 30);
+        newNodes.append("circle")
+        	.attr("r", 30)
+        	.attr("fill", d => { 
+            	return this._nodesTypesParameters.get(d.label).color; 
+            });
         //
         // node text
         //
@@ -475,7 +501,5 @@ export class GraphEditor {
         this._relationSelection = null;
     }
 
-    addTickListener(listener) {
-        this._tickListeners.push(listener);
-    }
+
 } /* /class */

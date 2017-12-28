@@ -66,12 +66,45 @@ export default {
 
 			// add  nodes for checked role
 			if (role.checked) {
+				/*
 				grdb.getGraphNodesByLabel([role.role], 5)
 					.then(graph => { 
 						this.graph.addNodeSet(graph.nodes);
 						this.graphEditor.render();
 
 					})
+					*/
+				let selectedRelations = this.relations.reduce((acc, curr) => {
+					if (curr.checked) {
+						return acc.concat(curr.relation)
+					}
+					return acc
+				}, []);
+				
+				// reduce to selected roles
+				let selectedRoles = this.roles.reduce((acc, curr) => {
+					if (curr.checked) {
+						return acc.concat(curr.role)
+					}
+					return acc
+				}, []);
+
+				if (selectedRelations.length ==0) {
+					grdb.getGraphNodesByLabel([role.role], 5)
+						.then(graph => { 
+							this.graph.addNodeSet(graph.nodes);
+							this.graphEditor.render();
+
+						})					
+				}
+				else
+				{
+					grdb.getGraphByRelationship(selectedRoles, selectedRelations, 25).then(graph => {
+						this.graph.addNodeSet(graph.nodes);
+						this.graph.addLinkSet(graph.links);
+						this.graphEditor.render();
+					});		
+				}			
 			}
 			// remove node for unchecked role
 			else {
@@ -123,6 +156,11 @@ export default {
 						checked: false
 					})
 				})
+				// reduce roles to an array of first roles
+				this.graphEditor.setNodesTypesSet(roles.reduce((acc, curr, []) => { 
+					acc.push(curr[0]);
+					return acc;
+				}));
 			})
 		},
 		showRelationTypes: function() {

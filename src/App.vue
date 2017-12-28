@@ -157,13 +157,9 @@ export default {
   stroke: #222;
   stroke-width: 1.5px;
 }
-
+/*
 .node>circle {
   fill: #888;
-}
-
-.node.movie {
-  fill: #BBB;
 }
 
 .node.new>circle {
@@ -173,12 +169,8 @@ export default {
 .node.update>circle {
   fill: #F0F;
 }
-
+*/
 .node.over>circle {
-  fill: #F00;
-}
-
-.node.actor.over {
   fill: #F00;
 }
 
@@ -186,9 +178,6 @@ export default {
   fill: #0F0;
 }
 
-.node.actor.selected {
-  fill: #0F0;
-}
 
 .link {
   stroke: #999;
