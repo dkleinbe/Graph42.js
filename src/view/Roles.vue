@@ -37,7 +37,7 @@ import { Graph } from '../models/Graph';
 export default {
 	name: 'roles',
 	props: {
-		graphEditor: {
+		context: {
 			// type: Object,
 			required: true
 		},
@@ -64,16 +64,10 @@ export default {
 
 			role.checked = !role.checked;
 
+			var graphEditor = this.context.getContext()['graphEditor'];
 			// add  nodes for checked role
 			if (role.checked) {
-				/*
-				grdb.getGraphNodesByLabel([role.role], 5)
-					.then(graph => { 
-						this.graph.addNodeSet(graph.nodes);
-						this.graphEditor.render();
 
-					})
-					*/
 				let selectedRelations = this.relations.reduce((acc, curr) => {
 					if (curr.checked) {
 						return acc.concat(curr.relation)
@@ -90,26 +84,26 @@ export default {
 				}, []);
 
 				if (selectedRelations.length ==0) {
-					grdb.getGraphNodesByLabel([role.role], 5)
+					grdb.getGraphNodesByLabel([role.role], 500)
 						.then(graph => { 
 							this.graph.addNodeSet(graph.nodes);
-							this.graphEditor.render();
+							graphEditor.render();
 
 						})					
 				}
 				else
 				{
-					grdb.getGraphByRelationship(selectedRoles, selectedRelations, 25).then(graph => {
+					grdb.getGraphByRelationship(selectedRoles, selectedRelations, 2500).then(graph => {
 						this.graph.addNodeSet(graph.nodes);
 						this.graph.addLinkSet(graph.links);
-						this.graphEditor.render();
+						graphEditor.render();
 					});		
 				}			
 			}
 			// remove node for unchecked role
 			else {
 				this.graph.removeNodesByLabels([role.role]);
-				this.graphEditor.render();
+				graphEditor.render();
 			}
 			
 		},
@@ -117,6 +111,8 @@ export default {
 
 			relation.checked = !relation.checked
 			// reduce to selected relation
+			var graphEditor = this.context.getContext()['graphEditor'];
+
 			if (relation.checked) {
 				let selectedRelations = this.relations.reduce((acc, curr) => {
 					if (curr.checked) {
@@ -133,21 +129,22 @@ export default {
 					return acc
 				}, []);
 
-				grdb.getGraphByRelationship(selectedRoles, selectedRelations, 25).then(graph => {
+				grdb.getGraphByRelationship(selectedRoles, selectedRelations, 2500).then(graph => {
 					this.graph.addNodeSet(graph.nodes);
 					this.graph.addLinkSet(graph.links);
-					this.graphEditor.render();
+					graphEditor.render();
 				});
 			}
 			else {
 				this.graph.removeLinksByTypes([relation.relation]);
-				this.graphEditor.render();
+				graphEditor.render();
 			}
 		},
 		showRoles: function() {
 
 			return grdb.getNodeLabelsSet().then(roles => {
 
+				var graphEditor = this.context.getContext()['graphEditor'];
 				// Reset roles array
 				this.roles.length = 0
 				roles.forEach(role => {
@@ -157,7 +154,7 @@ export default {
 					})
 				})
 				// reduce roles to an array of first roles
-				this.graphEditor.setNodesTypesSet(roles.reduce((acc, curr, []) => { 
+				graphEditor.setNodesTypesSet(roles.reduce((acc, curr, []) => { 
 					acc.push(curr[0]);
 					return acc;
 				}));

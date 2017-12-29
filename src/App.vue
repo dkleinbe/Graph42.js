@@ -17,7 +17,8 @@
           <v-list-tile-title v-text="item.title"></v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <roles :graphEditor="graphEditor" :graph="graph"></roles>
+      <roles :context="context"
+             :graph="graph"></roles>
     </v-list>
   </v-navigation-drawer>
   <v-toolbar fixed
@@ -82,12 +83,27 @@ import { grdb } from './GraphDatabase';
 import { GraphEditor } from './view/GraphEditor';
 import { Graph } from './models/Graph';
 import Roles from './view/Roles.vue';
+
+var theContext = {}
+
+class Context {
+    getContext() {
+        return theContext
+    }
+    addContextKeyValue(key, value) {
+        theContext[key] = value
+    }
+}
+
+var _context = new Context()
+
 export default {
     components: {
         Roles
     },
     data() {
         return {
+            context: _context,
             clipped: false,
             drawer: true,
             fixed: false,
@@ -101,22 +117,21 @@ export default {
             right: true,
             rightDrawer: false,
             title: 'Graph42js',
-            forceActivity: 0,
-            graphEditor: Object,
+            forceActivity: 0
         }
     },
     computed: {
         graph: function() {
             if (this._graph === undefined) {
-                this._graph = new Graph();
+                this._graph = new Graph()
             }
-            
-            return this._graph;
-            
+
+            return this._graph
+
         }
     },
     beforeCreate() {
-        //this.graph = new Graph()      
+        // this.graph = new Graph()      
     },
     mounted() {
         // var grdb = new GraphDatabase();
@@ -125,19 +140,18 @@ export default {
             .attr('pointer-events', 'all')
 
         
-        //this.graph = new Graph()
-        this.graphEditor = new GraphEditor(svg, this.graph)
-
-        this.graphEditor.addTickListener((alpha) => this.forceActivity = alpha * 100)
+        var graphEditor = new GraphEditor(svg, this.graph)
+        graphEditor.addTickListener((alpha) => this.forceActivity = alpha * 100)
+        this.context.addContextKeyValue('graphEditor', graphEditor)
 
         grdb.connect()
-        // api.getMovieGraph('The Matrix').then(graph => graphEditor.renderGraph(graph))
-        /*
-        grdb.getGraphNodesByLabel([
-            'Movie',
-            'Person'
-        ], 100).then(graph => this.graphEditor.renderGraph(new Graph(graph.nodes, graph.links)))
-        */
+    // api.getMovieGraph('The Matrix').then(graph => graphEditor.renderGraph(graph))
+    /*
+    grdb.getGraphNodesByLabel([
+        'Movie',
+        'Person'
+    ], 100).then(graph => this.graphEditor.renderGraph(new Graph(graph.nodes, graph.links)))
+    */
     }
 }
 
@@ -157,6 +171,7 @@ export default {
   stroke: #222;
   stroke-width: 1.5px;
 }
+
 /*
 .node>circle {
   fill: #888;
@@ -170,6 +185,7 @@ export default {
   fill: #F0F;
 }
 */
+
 .node.over>circle {
   fill: #F00;
 }
@@ -177,7 +193,6 @@ export default {
 .node.selected>circle {
   fill: #0F0;
 }
-
 
 .link {
   stroke: #999;
