@@ -153,14 +153,16 @@ export class GraphEditor {
                 this._fsm.evaluate("click", d, links[i]);
             });
 
-        // add paht line
+        // add path line
         newLinks.append("path")
+        	.attr("class", "text-link")
             .attr("id", (d, i) => {
                 return 'edgepath' + i
             });
 
         // add path for text and arrow
         newLinks.append("path")
+        	.attr("class", "link")
             .attr("id", (d, i) => {
                 return 'edgepath' + i
             })
@@ -190,8 +192,8 @@ export class GraphEditor {
        	links = links.merge(newLinks);
        	this._links = links;
 
-        var path = links.selectAll("path");
-        var textPath = links.selectAll("textPath");
+        var textPath = links.selectAll("path.text-link");
+        var path = links.selectAll("path.link");
         edgeLabels = links.selectAll("text");
         
         
@@ -290,32 +292,24 @@ export class GraphEditor {
         // force feed algo ticks
         //
         this._forceSim.on("tick", () => {
-
-            path.attr('d', function(d) {
-                var path = 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
-                //console.log(d)
+        	// relation link with arrow
+        	path.attr('d', function(d) {
+        		return 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
+        	});
+        	// text underling path
+            textPath.attr('d', function(d) {
+            	// switch path direction to keep text in proper orientation
+            	var path;
+            	if (d.target.x > d.source.x) {
+                	path = 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
+                }
+                else {
+                	path = 'M ' + d.target.x + ' ' + d.target.y + ' L ' + d.source.x + ' ' + d.source.y;
+                }
+                
                 return path
             });
-            // switch label according to orientation            
-            edgeLabels.attr('transform', (d, i, labels) => {
-                if (d.target.x < d.source.x) {
-                    let bbox = labels[i].getBBox();
-                    let rx = bbox.x + bbox.width / 2;
-                    let ry = bbox.y + bbox.height / 2;
-                    return 'rotate(180 ' + rx + ' ' + ry + ')';
-                }
-                else {
-                    return 'rotate(0)';
-                }
-            }).attr('dy', (d, i, labels) => {
-            	if (d.target.x < d.source.x) {
-                    return 15;
-                }
-                else {
-                    return -5;
-                }
-            });
-
+            // move node
             nodes.attr("transform", function(d, i) {
                 return "translate(" + d.x + "," + d.y + ")";
             });
