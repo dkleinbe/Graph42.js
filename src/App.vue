@@ -17,8 +17,7 @@
           <v-list-tile-title v-text="item.title"></v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <roles :context="context"
-             :graph="graph"></roles>
+      <roles :context="context"></roles>
     </v-list>
   </v-navigation-drawer>
   <v-toolbar fixed
@@ -70,7 +69,7 @@
   </v-navigation-drawer>
   <v-footer :fixed="fixed"
             app>
-    <span>&copy; 2017 {{graph._nodes.length}}</span>
+    <span>&copy; 2017 </span>
     <v-progress-linear v-model="forceActivity"></v-progress-linear>
   </v-footer>
 </v-app>
@@ -121,14 +120,7 @@ export default {
         }
     },
     computed: {
-        graph: function() {
-            if (this._graph === undefined) {
-                this._graph = new Graph()
-            }
 
-            return this._graph
-
-        }
     },
     beforeCreate() {
         // this.graph = new Graph()      
@@ -139,19 +131,13 @@ export default {
             .attr('width', '100%').attr('height', '100%')
             .attr('pointer-events', 'all')
 
-        
-        var graphEditor = new GraphEditor(svg, this.graph)
+        var graph = new Graph();
+
+        var graphEditor = new GraphEditor(svg, graph)
         graphEditor.addTickListener((alpha) => this.forceActivity = alpha * 100)
         this.context.addContextKeyValue('graphEditor', graphEditor)
 
         grdb.connect()
-    // api.getMovieGraph('The Matrix').then(graph => graphEditor.renderGraph(graph))
-    /*
-    grdb.getGraphNodesByLabel([
-        'Movie',
-        'Person'
-    ], 100).then(graph => this.graphEditor.renderGraph(new Graph(graph.nodes, graph.links)))
-    */
     }
 }
 
