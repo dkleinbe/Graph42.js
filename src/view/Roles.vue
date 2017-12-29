@@ -55,7 +55,8 @@ export default {
 	},
 	methods: {
 		nbNodes: function () { 
-			return 666; //this.graph._nodes.length; 
+			if (this.context.getContext()['graphEditor'] !== undefined)
+				return this.context.getContext()['graphEditor']._nodes.length; //this.graph._nodes.length; 
 		},
 		toggleRole: function(role) {
 
@@ -101,7 +102,7 @@ export default {
 			}
 			// remove node for unchecked role
 			else {
-				graph.removeNodesByLabels([role.role]);
+				thegraph.removeNodesByLabels([role.role]);
 				graphEditor.render();
 			}
 			
