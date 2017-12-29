@@ -170,7 +170,7 @@ export class GraphEditor {
             .style('marker-end', 'url(#end-arrow)');
 
         // add label on path
-        var edgeLabels = newLinks.append('text');
+        var edgeLabels = newLinks.append('text').style('stroke-width', 0);
 
         edgeLabels.append('textPath')
             .attr('text-anchor', 'middle')
@@ -324,7 +324,7 @@ export class GraphEditor {
         if (graph.links.length == 0)
             this._forceSim.force("charge").strength(-10);
         else
-            this._forceSim.force("charge").strength(-100);
+            this._forceSim.force("charge").strength(-1000);
         this._forceSim = this._forceSim.alpha(0.3).restart();
     }
 

@@ -117,7 +117,7 @@
         <trigger xmi:id="_zvPB8Lm1Eeei4vW41dEgbw" name="mouseleave_link"/>
       </transition>
       <transition xmi:id="_gYlhsLv3Eee17qOKs27_SA" source="_D5Yse7miEeei4vW41dEgbw" target="_QGB5MLv3Eee17qOKs27_SA">
-        <trigger xmi:id="_q_YBgOsbEeeKcrO4PnygXg" name="node_dragged"/>
+        <trigger xmi:id="_AYS5MOzEEeeKcrO4PnygXg" name="drag_node_started"/>
       </transition>
       <transition xmi:id="_esQTALwIEee17qOKs27_SA" name="CreateLink-CreateLink" source="_D5YsgLmiEeei4vW41dEgbw" target="_D5YsgLmiEeei4vW41dEgbw">
         <trigger xmi:id="_qhbxQLwIEee17qOKs27_SA" name="node_dragged"/>

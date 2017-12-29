@@ -1,7 +1,7 @@
 <template>
 <div class="roles">
   <v-container>
-  	<p>{{nbNodes()}}</p>
+  	<p>Nb nodes: {{nbNodes}} | Nb relations: {{nbRelations}}</p>
     <v-chip v-for="role in roles"
             :key="role.role"
             v-on:click="toggleRole(role)"
@@ -46,6 +46,8 @@ export default {
 		return {
 			roles: [],
 			relations: [],
+			nbNodes: 0,
+			nbRelations: 0
 		}
 	},	
 	created: function() {
@@ -54,9 +56,15 @@ export default {
 		this.showRelationTypes()
 	},
 	methods: {
-		nbNodes: function () { 
-			if (this.context.getContext()['graphEditor'] !== undefined)
-				return this.context.getContext()['graphEditor']._nodes.length; //this.graph._nodes.length; 
+
+		render: function() {
+
+			var graphEditor = this.context.getContext()['graphEditor'];
+			var thegraph = graphEditor._graph;
+
+			graphEditor.render();
+			this.nbNodes = thegraph._nodes.length;
+			this.nbRelations = thegraph._links.length;
 		},
 		toggleRole: function(role) {
 
@@ -87,8 +95,7 @@ export default {
 					grdb.getGraphNodesByLabel([role.role], 500)
 						.then(graph => { 
 							thegraph.addNodeSet(graph.nodes);
-							graphEditor.render();
-
+							this.render();
 						})					
 				}
 				else
@@ -96,14 +103,14 @@ export default {
 					grdb.getGraphByRelationship(selectedRoles, selectedRelations, 2500).then(graph => {
 						thegraph.addNodeSet(graph.nodes);
 						thegraph.addLinkSet(graph.links);
-						graphEditor.render();
+						this.render();
 					});		
 				}			
 			}
 			// remove node for unchecked role
 			else {
 				thegraph.removeNodesByLabels([role.role]);
-				graphEditor.render();
+				this.render();
 			}
 			
 		},
@@ -133,12 +140,12 @@ export default {
 				grdb.getGraphByRelationship(selectedRoles, selectedRelations, 2500).then(graph => {
 					thegraph.addNodeSet(graph.nodes);
 					thegraph.addLinkSet(graph.links);
-					graphEditor.render();
+					this.render();
 				});
 			}
 			else {
 				thegraph.removeLinksByTypes([relation.relation]);
-				graphEditor.render();
+				this.render();
 			}
 		},
 		showRoles: function() {

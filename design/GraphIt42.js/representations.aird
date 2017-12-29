@@ -1600,7 +1600,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='State%20Machine%20Diagram']/@defaultLayer/@edgeMappings[name='SM_Transition']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_gYzkILv3Eee17qOKs27_SA" name="node_dragged" sourceNode="_UQ1cC7miEeei4vW41dEgbw" targetNode="_SBA_MLv3Eee17qOKs27_SA">
+    <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_gYzkILv3Eee17qOKs27_SA" name="drag_node_started" sourceNode="_UQ1cC7miEeei4vW41dEgbw" targetNode="_SBA_MLv3Eee17qOKs27_SA">
       <target xmi:type="uml:Transition" href="model.uml#_gYlhsLv3Eee17qOKs27_SA"/>
       <semanticElements xmi:type="uml:Transition" href="model.uml#_gYlhsLv3Eee17qOKs27_SA"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_gY0LMLv3Eee17qOKs27_SA" routingStyle="manhattan" strokeColor="69,69,69">
