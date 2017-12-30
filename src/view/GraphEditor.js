@@ -80,7 +80,7 @@ export class GraphEditor {
         	.iterations(1);
 
         this._forceSim.force("link", d3.forceLink());
-        this._forceSim.force("link").distance(100);
+        this._forceSim.force("link").distance(160);
 
         this._links = canvas.append("g").selectAll(".link");
         this._nodes = canvas.append("g").selectAll(".node");
@@ -157,15 +157,12 @@ export class GraphEditor {
         newLinks.append("path")
         	.attr("class", "text-link")
             .attr("id", (d, i) => {
-                return 'edgepath' + i
+                return 'edgepath' + d.identity
             });
 
         // add path for text and arrow
         newLinks.append("path")
         	.attr("class", "link")
-            .attr("id", (d, i) => {
-                return 'edgepath' + i
-            })
             .style('stroke-width', 2)
             .style('marker-end', 'url(#end-arrow)');
 
@@ -177,7 +174,7 @@ export class GraphEditor {
             // aligns the text at the middle of the path (only with text-anchor=middle)
             .attr('startOffset', '50%')
             .attr('xlink:href', (d, i) => {
-                return '#edgepath' + i
+                return '#edgepath' + d.identity
             })
             .text(d => {
                 return d.type;
