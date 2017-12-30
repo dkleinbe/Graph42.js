@@ -54,6 +54,20 @@ export class Graph {
 		links.forEach(link => this.addLink(link));
 	}		
 	/**
+	*/
+	updateNodeSet(nodes) {
+		let nodesToRemove = _.differenceWith(this._nodes, nodes, (n1, n2) => { return n1.isSame(n2); });
+		this.removeNodeSet(nodesToRemove);
+		this.addNodeSet(nodes);
+	}	
+	/**
+	*/
+	updateLinkSet(links) {
+		let linksToRemove = _.differenceWith(this._links, links, (l1, l2) => { return l1.isSame(l2); });
+		this.removeLinkSet(linksToRemove);
+		this.addLinkSet(links);
+	}
+	/**
 	**/
 	removeNodeSet(nodes) {
 		// remove connected links
@@ -62,6 +76,11 @@ export class Graph {
 		})
 		// remove nodes
 		_.pullAllWith(this._nodes, nodes, (v1, v2) => { return v1.isSame(v2); });
+	}
+	/**
+	*/
+	removeLinkSet(links) {
+		_.pullAllWith(this._links, links, (v1, v2) => { return v1.isSame(v2); });
 	}
 	/**
 	*/

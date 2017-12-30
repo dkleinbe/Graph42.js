@@ -121,7 +121,7 @@ export default {
 			var graphEditor = this.context.getContext()['graphEditor'];
 			var thegraph = graphEditor._graph;
 
-			if (relation.checked) {
+			/*if (relation.checked || 1) {*/
 				let selectedRelations = this.relations.reduce((acc, curr) => {
 					if (curr.checked) {
 						return acc.concat(curr.relation)
@@ -138,15 +138,16 @@ export default {
 				}, []);
 
 				grdb.getGraphByRelationship(selectedRoles, selectedRelations, 2500).then(graph => {
-					thegraph.addNodeSet(graph.nodes);
-					thegraph.addLinkSet(graph.links);
+					thegraph.updateNodeSet(graph.nodes);
+					thegraph.updateLinkSet(graph.links);
 					this.render();
 				});
+				/*
 			}
 			else {
 				thegraph.removeLinksByTypes([relation.relation]);
 				this.render();
-			}
+			}*/
 		},
 		showRoles: function() {
 
