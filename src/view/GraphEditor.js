@@ -156,6 +156,7 @@ export class GraphEditor {
         // add path line
         newLinks.append("path")
         	.attr("class", "text-link")
+        	.style('fill', "none")
             .attr("id", (d, i) => {
                 return 'edgepath' + d.identity
             });
@@ -164,6 +165,7 @@ export class GraphEditor {
         newLinks.append("path")
         	.attr("class", "link")
             .style('stroke-width', 2)
+            .style('fill', "none")
             .style('marker-end', 'url(#end-arrow)');
 
         // add label on path
@@ -285,15 +287,60 @@ export class GraphEditor {
         //
         nodes = nodes.merge(newNodes);
         this._nodes = nodes;
+
+    // DATA FORMATTING
+
+	    _.each(graph.links, function(link) {
+
+	        // find other links with same target+source or source+target
+	        var same = _.filter(graph.links, (l) => { return (l.target.isSame(link.target) && l.source.isSame(link.source)) });
+	        var sameAlt = _.filter(graph.links, (l) => { return (l.target.isSame(link.source) && l.source.isSame(link.target)) });
+	        var sameAll = same.concat(sameAlt);
+
+	        _.each(sameAll, function(s, i) {
+	        	//s.sameNone = false;
+	            s.sameIndex = (i + 1);
+	            s.sameTotal = sameAll.length;
+	            s.sameTotalHalf = (s.sameTotal / 2);
+	            s.sameUneven = ((s.sameTotal % 2) !== 0);
+	            s.sameMiddleLink = ((s.sameUneven === true) && (Math.ceil(s.sameTotalHalf) === s.sameIndex));
+	            s.sameLowerHalf = (s.sameIndex <= s.sameTotalHalf);
+	            s.sameArcDirection = s.sameLowerHalf ? 0 : 1;
+	            s.sameIndexCorrected = s.sameLowerHalf ? s.sameIndex : (s.sameIndex - Math.ceil(s.sameTotalHalf));
+	        });
+
+	        if (sameAll.length > 1)
+	        	console.log(sameAll.length)
+	        else {
+		        //link.sameNone = true;
+		        link.sameTotal = 0;	        	
+	        }
+	    });
+
+	    if (graph.links.length != 0) {
+	    var maxSame = _.chain(graph.links)
+		        .sortBy(function(x) {
+		            return x.sameTotal;
+		        })
+		        .last()
+		        .value().sameTotal;
+	       }
+	    _.each(graph.links, function(link) {
+	        link.maxSameHalf = Math.floor(maxSame / 3) + 1;
+	    });        
         //
         // force feed algo ticks
         //
         this._forceSim.on("tick", () => {
         	// relation link with arrow
+        	/*
         	path.attr('d', function(d) {
         		return 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
-        	});
+        	});*/
+        	path.attr('d', (d) => this.linkArc(d));
+        	textPath.attr('d', (d) => this.linkArc(d, true));
         	// text underling path
+        	/*
             textPath.attr('d', function(d) {
             	// switch path direction to keep text in proper orientation
             	var path;
@@ -305,7 +352,7 @@ export class GraphEditor {
                 }
                 
                 return path
-            });
+            });*/
             // move node
             nodes.attr("transform", function(d, i) {
                 return "translate(" + d.x + "," + d.y + ")";
@@ -323,6 +370,31 @@ export class GraphEditor {
         else
             this._forceSim.force("charge").strength(-1000);
         this._forceSim = this._forceSim.alpha(0.3).restart();
+    }
+    // ARC CALCULATION
+
+    // some more info: http://stackoverflow.com/questions/11368339/drawing-multiple-edges-between-two-nodes-with-d3
+    linkArc(d, orient) {
+
+        var dx = (d.target.x - d.source.x),
+            dy = (d.target.y - d.source.y),
+            dr = Math.sqrt(dx * dx + dy * dy),
+            unevenCorrection = (d.sameUneven ? 0 : 0.5),
+            arc = ((dr * d.maxSameHalf) / (d.sameIndexCorrected - unevenCorrection));
+
+        if (d.sameMiddleLink) {
+            arc = 0;
+        }
+        if (orient === true) {
+        	var path;
+            if (d.target.x > d.source.x) 
+            	return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
+            else 
+            	return "M" + d.target.x + "," + d.target.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.source.x + "," + d.source.y;
+            
+        }
+        else
+        	return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
     }
 
     isShiftDown() {
