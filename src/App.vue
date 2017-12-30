@@ -158,6 +158,9 @@ export default {
   stroke-width: 1.5px;
 }
 
+.node>text {
+    stroke-width: 0px;
+}
 /*
 .node>circle {
   fill: #888;
