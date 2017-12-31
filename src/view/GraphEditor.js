@@ -153,20 +153,20 @@ export class GraphEditor {
                 this._fsm.evaluate("click", d, links[i]);
             });
 
-        // add path line
+        // add path and arrow
+        newLinks.append("path")
+        	.attr("class", "link")
+            .style('stroke-width', 2)
+            .style('fill', "none")
+            .style('marker-end', 'url(#end-arrow)');
+
+        // add path for text
         newLinks.append("path")
         	.attr("class", "text-link")
         	.style('fill', "none")
             .attr("id", (d, i) => {
                 return 'edgepath' + d.identity
             });
-
-        // add path for text and arrow
-        newLinks.append("path")
-        	.attr("class", "link")
-            .style('stroke-width', 2)
-            .style('fill', "none")
-            .style('marker-end', 'url(#end-arrow)');
 
         // add label on path
         var edgeLabels = newLinks.append('text').style('stroke-width', 0);

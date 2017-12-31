@@ -187,6 +187,7 @@ export default {
   stroke: #999;
   stroke-opacity: .6;
   stroke-width: 2px;
+  pointer-events: stroke;
 }
 
 .link.over {
