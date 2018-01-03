@@ -8,6 +8,103 @@ import {
 }
 from "./fsm/GraphEditorSM";
 
+class ForcesSimulation {
+	constructor(width, height, graph) {
+
+		this._width = width;
+		this._height = height;
+		this._graph = graph;
+
+		this._forceProperties = {
+		    center: {
+		        x: 0.5,
+		        y: 0.5
+		    },
+		    charge: {
+		        enabled: true,
+		        strength: -80,
+		        distanceMin: 1,
+		        distanceMax: 2000
+		    },
+		    collide: {
+		        enabled: true,
+		        strength: .7,
+		        iterations: 1,
+		        radius: 35
+		    },
+		    forceX: {
+		        enabled: false,
+		        strength: .1,
+		        x: .5
+		    },
+		    forceY: {
+		        enabled: false,
+		        strength: .1,
+		        y: .5
+		    },
+		    link: {
+		        enabled: true,
+		        distance: 180,
+		        iterations: 1
+		    }
+		}
+
+		this._simulation = d3.forceSimulation();
+
+	}
+	get forcesProperties() { return this._forceProperties; }
+	get forcesSimulation() { return this._simulation; }
+	/**
+	*/
+	initializeForces() {
+    // add forces and associate each with a name
+	    this._simulation
+	        .force("link", d3.forceLink())
+	        .force("charge", d3.forceManyBody())
+	        .force("collide", d3.forceCollide())
+	        .force("center", d3.forceCenter())
+	        .force("forceX", d3.forceX())
+	        .force("forceY", d3.forceY());
+	    	// apply properties to each of the forces
+    	this.updateForces();
+	}
+	/**
+	apply new force properties
+	*/
+	updateForces() {
+    // get each force by name and update the properties
+    	let forceProperties = this._forceProperties;
+
+	    this._simulation.force("center")
+	        .x(this._width * forceProperties.center.x)
+	        .y(this._height * forceProperties.center.y);
+	    this._simulation.force("charge")
+	        .strength(forceProperties.charge.strength * forceProperties.charge.enabled)
+	        .distanceMin(forceProperties.charge.distanceMin)
+	        .distanceMax(forceProperties.charge.distanceMax);
+	    this._simulation.force("collide")
+	        .strength(forceProperties.collide.strength * forceProperties.collide.enabled)
+	        .radius(forceProperties.collide.radius)
+	        .iterations(forceProperties.collide.iterations);
+	        
+	    this._simulation.force("forceX")
+	        .strength(forceProperties.forceX.strength * forceProperties.forceX.enabled)
+	        .x(this._width * forceProperties.forceX.x);
+	    this._simulation.force("forceY")
+	        .strength(forceProperties.forceY.strength * forceProperties.forceY.enabled)
+	        .y(this._height * forceProperties.forceY.y);
+	    this._simulation.force("link")
+	        .id(function(d) {return d.id;})
+	        .distance(forceProperties.link.distance)
+	        .iterations(forceProperties.link.iterations)
+	        .links(forceProperties.link.enabled ? this._graph.links : []);
+
+	    // updates ignored until this is run
+	    // restarts the simulation (important if simulation has already slowed down)
+	    this._simulation.alpha(1).restart();
+	}
+
+}
 //var model = new state.StateMachine("model");
 /**
 Class to access GraphEditor
@@ -68,19 +165,9 @@ export class GraphEditor {
         var dragSvg = d3.zoom().on("zoom", () => this.zoomed());
         this._svg.call(dragSvg);
 
-        this._forceSim = d3.forceSimulation()
-        	.force("charge", d3.forceManyBody(-200))
-            .force("center", d3.forceCenter(width / 2, height / 2));
-        this._forceSim.force("charge").strength(-100).distanceMax(150);
-
-        this._forceSim.force("collide", d3.forceCollide())
-        this._forceSim.force("collide")
-        	.strength(0.7)
-        	.radius(30)
-        	.iterations(1);
-
-        this._forceSim.force("link", d3.forceLink());
-        this._forceSim.force("link").distance(160);
+		this._forces = new ForcesSimulation(width, height, this._graph);
+		this._forces.initializeForces();
+		this._forceSim = this._forces.forcesSimulation;
 
         this._links = canvas.append("g").selectAll(".link");
         this._nodes = canvas.append("g").selectAll(".node");
@@ -123,6 +210,24 @@ export class GraphEditor {
     renderGraph(graph) {
         this._graph = graph;
         this.render();
+    }
+    /**
+    restart simulation
+    */
+    restartSimulation() {
+    	        //
+        // restart simulation
+        //
+        let graph = this._graph;
+        this._forceSim.nodes(graph.nodes);
+        this._forceSim.force("link").links(graph.links);
+        /*
+        if (graph.links.length == 0)
+            this._forceSim.force("charge").strength(-10);
+        else
+            this._forceSim.force("charge").strength(-1000);
+        */
+        this._forces.updateForces();
     }
     /**
      **/
@@ -333,26 +438,10 @@ export class GraphEditor {
         //
         this._forceSim.on("tick", () => {
         	// relation link with arrow
-        	/*
-        	path.attr('d', function(d) {
-        		return 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
-        	});*/
+
         	path.attr('d', (d) => this.linkArc(d));
         	textPath.attr('d', (d) => this.linkArc(d, true));
-        	// text underling path
-        	/*
-            textPath.attr('d', function(d) {
-            	// switch path direction to keep text in proper orientation
-            	var path;
-            	if (d.target.x > d.source.x) {
-                	path = 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
-                }
-                else {
-                	path = 'M ' + d.target.x + ' ' + d.target.y + ' L ' + d.source.x + ' ' + d.source.y;
-                }
-                
-                return path
-            });*/
+
             // move node
             nodes.attr("transform", function(d, i) {
                 return "translate(" + d.x + "," + d.y + ")";
@@ -363,17 +452,13 @@ export class GraphEditor {
         //
         // restart simulation
         //
-        this._forceSim.nodes(graph.nodes);
-        this._forceSim.force("link").links(graph.links);
-        if (graph.links.length == 0)
-            this._forceSim.force("charge").strength(-10);
-        else
-            this._forceSim.force("charge").strength(-1000);
-        this._forceSim = this._forceSim.alpha(0.3).restart();
-    }
-    // ARC CALCULATION
+        this.restartSimulation();
 
-    // some more info: http://stackoverflow.com/questions/11368339/drawing-multiple-edges-between-two-nodes-with-d3
+    }
+    /**
+     ARC CALCULATION
+     some more info: http://stackoverflow.com/questions/11368339/drawing-multiple-edges-between-two-nodes-with-d3
+    */
     linkArc(d, orient) {
 
         var dx = (d.target.x - d.source.x),

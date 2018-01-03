@@ -2,7 +2,9 @@
 <v-app>
   <v-navigation-drawer persistent
                        :mini-variant="miniVariant"
-                       :clipped="clipped"
+                       clipped
+                       dark
+                       fixed
                        v-model="drawer"
                        enable-resize-watcher
                        app>
@@ -43,7 +45,7 @@
       <v-icon>menu</v-icon>
     </v-btn>
   </v-toolbar>
-  <main>
+  
     <v-content>
       <v-container fluid
                    fill-height>
@@ -53,19 +55,175 @@
         </v-layout>
       </v-container>
     </v-content>
-  </main>
+  
   <v-navigation-drawer temporary
-                       :right="right"
+                       right
+                       fixed
+                       dark
                        v-model="rightDrawer"
                        app>
     <v-list>
-      <v-list-tile @click.native="right = !right">
+      <v-list-tile @click.stop="right = !right">
         <v-list-tile-action>
           <v-icon>compare_arrows</v-icon>
         </v-list-tile-action>
         <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
       </v-list-tile>
     </v-list>
+    <v-expansion-panel v-if="loaded === true" popout expand>
+      <v-expansion-panel-content>
+        <div slot="header">Center</div>
+        <v-card class="e4">
+          <v-card-text>
+            <v-slider label="X"
+                      v-bind:min="0"
+                      v-bind:max="1"
+                      v-bind:step="0.01"
+                      v-model="forcesProperties.center.x"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>
+            <v-slider label="Y"
+                      v-bind:min="0"
+                      v-bind:max="1"
+                      v-bind:step="0.01"
+                      v-model="forcesProperties.center.y"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>                      
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+      <v-expansion-panel-content>
+        <div slot="header">Charge</div>
+        <v-card class="e4">
+          <v-card-text>
+            <v-checkbox label="enabled" 
+                        v-on:change="restartSimulation"
+                        v-model="forcesProperties.charge.enabled" 
+                        light></v-checkbox>
+            <v-slider label="strength"
+                      v-bind:min="-200"
+                      v-bind:max="40"
+                      v-bind:step="1"
+                      v-model="forcesProperties.charge.strength"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>
+            <v-slider label="distance min"
+                      v-bind:min="0"
+                      v-bind:max="2000"
+                      v-bind:step="1"
+                      v-model="forcesProperties.charge.distanceMin"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>    
+            <v-slider label="distance max"
+                      v-bind:min="0"
+                      v-bind:max="2000"
+                      v-bind:step="1"
+                      v-model="forcesProperties.charge.distanceMax"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>                                              
+          </v-card-text>
+        </v-card>        
+      </v-expansion-panel-content>
+      <v-expansion-panel-content>
+        <div slot="header">Collide</div>
+        <v-card class="e4">
+          <v-card-text>
+            <v-checkbox label="enabled" 
+                        v-on:change="restartSimulation"
+                        v-model="forcesProperties.collide.enabled" 
+                        light></v-checkbox>            
+            <v-slider label="strength"
+                      v-bind:min="-0"
+                      v-bind:max="1"
+                      v-bind:step="0.01"
+                      v-model="forcesProperties.collide.strength"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>
+            <v-slider label="iterations"
+                      v-bind:min="0"
+                      v-bind:max="10"
+                      v-bind:step="1"
+                      v-model="forcesProperties.collide.iterations"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>    
+            <v-slider label="radius"
+                      v-bind:min="0"
+                      v-bind:max="50"
+                      v-bind:step="1"
+                      v-model="forcesProperties.collide.radius"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>                                              
+          </v-card-text>
+        </v-card>        
+      </v-expansion-panel-content>   
+      <v-expansion-panel-content>
+        <div slot="header">Link distance</div>
+        <v-card class="e4">
+          <v-card-text>
+            <v-checkbox label="enabled" 
+                        v-on:change="restartSimulation"
+                        v-model="forcesProperties.link.enabled" 
+                        light></v-checkbox>                  
+            <v-slider label="distance"
+                      v-bind:min="0"
+                      v-bind:max="1000"
+                      v-bind:step="1"
+                      v-model="forcesProperties.link.distance"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>
+            <v-slider label="iterations"
+                      v-bind:min="0"
+                      v-bind:max="20"
+                      v-bind:step="0.01"
+                      v-model="forcesProperties.link.iterations"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>                                                 
+          </v-card-text>
+        </v-card>        
+      </v-expansion-panel-content>          
+      <v-expansion-panel-content>
+        <div slot="header">forceX</div>
+        <v-card class="e4">
+          <v-card-text>
+            <v-slider label="strength"
+                      v-bind:min="0"
+                      v-bind:max="1"
+                      v-bind:step="0.01"
+                      v-model="forcesProperties.forceX.strength"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>
+            <v-slider label="x"
+                      v-bind:min="0"
+                      v-bind:max="1"
+                      v-bind:step="0.01"
+                      v-model="forcesProperties.forceX.x"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>                                                 
+          </v-card-text>
+        </v-card>        
+      </v-expansion-panel-content>
+      <v-expansion-panel-content>
+        <div slot="header">forceY</div>
+        <v-card class="e4">
+          <v-card-text>
+            <v-slider label="strength"
+                      v-bind:min="0"
+                      v-bind:max="1"
+                      v-bind:step="0.01"
+                      v-model="forcesProperties.forceY.strength"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>
+            <v-slider label="x"
+                      v-bind:min="0"
+                      v-bind:max="1"
+                      v-bind:step="0.01"
+                      v-model="forcesProperties.forceY.x"
+                      v-on:input="restartSimulation"
+                      thumb-label></v-slider>                                                 
+          </v-card-text>
+        </v-card>        
+      </v-expansion-panel-content>               
+    </v-expansion-panel>
   </v-navigation-drawer>
   <v-footer :fixed="fixed"
             app>
@@ -116,11 +274,17 @@ export default {
             right: true,
             rightDrawer: false,
             title: 'Graph42js',
-            forceActivity: 0
+            forceActivity: 0,
+            red: 0,
+            loaded: false,
+            forcesProperties: {}
         }
     },
-    computed: {
-
+    methods: {
+        restartSimulation: function(){
+            if (this.loaded)
+                _context.getContext()['graphEditor'].restartSimulation();
+        }
     },
     beforeCreate() {
         // this.graph = new Graph()      
@@ -131,12 +295,14 @@ export default {
             .attr('width', '100%').attr('height', '100%')
             .attr('pointer-events', 'all')
 
-        var graph = new Graph();
+        var graph = new Graph()
 
         var graphEditor = new GraphEditor(svg, graph)
         graphEditor.addTickListener((alpha) => this.forceActivity = alpha * 100)
         this.context.addContextKeyValue('graphEditor', graphEditor)
 
+        this.forcesProperties = _context.getContext()['graphEditor']._forces.forcesProperties;
+        this.loaded = true;
         grdb.connect()
     }
 }
@@ -159,8 +325,9 @@ export default {
 }
 
 .node>text {
-    stroke-width: 0px;
+  stroke-width: 0px;
 }
+
 /*
 .node>circle {
   fill: #888;
