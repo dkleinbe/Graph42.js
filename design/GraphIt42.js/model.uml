@@ -116,7 +116,7 @@
         <effect xmi:type="uml:OpaqueBehavior" xmi:id="_zvOa4Lm1Eeei4vW41dEgbw" name="unHighlightNode"/>
         <trigger xmi:id="_zvPB8Lm1Eeei4vW41dEgbw" name="mouseleave_link"/>
       </transition>
-      <transition xmi:id="_gYlhsLv3Eee17qOKs27_SA" source="_D5Yse7miEeei4vW41dEgbw" target="_QGB5MLv3Eee17qOKs27_SA">
+      <transition xmi:id="_gYlhsLv3Eee17qOKs27_SA" source="_dkUuMPMJEeeInIuAb5nSQg" target="_QGB5MLv3Eee17qOKs27_SA">
         <trigger xmi:id="_AYS5MOzEEeeKcrO4PnygXg" name="node_dragged"/>
       </transition>
       <transition xmi:id="_esQTALwIEee17qOKs27_SA" name="CreateLink-CreateLink" source="_D5YsgLmiEeei4vW41dEgbw" target="_D5YsgLmiEeei4vW41dEgbw">
@@ -129,6 +129,13 @@
       <transition xmi:id="_cL89kLzFEee17qOKs27_SA" source="_D5YsermiEeei4vW41dEgbw" target="_D5YsermiEeei4vW41dEgbw">
         <effect xmi:type="uml:OpaqueBehavior" xmi:id="_8IhA0rzFEee17qOKs27_SA" name="deleteSelection"/>
         <trigger xmi:id="_vSWmsLzFEee17qOKs27_SA" name="BACKSPACE_KEY"/>
+      </transition>
+      <transition xmi:id="_qZBIsPMJEeeInIuAb5nSQg" source="_D5Yse7miEeei4vW41dEgbw" target="_dkUuMPMJEeeInIuAb5nSQg">
+        <trigger xmi:id="_7RXl4PMJEeeInIuAb5nSQg" name="drag_node_started"/>
+      </transition>
+      <transition xmi:id="_CmUaMPMKEeeInIuAb5nSQg" source="_dkUuMPMJEeeInIuAb5nSQg" target="_D5Yse7miEeei4vW41dEgbw">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_H6S1QPMKEeeInIuAb5nSQg" name="selectNode"/>
+        <trigger xmi:id="_H6cmQPMKEeeInIuAb5nSQg" name="click"/>
       </transition>
       <subvertex xmi:type="uml:Pseudostate" xmi:id="_D5YsebmiEeei4vW41dEgbw" name="Initial"/>
       <subvertex xmi:type="uml:State" xmi:id="_D5YsermiEeei4vW41dEgbw" name="Idle"/>
@@ -145,6 +152,7 @@
       </subvertex>
       <subvertex xmi:type="uml:State" xmi:id="_qSHcsLm0Eeei4vW41dEgbw" name="HoveringLink"/>
       <subvertex xmi:type="uml:Pseudostate" xmi:id="_QGB5MLv3Eee17qOKs27_SA" name="IsNodeSelected" kind="choice"/>
+      <subvertex xmi:type="uml:State" xmi:id="_dkUuMPMJEeeInIuAb5nSQg" name="DragNodeStarted"/>
     </region>
   </packagedElement>
 </uml:Model>
