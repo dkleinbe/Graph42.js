@@ -62,14 +62,7 @@
                        dark
                        v-model="rightDrawer"
                        app>
-    <v-list>
-      <v-list-tile @click.stop="right = !right">
-        <v-list-tile-action>
-          <v-icon>compare_arrows</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-      </v-list-tile>
-    </v-list>
+
     <v-expansion-panel v-if="loaded === true" popout expand>
       <v-expansion-panel-content>
         <div slot="header">Center</div>
@@ -99,7 +92,7 @@
             <v-checkbox label="enabled" 
                         v-on:change="restartSimulation"
                         v-model="forcesProperties.charge.enabled" 
-                        light></v-checkbox>
+                        ></v-checkbox>
             <v-slider label="strength"
                       v-bind:min="-200"
                       v-bind:max="40"
@@ -131,7 +124,7 @@
             <v-checkbox label="enabled" 
                         v-on:change="restartSimulation"
                         v-model="forcesProperties.collide.enabled" 
-                        light></v-checkbox>            
+                        ></v-checkbox>            
             <v-slider label="strength"
                       v-bind:min="-0"
                       v-bind:max="1"
@@ -163,7 +156,7 @@
             <v-checkbox label="enabled" 
                         v-on:change="restartSimulation"
                         v-model="forcesProperties.link.enabled" 
-                        light></v-checkbox>                  
+                        ></v-checkbox>                  
             <v-slider label="distance"
                       v-bind:min="0"
                       v-bind:max="1000"
@@ -174,7 +167,7 @@
             <v-slider label="iterations"
                       v-bind:min="0"
                       v-bind:max="20"
-                      v-bind:step="0.01"
+                      v-bind:step="1"
                       v-model="forcesProperties.link.iterations"
                       v-on:input="restartSimulation"
                       thumb-label></v-slider>                                                 
