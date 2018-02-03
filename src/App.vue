@@ -20,6 +20,7 @@
         </v-list-tile-content>
       </v-list-tile>
       <roles :context="context"></roles>
+      <ItemProperties :context="context"></ItemProperties>
     </v-list>
   </v-navigation-drawer>
   <v-toolbar fixed
@@ -233,15 +234,20 @@ import { grdb } from './GraphDatabase';
 import { GraphEditor } from './view/GraphEditor';
 import { Graph } from './models/Graph';
 import Roles from './view/Roles.vue';
+import ItemProperties from './view/ItemProperties.vue'
 
 var theContext = {}
 
 class Context {
+    constructor() {
+        this.touch = 0;
+    }
     getContext() {
         return theContext
     }
     addContextKeyValue(key, value) {
         theContext[key] = value
+        this.touch = this.touch + 1;
     }
 }
 
@@ -249,7 +255,8 @@ var _context = new Context()
 
 export default {
     components: {
-        Roles
+        Roles,
+        ItemProperties
     },
     data() {
         return {
@@ -277,6 +284,7 @@ export default {
         restartSimulation: function(){
             if (this.loaded)
                 _context.getContext()['graphEditor'].restartSimulation();
+            this.context.touch = this.context.touch + 1;
         }
     },
     beforeCreate() {
