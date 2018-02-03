@@ -1,10 +1,19 @@
 <template>
 	<div class="item-properties">
-		<span>{{context}} : {{context.touch}} selection: {{selection}}</span>
+		<!-- <span>{{context}} : {{context.touch}} selection: {{selection}}</span> -->
 		<ul v-if="selection._nodeSelection != null">
-			<li v-for="(value, propName, index) in selection._nodeSelection.properties">
-				{{propName}}: {{value}} [{{index}}]
-			</li>
+			<v-container fluid class="px-3">
+            	<v-layout row wrap>
+            		<v-flex xs12 v-for="(value, propName, index) in selection._nodeSelection.properties" :key="index">
+            			<v-text-field
+              				:name="propName"
+              				:label="propName"
+              				:value="value"
+              				:id="index"
+            			></v-text-field>
+            		</v-flex>
+            	</v-layout>
+            </v-container>
 		</ul>
 	</div>
 </template>
@@ -27,16 +36,11 @@
 		},
 		watch: {
 			'context.touch': function (oldVal, newVal) {
-				console.log('CONTEXT')
+				console.log('CONTEXT CHANGED')
 				let graphEditor = this.context.getContext()['graphEditor'];
-				if (graphEditor._selection) {
-					//this.selection = _.clone(graphEditor._nodeSelection.properties, true) ;
-					this.selection = graphEditor._selection;
-				}
-				else {
-					this.selection = {item: 'none'}
-				}
-				//this.selection = {name: 'bidule', touch: newVal}
+				
+				this.selection = graphEditor._selection;
+				
 			},
 		}
 	}

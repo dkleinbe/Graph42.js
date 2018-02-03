@@ -184,9 +184,6 @@ export class GraphEditor {
         this._links = canvas.append("g").selectAll(".link");
         this._nodes = canvas.append("g").selectAll(".node");
 
-        this._selection._nodeSelection = null;
-        this._selection._nodeSelection = { properties: {name: 'bidule'} };
-        
         this._relationSelection = null;
         this._targetNode = null;
         this.initFSM();
