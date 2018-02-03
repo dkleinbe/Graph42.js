@@ -112,7 +112,10 @@ export class Graph {
 export class Node {
 	constructor(node) {
 		_.extend(this, node);
+		// hide _graph property so that Vue.js wont observe it
+		Object.defineProperty(this, '_graph', { writable: true, enumerable: false });
 		this._graph = undefined;
+
 	}
 	get key() { return this.identity.toString(); }
 	get label() { return this.labels[0]; }
@@ -122,6 +125,8 @@ export class Node {
 export class Link {
 	constructor(link) {
 		_.extend(this, link);
+		// hide _graph property so that Vue.js wont observe it
+		Object.defineProperty(this, '_graph', { writable: true, enumerable: false });
 		this._graph = undefined;
 	}
 	get source() { return _.find(this._graph._nodes, (n) => { return Graph.isSameIdentity(n.identity, this.start); }); }

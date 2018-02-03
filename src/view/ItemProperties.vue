@@ -1,8 +1,8 @@
 <template>
 	<div class="item-properties">
 		<span>{{context}} : {{context.touch}} selection: {{selection}}</span>
-		<ul>
-			<li v-for="(value, propName, index) in selection.properties">
+		<ul v-if="selection._nodeSelection != null">
+			<li v-for="(value, propName, index) in selection._nodeSelection.properties">
 				{{propName}}: {{value}} [{{index}}]
 			</li>
 		</ul>
@@ -29,9 +29,9 @@
 			'context.touch': function (oldVal, newVal) {
 				console.log('CONTEXT')
 				let graphEditor = this.context.getContext()['graphEditor'];
-				if (graphEditor._nodeSelection) {
-					this.selection = _.clone(graphEditor._nodeSelection.properties, true) ;
-					//this.selection = graphEditor._nodeSelection.properties;
+				if (graphEditor._selection) {
+					//this.selection = _.clone(graphEditor._nodeSelection.properties, true) ;
+					this.selection = graphEditor._selection;
 				}
 				else {
 					this.selection = {item: 'none'}

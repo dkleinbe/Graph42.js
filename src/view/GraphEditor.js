@@ -8,6 +8,9 @@ import {
 }
 from "./fsm/GraphEditorSM";
 
+/**
+Class to define force simulation parameters
+**/
 class ForcesSimulation {
 	constructor(width, height, graph) {
 
@@ -105,6 +108,14 @@ class ForcesSimulation {
 	}
 
 }
+
+class Selection {
+	/**
+	**/
+	constructor() {
+		this._nodeSelection = null;
+	}
+}
 //var model = new state.StateMachine("model");
 /**
 Class to access GraphEditor
@@ -118,6 +129,7 @@ export class GraphEditor {
         this._svg = svg;
         this._graph = graph;
         this._nodesTypesParameters = new Map();
+        this._selection = new Selection();
 
         var width = parseInt(svg.style('width')),
             height = parseInt(svg.style('height'));
@@ -172,8 +184,8 @@ export class GraphEditor {
         this._links = canvas.append("g").selectAll(".link");
         this._nodes = canvas.append("g").selectAll(".node");
 
-        this._nodeSelection = null;
-        this._nodeSelection = { properties: {name: 'bidule'} };
+        this._selection._nodeSelection = null;
+        this._selection._nodeSelection = { properties: {name: 'bidule'} };
         
         this._relationSelection = null;
         this._targetNode = null;
@@ -493,7 +505,7 @@ export class GraphEditor {
     }
 
     isSelectedNode(n) {
-        return n === this._nodeSelection;
+        return n === this._selection._nodeSelection;
     }
 
     filterDrag() {
@@ -574,11 +586,11 @@ export class GraphEditor {
 
     addRelation(d, n) {
         var newRel = {
-            source: this._nodeSelection,
+            source: this._selection._nodeSelection,
             target: this._targetNode
         };
         //this._graph.links.push(newRel);
-        this._graph.addLink(this._nodeSelection, this._targetNode);
+        this._graph.addLink(this._selection._nodeSelection, this._targetNode);
         this.dragLineVisibility(false);
         this.renderGraph(this._graph);
     }
@@ -587,9 +599,9 @@ export class GraphEditor {
         //
         // delete nodes
         //
-        if (this._nodeSelection != null) {
-            this._graph.nodes.splice(this._graph.nodes.indexOf(this._nodeSelection), 1);
-            this.spliceLinksForNode(this._nodeSelection);
+        if (this._selection._nodeSelection != null) {
+            this._graph.nodes.splice(this._graph.nodes.indexOf(this._selection._nodeSelection), 1);
+            this.spliceLinksForNode(this._selection._nodeSelection);
         }
         //
         // delete relations
@@ -623,8 +635,8 @@ export class GraphEditor {
     selectNode(d, n) {
     	// select or deselect node
         // deselect node, re-highlight it
-    	if (d == this._nodeSelection) {
-    		this._nodeSelection = null;	
+    	if (d == this._selection._nodeSelection) {
+    		this._selection._nodeSelection = null;	
     		this.unselectAll();
 
         	this.highlightNode(d, n);
@@ -635,7 +647,7 @@ export class GraphEditor {
     		this.unselectAll();
 	        this.unHighlightNode(d, n);
         	d3.select(n).classed('selected', true);
-        	this._nodeSelection = d;
+        	this._selection._nodeSelection = d;
     	}
     }
 
@@ -647,7 +659,7 @@ export class GraphEditor {
 
     unselectAll() {
         d3.selectAll(".node, .link").classed('selected', false);
-        this._nodeSelection = null;
+        this._selection._nodeSelection = null;
         this._relationSelection = null;
     }
 
