@@ -1,8 +1,8 @@
 /** @module GraphEditor */
-'use strict';
+"use strict";
 
-var _ = require('lodash');
-//import * as state from "@steelbreeze/state";
+var _ = require("lodash");
+// import * as state from "@steelbreeze/state";
 import {
     GraphEditorSM
 }
@@ -31,19 +31,19 @@ class ForcesSimulation {
 		    },
 		    collide: {
 		        enabled: true,
-		        strength: .7,
+				strength: 0.7,
 		        iterations: 1,
 		        radius: 35
 		    },
 		    forceX: {
 		        enabled: false,
-		        strength: .1,
-		        x: .5
+				strength: 0.1,
+				x: 0.5
 		    },
 		    forceY: {
 		        enabled: false,
-		        strength: .1,
-		        y: .5
+				strength: 0.1,
+				y: 0.5
 		    },
 		    link: {
 		        enabled: true,
@@ -97,7 +97,7 @@ class ForcesSimulation {
 	        .strength(forceProperties.forceY.strength * forceProperties.forceY.enabled)
 	        .y(this._height * forceProperties.forceY.y);
 	    this._simulation.force("link")
-	        .id(function(d) {return d.id;})
+			.id(function(d) { return d.id; })
 	        .distance(forceProperties.link.distance)
 	        .iterations(forceProperties.link.iterations)
 	        .links(forceProperties.link.enabled ? this._graph.links : []);
@@ -116,7 +116,7 @@ class Selection {
 		this._nodeSelection = null;
 	}
 }
-//var model = new state.StateMachine("model");
+// var model = new state.StateMachine("model");
 /**
 Class to access GraphEditor
 **/
@@ -124,48 +124,59 @@ export class GraphEditor {
     /**
      **/
     constructor(svg, graph) {
-
         this._tickListeners = [];
         this._svg = svg;
         this._graph = graph;
         this._nodesTypesParameters = new Map();
         this._selection = new Selection();
 
-        var width = parseInt(svg.style('width')),
-            height = parseInt(svg.style('height'));
+		var width = parseInt(svg.style("width"));
+		var	height = parseInt(svg.style("height"));
 
         // define arrow markers for graph links
-        var defs = svg.append('svg:defs');
-        defs.append('svg:marker')
-            .attr('id', 'end-arrow')
-            .attr('viewBox', '0 -5 10 10')
-            .attr('refX', "52")
-            .attr('markerWidth', 3.5)
-            .attr('markerHeight', 3.5)
-            .attr('strokeWidth', 4)
-            .attr('orient', 'auto')
-            .append('svg:path')
-            .attr('d', 'M0,-5L10,0L0,5');
+		var defs = svg.append("svg:defs");
+		defs.append("svg:marker")
+			.attr("id", "end-arrow")
+			.attr("viewBox", "0 -5 10 10")
+			.attr("refX", "52")
+			.attr("markerWidth", 3.5)
+			.attr("markerHeight", 3.5)
+			.attr("strokeWidth", 4)
+			.attr("orient", "auto")
+			.append("svg:path")
+			.attr("d", "M0,-5L10,0L0,5");
 
-        //add encompassing group for the zoom 
+		// add encompassing group for the zoom
 		var canvas = svg.append("g").attr("class", "canvas");
 		this._canvas = canvas;
 
-        this._dragline = canvas.append('svg:path')
-            .attr('class', 'link dragline hidden')
-            .attr('d', 'M0,0L0,0');
-        //.style('marker-end', 'url(#mark-end-arrow)');
+		this._dragline = canvas.append("svg:path")
+			.attr("class", "link dragline hidden")
+			.attr("d", "M0,0L0,0");
+		// .style('marker-end', 'url(#mark-end-arrow)');
 
         // listen for key events
-        d3.select(window)
+		// d3.select(window)
+		svg
             .on("keydown", () => {
                 this.onKeyDown();
             })
             .on("keyup", () => {
                 this.onKeyUp();
+			})
+			.on("focus", function() {
+				svg.append("text")
+					.attr("x", "5")
+					.attr("y", "150")
+					.style("font-size", "50px")
+					.text("focus")
+					.transition().duration(2000)
+					.style("font-size", "5px")
+					.style("fill-opacity", ".1")
+					.remove();
             });
 
-        // list for mouse button  
+		// listen for mouse button
         this._svg.on("mouseup", () => {
             this.onMouseUp();
         });
@@ -197,7 +208,7 @@ export class GraphEditor {
     */
     setNodesTypesSet(types) {
     	// set default parameters for node rendering
-    	types.forEach((t,i) => {
+		types.forEach((t, i) => {
     		this._nodesTypesParameters.set(t, {
     			color: this._nodesColorScale(i),
     			size: 10
@@ -272,27 +283,27 @@ export class GraphEditor {
         // add path and arrow
         newLinks.append("path")
         	.attr("class", "link")
-            .style('stroke-width', 2)
-            .style('fill', "none")
-            .style('marker-end', 'url(#end-arrow)');
+			.style("stroke-width", 2)
+			.style("fill", "none")
+			.style("marker-end", "url(#end-arrow)");
 
         // add path for text
         newLinks.append("path")
         	.attr("class", "text-link")
-        	.style('fill', "none")
+			.style("fill", "none")
             .attr("id", (d, i) => {
-                return 'edgepath' + d.identity
+				return "edgepath" + d.identity
             });
 
         // add label on path
-        var edgeLabels = newLinks.append('text').style('stroke-width', 0);
+		var edgeLabels = newLinks.append("text").style("stroke-width", 0);
 
-        edgeLabels.append('textPath')
-            .attr('text-anchor', 'middle')
+		edgeLabels.append("textPath")
+			.attr("text-anchor", "middle")
             // aligns the text at the middle of the path (only with text-anchor=middle)
-            .attr('startOffset', '50%')
-            .attr('xlink:href', (d, i) => {
-                return '#edgepath' + d.identity
+			.attr("startOffset", "50%")
+			.attr("xlink:href", (d, i) => {
+				return "#edgepath" + d.identity
             })
             .text(d => {
                 return d.type;
@@ -311,13 +322,12 @@ export class GraphEditor {
         var path = links.selectAll("path.link");
         edgeLabels = links.selectAll("text");
         
-        
         //
         // Update nodes
         //
         nodes = nodes.data(graph.nodes, d => {
             return d.identity;
-        }).classed('update', true);;
+		}).classed("update", true); ;
 
         nodes.exit().remove();
         //
@@ -343,18 +353,19 @@ export class GraphEditor {
             })
             .call(d3.drag()
                 .on("start", (d, i, nodes) => {
-                    //d3.event.sourceEvent.stopPropagation();
-                    //console.log('******** START ***********');
+					// d3.event.sourceEvent.stopPropagation();
+					// console.log('******** START ***********');
                     this._fsm.evaluate("drag_node_started", d, nodes[i]);
                 })               	
             	.on("drag", (d, i, nodes) => {
-					//console.log('******** DRAG *********** dx: ' + d3.event.dx + " dy: " + d3.event.dy);
+					// console.log('******** DRAG *********** dx: ' + d3.event.dx + " dy: " + d3.event.dy);
 					// Only fire drag event if we get an effective move
-					if (d3.event.dx || d3.event.dy)
+					if (d3.event.dx || d3.event.dy) {
             			this._fsm.evaluate("node_dragged", d, nodes[i]);
+					}
             	})
                 .on("end", (d, i, nodes) => {
-                	//console.log('******** END ***********');
+					// console.log('******** END ***********');
                 	this._fsm.evaluate("drag_node_ended", d, nodes[i]);
                 })
             );
@@ -373,22 +384,21 @@ export class GraphEditor {
 
             let g = d3.select(this);
             var words = ["no name"];
-            if (n.properties.hasOwnProperty('name')) {
+			if (n.properties.hasOwnProperty("name")) {
                 words = n.properties.name.split(/\s+/g)
-            }
-            else
-            {
+			}			
+			else {
             	// get first property as label
             	words = n.properties[_.keys(n.properties)[0]].split(/\s+/g)
             }
             let t = g.append("text").attr("text-anchor", "middle");
 
             words.forEach((w, i) => {
-                let tspan = t.append('tspan').text(w);
-                if (i > 0)
-                    tspan.attr('x', 0).attr('dy', '15');
-                else
-                	tspan.attr('x', 0).attr('dy', '-15');
+				let tspan = t.append("tspan").text(w);
+				if (i > 0) {
+					tspan.attr('x', 0).attr('dy', '15');}
+				else {
+					tspan.attr('x', 0).attr('dy', '-15');}
             });
         });
         //
@@ -414,7 +424,7 @@ export class GraphEditor {
 	        var sameAll = same.concat(sameAlt);
 
 	        _.each(sameAll, function(s, i) {
-	        	//s.sameNone = false;
+				// s.sameNone = false;
 	            s.sameIndex = (i + 1);
 	            s.sameTotal = sameAll.length;
 	            s.sameTotalHalf = (s.sameTotal / 2);
@@ -425,10 +435,11 @@ export class GraphEditor {
 	            s.sameIndexCorrected = s.sameLowerHalf ? s.sameIndex : (s.sameIndex - Math.ceil(s.sameTotalHalf));
 	        });
 
-	        if (sameAll.length > 1)
-	        	console.log(sameAll.length)
+	        if (sameAll.length > 1) {
+				console.log(sameAll.length)
+			}
 	        else {
-		        //link.sameNone = true;
+				// link.sameNone = true;
 		        link.sameTotal = 0;	        	
 	        }
 	    });
@@ -450,8 +461,8 @@ export class GraphEditor {
         this._forceSim.on("tick", () => {
         	// relation link with arrow
 
-        	path.attr('d', (d) => this.linkArc(d));
-        	textPath.attr('d', (d) => this.linkArc(d, true));
+			path.attr("d", (d) => this.linkArc(d));
+			textPath.attr("d", (d) => this.linkArc(d, true));
 
             // move node
             nodes.attr("transform", function(d, i) {
@@ -483,10 +494,10 @@ export class GraphEditor {
         }
         if (orient === true) {
         	var path;
-            if (d.target.x > d.source.x) 
-            	return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
-            else 
-            	return "M" + d.target.x + "," + d.target.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.source.x + "," + d.source.y;
+			if (d.target.x > d.source.x) {
+				return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;}
+			else {
+				return "M" + d.target.x + "," + d.target.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.source.x + "," + d.source.y;}
             
         }
         else
@@ -518,7 +529,7 @@ export class GraphEditor {
 
     dragstarted(d, n) {
 
-        //if (!d3.event.active) 
+		// if (!d3.event.active)
         	this._forceSim.alphaTarget(0.3).restart();
         d.fx = d.x;
         d.fy = d.y;
@@ -536,11 +547,11 @@ export class GraphEditor {
     }
 
     dragLine(d, n) {
-        this._dragline.attr('d', 'M' + d.x + ',' + d.y + 'L' + d3.event.x + ',' + d3.event.y);
+		this._dragline.attr("d", "M" + d.x + "," + d.y + "L" + d3.event.x + "," + d3.event.y);
     }
 
     dragLineVisibility(v) {
-        this._dragline.classed('hidden', !v);
+		this._dragline.classed("hidden", !v);
     }
 
     onMouseUp() {
@@ -570,13 +581,13 @@ export class GraphEditor {
         var count = this._graph.nodes.length;
         var newNode = {
             title: "actor name" + count,
-            label: 'actor',
+			label: "actor",
             x: point[0],
             y: point[1]
         };
         this._graph.nodes.push(newNode);
-        //this._graph.links.push({source: this._graph.nodes[0], target: newNode });
-        //this._graph.links.pop();
+		// this._graph.links.push({source: this._graph.nodes[0], target: newNode });
+		// this._graph.links.pop();
         this.renderGraph(this._graph);
 
     }
@@ -586,7 +597,7 @@ export class GraphEditor {
             source: this._selection._nodeSelection,
             target: this._targetNode
         };
-        //this._graph.links.push(newRel);
+		// this._graph.links.push(newRel);
         this._graph.addLink(this._selection._nodeSelection, this._targetNode);
         this.dragLineVisibility(false);
         this.renderGraph(this._graph);
@@ -608,7 +619,10 @@ export class GraphEditor {
         }
         this.renderGraph(this._graph);
     }
-
+	/**
+		Removes all links referencing a node
+		TODO: should probably be moved to Graph class
+	*/
     spliceLinksForNode(node) {
         var toSplice = this._graph.links.filter((l) => {
             return (l.source === node || l.target === node);
@@ -619,14 +633,14 @@ export class GraphEditor {
     };
 
     highlightNode(d, n) {
-        //d.classed('update');
+		// d.classed('update');
         this._targetNode = d;
-        d3.select(n).classed('over', true);
+		d3.select(n).classed("over", true);
     }
 
     unHighlightNode(d, n) {
-        //d.classed('update');
-        d3.select(n).classed('over', false);
+		// d.classed('update');
+		d3.select(n).classed("over", false);
     }
 
     selectNode(d, n) {
@@ -640,25 +654,24 @@ export class GraphEditor {
     	}
     	// select node un-highlight it
     	else {
-    		console.log('Node selected: ' + d);
+			console.log("Node selected: " + d);
     		this.unselectAll();
 	        this.unHighlightNode(d, n);
-        	d3.select(n).classed('selected', true);
+			d3.select(n).classed("selected", true);
         	this._selection._nodeSelection = d;
     	}
     }
 
     selectLink(d, n) {
         this.unselectAll();
-        d3.select(n).classed('selected', true);
+		d3.select(n).classed("selected", true);
         this._relationSelection = d;
     }
 
     unselectAll() {
-        d3.selectAll(".node, .link").classed('selected', false);
+		d3.selectAll(".node, .link").classed("selected", false);
         this._selection._nodeSelection = null;
         this._relationSelection = null;
     }
-
 
 } /* /class */
