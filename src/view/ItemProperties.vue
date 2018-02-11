@@ -4,14 +4,25 @@
 		<ul v-if="selection._nodeSelection != null">
 			<v-container fluid class="px-3">
             	<v-layout row wrap>
-            		<v-flex xs12 v-for="(value, propName, index) in selection._nodeSelection.properties" :key="index">
-            			<v-text-field
-              				:name="propName"
-              				:label="propName"
-              				:value="value"
-              				:id="index"
-            			></v-text-field>
-            		</v-flex>
+            		<v-card>
+            			<!--
+            			<v-toolbar>
+            				<v-toolbar-title>Selection properties</v-toolbar-title>
+            			</v-toolbar>
+            			-->
+            			<v-card-text>
+            				<span class="title">{{selection._nodeSelection.label}}</span>
+            					<v-flex xs12 v-for="(value, propName, index) in selection._nodeSelection.properties" :key="index">
+            						<v-text-field 
+			              				:name="propName"
+			              				:label="propName"
+			              				:value="value"
+			              				:id="index"
+			              				v-model="selection._nodeSelection.properties[propName]"
+            						></v-text-field>
+            					</v-flex>
+            			</v-card-text>
+            		</v-card>
             	</v-layout>
             </v-container>
 		</ul>

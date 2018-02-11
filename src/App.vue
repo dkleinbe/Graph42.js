@@ -329,6 +329,17 @@ export default {
   stroke-width: 0px;
 }
 
+.p_node_text {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 60px;
+}
+.node_text {
+  text-align: center;
+  vertical-align: middle;
+  display:inline-block;
+  line-height: 1.2;
+}
 /*
 .node>circle {
   fill: #888;

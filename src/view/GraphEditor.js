@@ -380,27 +380,26 @@ export class GraphEditor {
 		//
 		// node text
 		//
-		newNodes.each(function(n, j) {
-
-			let g = d3.select(this);
-			var words = ["no name"];
-			if (n.properties.hasOwnProperty("name")) {
-				words = n.properties.name.split(/\s+/g)
-			}	else {
-				// get first property as label
-				words = n.properties[_.keys(n.properties)[0]].split(/\s+/g)
-			}
-			let t = g.append("text").attr("text-anchor", "middle");
-
-			words.forEach((w, i) => {
-				let tspan = t.append("tspan").text(w);
-				if (i > 0) {
-					tspan.attr("x", 0).attr("dy", "15");
-				}				else {
-					tspan.attr("x", 0).attr("dy", "-15");
-				}
-			});
-		});
+		newNodes.append("foreignObject")
+					.attr("requiredFeatures", "http://www.w3.org/TR/SVG11/feature#Extensibility")
+					.attr("width", 60)
+					.attr("height", 60)
+					.attr("x", -30)
+					.attr("y", -30)
+					.append("xhtml:p")
+						.attr("class", "p_node_text")
+						.style("height", "60px")
+						.style("width", "60px")
+						.style("line-height", "60px")
+						.append("tspan")
+							.attr("class", "node_text")
+							.text(d => {
+								if (d.properties.hasOwnProperty("name")) {
+									return d.properties.name;
+								} else {
+									return d.properties[_.keys(d.properties)[0]];
+								}
+							})
 		//
 		// node tooltip
 		//
@@ -499,7 +498,9 @@ export class GraphEditor {
 				return "M" + d.target.x + "," + d.target.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.source.x + "," + d.source.y;
 			}
 
-		} else        	{ return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y; }
+		} else {
+			return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
+		}
 	}
 
 	isShiftDown() {
