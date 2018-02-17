@@ -19,18 +19,22 @@
         "html"
     ],
     "rules": {
+        "quotes": "off",
         "indent": ["error", "tab"],
         "no-tabs":"off",
         "semi":"off",
         "space-before-function-paren": ["error", "never"],
         "padded-blocks": "off",
-        "quotes": ["error", "double"],
         "no-const-assign": "warn",
-        "no-this-before-super": "warn",
+        "no-this-before-super": "warn", 
         "no-undef": "warn",
         "no-unreachable": "warn",
         "no-unused-vars": "warn",
         "constructor-super": "warn",
         "valid-typeof": "warn"
+    },
+    "globals": {
+        "d3": false,
+        "_": false
     }
 }

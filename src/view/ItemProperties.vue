@@ -30,7 +30,7 @@
 </template>
 <script type="text/javascript">
 	export default {
-		name: 'item-properties',
+		name: "item-properties",
 		props: {
 			context: {
 				type: Object,
@@ -38,21 +38,36 @@
 				default: function() {
 					return {}
 				}
-			},
-		},		
+			}
+		},
 		data() {
 			return {
 				selection: { name: "toto", type: 'coucou'}
 			}
 		},
-		watch: {
-			'context.touch': function (oldVal, newVal) {
-				console.log('CONTEXT CHANGED')
+		methods: {
+			render: function() {
+
 				let graphEditor = this.context.getContext()['graphEditor'];
-				
+
+				graphEditor.updateNode();
+			}
+		},
+		watch: {
+			"context.touch": function(oldVal, newVal) {
+				console.log("CONTEXT CHANGED")
+				let graphEditor = this.context.getContext()["graphEditor"];
+	
 				this.selection = graphEditor._selection;
-				
+	
 			},
+			"selection": {
+				"handler": function(oldVal, newVal) {
+					console.log("selection changed");
+					this.render();
+				},
+				deep: true
+			}
 		}
 	}
 </script>

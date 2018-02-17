@@ -82,7 +82,7 @@ export default {
 					}
 					return acc
 				}, []);
-				
+
 				// reduce to selected roles
 				let selectedRoles = this.roles.reduce((acc, curr) => {
 					if (curr.checked) {
@@ -91,20 +91,18 @@ export default {
 					return acc
 				}, []);
 
-				if (selectedRelations.length ==0) {
+				if (selectedRelations.length === 0) {
 					grdb.getGraphNodesByLabel([role.role], 500)
-						.then(graph => { 
+						.then(graph => {
 							thegraph.addNodeSet(graph.nodes);
 							this.render();
-						})					
-				}
-				else
-				{
+						})
+				} else {
 					grdb.getGraphByRelationship(selectedRoles, selectedRelations, 2500).then(graph => {
 						thegraph.addNodeSet(graph.nodes);
 						thegraph.addLinkSet(graph.links);
 						this.render();
-					});		
+					});
 				}			
 			}
 			// remove node for unchecked role
@@ -112,7 +110,6 @@ export default {
 				thegraph.removeNodesByLabels([role.role]);
 				this.render();
 			}
-			
 		},
 		toggleRelation: function(relation) {
 

@@ -382,15 +382,15 @@ export class GraphEditor {
 		//
 		newNodes.append("foreignObject")
 					.attr("requiredFeatures", "http://www.w3.org/TR/SVG11/feature#Extensibility")
-					.attr("width", 60)
-					.attr("height", 60)
-					.attr("x", -30)
-					.attr("y", -30)
+					.attr("width", 200)
+					.attr("height", 200)
+					.attr("x", -100)
+					.attr("y", -100)
 					.append("xhtml:p")
 						.attr("class", "p_node_text")
-						.style("height", "60px")
-						.style("width", "60px")
-						.style("line-height", "60px")
+						.style("height", "200px")
+						.style("width", "200px")
+						.style("line-height", "200px")
 						.append("tspan")
 							.attr("class", "node_text")
 							.text(d => {
@@ -413,7 +413,7 @@ export class GraphEditor {
 		nodes = nodes.merge(newNodes);
 		this._nodes = nodes;
 
-	// DATA FORMATTING
+		// DATA FORMATTING
 
 		_.each(graph.links, function(link) {
 
@@ -475,6 +475,17 @@ export class GraphEditor {
 		this.restartSimulation();
 
 	}
+
+	updateNode() {
+		this._svg.selectAll(".node_text")
+			.text(d => {
+				if (d.properties.hasOwnProperty("name")) {
+					return d.properties.name;
+				} else {
+					return d.properties[_.keys(d.properties)[0]];
+				}
+			})
+	}
 	/**
 	 ARC CALCULATION
 	 some more info: http://stackoverflow.com/questions/11368339/drawing-multiple-edges-between-two-nodes-with-d3
@@ -491,7 +502,7 @@ export class GraphEditor {
 			arc = 0;
 		}
 		if (orient === true) {
-			var path;
+
 			if (d.target.x > d.source.x) {
 				return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
 			}	else {
@@ -525,7 +536,13 @@ export class GraphEditor {
 		d.fx = null;
 		d.fy = null;
 	}
-
+	/**
+	 * Restart simulation when drag starts
+	 *
+	 * @param {any} d
+	 * @param {any} n
+	 * @memberof GraphEditor
+	 */
 	dragstarted(d, n) {
 
 		// if (!d3.event.active)
