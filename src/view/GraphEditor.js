@@ -237,7 +237,7 @@ export class GraphEditor {
 	restart simulation
 	*/
 	restartSimulation() {
-				//
+		//
 		// restart simulation
 		//
 		let graph = this._graph;
@@ -546,13 +546,14 @@ export class GraphEditor {
 	dragstarted(d, n) {
 
 		// if (!d3.event.active)
-		this._forceSim.alphaTarget(0.3).restart();
+		this._forceSim.alphaTarget(0.1).restart();
 		d.fx = d.x;
 		d.fy = d.y;
 	}
 
 	dragged(d) {
 
+		// this._forceSim.alphaTarget(0.0001).restart();
 		d.fx = d3.event.x;
 		d.fy = d3.event.y;
 	}

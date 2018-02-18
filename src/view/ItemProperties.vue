@@ -12,15 +12,18 @@
             			-->
             			<v-card-text>
             				<span class="title">{{selection._nodeSelection.label}}</span>
-            					<v-flex xs12 v-for="(value, propName, index) in selection._nodeSelection.properties" :key="index">
-            						<v-text-field 
-			              				:name="propName"
-			              				:label="propName"
-			              				:value="value"
-			              				:id="index"
-			              				v-model="selection._nodeSelection.properties[propName]"
-            						></v-text-field>
-            					</v-flex>
+								<form>
+									<v-flex xs12 v-for="(value, propName, index) in selection._nodeSelection.properties" :key="index">
+										<v-text-field 
+											:name="propName"
+											:label="propName"
+											:value="value"
+											:id="index"
+											v-model="selection._nodeSelection.properties[propName]"
+										></v-text-field>
+									</v-flex>
+									<v-btn @click="submitProperties">submit</v-btn>
+								</form>
             			</v-card-text>
             		</v-card>
             	</v-layout>
@@ -51,6 +54,9 @@
 				let graphEditor = this.context.getContext()['graphEditor'];
 
 				graphEditor.updateNode();
+			},
+			submitProperties: function() {
+				this.render();
 			}
 		},
 		watch: {
@@ -64,7 +70,7 @@
 			"selection": {
 				"handler": function(oldVal, newVal) {
 					console.log("selection changed");
-					this.render();
+					// this.render();
 				},
 				deep: true
 			}
