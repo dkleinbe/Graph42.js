@@ -40,7 +40,7 @@ export default {
 		context: {
 			// type: Object,
 			required: true
-		},
+		}
 	},
 	data() {
 		return {
@@ -49,7 +49,7 @@ export default {
 			nbNodes: 0,
 			nbRelations: 0
 		}
-	},	
+	},
 	created: function() {
 
 		this.showRoles()
@@ -103,10 +103,8 @@ export default {
 						thegraph.addLinkSet(graph.links);
 						this.render();
 					});
-				}			
-			}
-			// remove node for unchecked role
-			else {
+				}
+			} else { // remove node for unchecked role
 				thegraph.removeNodesByLabels([role.role]);
 				this.render();
 			}
