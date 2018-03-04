@@ -32,6 +32,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import { grdb } from '../GraphDatabase';
 	export default {
 		name: "item-properties",
 		props: {
@@ -45,7 +46,7 @@
 		},
 		data() {
 			return {
-				selection: { name: "toto", type: 'coucou'}
+				selection: { name: "toto", type: 'coucou' }
 			}
 		},
 		methods: {
@@ -56,7 +57,12 @@
 				graphEditor.updateNode();
 			},
 			submitProperties: function() {
-				this.render();
+				// this.render();
+
+				let graphEditor = this.context.getContext()['graphEditor'];
+				grdb.updateNode(graphEditor._selection._nodeSelection).then(result => {
+					this.render();
+				});
 			}
 		},
 		watch: {

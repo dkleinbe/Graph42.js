@@ -2,9 +2,8 @@
 'use strict';
 
 require('file-loader?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
-import {Graph, Node, Link } from './models/Graph.js';
+import { Graph, Node, Link } from './models/Graph.js';
 var _ = require('lodash');
-
 
 /**
 Class to access Neo4j database
@@ -35,8 +34,9 @@ export default class GraphDatabase {
 			.then(result => {
 				session.close();
 
-				if (_.isEmpty(result.records))
+				if (_.isEmpty(result.records)) {
 					return null;
+				}
 
 				return result.records.map(record => {
 					return record.get('label')
@@ -59,8 +59,9 @@ export default class GraphDatabase {
 			.then(result => {
 				session.close();
 
-				if (_.isEmpty(result.records))
+				if (_.isEmpty(result.records)) {
 					return null;
+				}
 
 				return result.records.map(record => {
 					return record.get('type')
@@ -85,7 +86,7 @@ export default class GraphDatabase {
 				session.close();
 				let graph = new Graph();
 
-				//if (_.isEmpty(result.records))
+				// if (_.isEmpty(result.records))
 				//	return null;
 
 				result.records.map(record => {
@@ -96,11 +97,18 @@ export default class GraphDatabase {
 			})
 	}
 	/**
-	*/
+	 *
+	 *
+	 * @param {any} labels 
+	 * @param {any} relationships 
+	 * @param {any} limit 
+	 * @returns Graph
+	 * @memberof GraphDatabase
+	 */
 	getGraphByRelationship(labels, relationships, limit) {
 		let session = this.driver.session();
-		let query = 
-			"MATCH (n)-[r" + relationships.map(r =>{ return ":" + r }).join('|') + "]-(m) " +
+		let query =
+			"MATCH (n)-[r" + relationships.map(r => { return ":" + r }).join('|') + "]-(m) " +
 			"WHERE (" + labels.map(function(item) { return "n:" + item; }).join(' OR ') +
 				") AND " + labels.map(function(item) { return "m:" + item; }).join(' OR ') +
 			" RETURN n,r,m LIMIT {limit};"
@@ -111,7 +119,7 @@ export default class GraphDatabase {
 			.then(result => {
 				session.close();
 				let graph = new Graph();
-				
+
 				console.log(result.records);
 				result.records.map(record => {
 					graph.addNode(new Node(record.get('n')));
@@ -120,6 +128,28 @@ export default class GraphDatabase {
 				})
 
 				return graph;
+			})
+	}
+	/**
+	 * Update all properties of a node
+	 *
+	 * * @param {any} node
+	 * @returns ??
+	 * @memberof GraphDatabase
+	 */
+	updateNode(node) {
+		let session = this.driver.session();
+		let query =
+			"MATCH (n) WHERE ID(n) = " + node.identity +
+			" SET n.title = '" + node.properties.title + "'" +
+			" RETURN n;"
+		console.log(query);
+		return session
+			.run(query)
+			.then(result => {
+				session.close()
+				console.log(result.records);
+				return result;
 			})
 	}
 	/**
