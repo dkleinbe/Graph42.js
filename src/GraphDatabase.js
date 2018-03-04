@@ -99,10 +99,10 @@ export default class GraphDatabase {
 	/**
 	 *
 	 *
-	 * @param {any} labels 
-	 * @param {any} relationships 
-	 * @param {any} limit 
-	 * @returns Graph
+	 * @param {any} labels
+	 * @param {any} relationships
+	 * @param {any} limit
+	 * @returns {Graph}
 	 * @memberof GraphDatabase
 	 */
 	getGraphByRelationship(labels, relationships, limit) {
@@ -133,7 +133,7 @@ export default class GraphDatabase {
 	/**
 	 * Update all properties of a node
 	 *
-	 * * @param {any} node
+	 * @param {Node} node
 	 * @returns ??
 	 * @memberof GraphDatabase
 	 */
@@ -141,14 +141,15 @@ export default class GraphDatabase {
 		let session = this.driver.session();
 		let query =
 			"MATCH (n) WHERE ID(n) = " + node.identity +
-			" SET n.title = '" + node.properties.title + "'" +
+			" SET n = $props" +
 			" RETURN n;"
-		console.log(query);
+		// console.log(query);
+		let props = { props: node.properties };
 		return session
-			.run(query)
+			.run(query, props)
 			.then(result => {
 				session.close()
-				console.log(result.records);
+				// console.log(result.records);
 				return result;
 			})
 	}

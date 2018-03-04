@@ -229,29 +229,29 @@
 </template>
 
 <script>
-var api = require('./neo4jApi')
-import { grdb } from './GraphDatabase';
-import { GraphEditor } from './view/GraphEditor';
-import { Graph } from './models/Graph';
-import Roles from './view/Roles.vue';
-import ItemProperties from './view/ItemProperties.vue'
+var api = require("./neo4jApi");
+import { grdb } from "./GraphDatabase";
+import { GraphEditor } from "./view/GraphEditor";
+import { Graph } from "./models/Graph";
+import Roles from "./view/Roles.vue";
+import ItemProperties from "./view/ItemProperties.vue";
 
-var theContext = {}
+var theContext = {};
 
 class Context {
 	constructor() {
 		this.touch = 0;
 	}
 	getContext() {
-		return theContext
+		return theContext;
 	}
 	addContextKeyValue(key, value) {
-		theContext[key] = value
+		theContext[key] = value;
 		this.touch = this.touch + 1;
 	}
 }
 
-var _context = new Context()
+var _context = new Context();
 
 export default {
 	components: {
@@ -266,80 +266,85 @@ export default {
 			fixed: false,
 			items: [
 				{
-					icon: 'bubble_chart',
-					title: 'Inspire'
+					icon: "bubble_chart",
+					title: "Inspire"
 				}
 			],
 			miniVariant: false,
 			right: true,
 			rightDrawer: false,
-			title: 'Graph42js',
+			title: "Graph42js",
 			forceActivity: 0,
 			red: 0,
 			loaded: false,
 			forcesProperties: {}
-		}
+		};
 	},
 	methods: {
 		restartSimulation: function() {
-			if (this.loaded)
-				_context.getContext()['graphEditor'].restartSimulation();
+			if (this.loaded) {
+				_context.getContext()["graphEditor"].restartSimulation();
+			}
 			this.context.touch = this.context.touch + 1;
 		}
 	},
 	beforeCreate() {
-		// this.graph = new Graph()      
+		// this.graph = new Graph()
 	},
 	mounted() {
 		// var grdb = new GraphDatabase();
-		var svg = d3.select('#graph_').append('svg')
-			.attr('width', '100%').attr('height', '100%')
-			.attr('pointer-events', 'all')
+		var svg = d3
+			.select("#graph_")
+			.append("svg")
+			.attr("width", "100%")
+			.attr("height", "100%")
+			.attr("pointer-events", "all");
 
-		var graph = new Graph()
+		var graph = new Graph();
 
-		var graphEditor = new GraphEditor(svg, graph)
-		graphEditor.addTickListener((alpha) => this.forceActivity = alpha * 100)
-		this.context.addContextKeyValue('graphEditor', graphEditor)
+		var graphEditor = new GraphEditor(svg, graph);
+		graphEditor.addTickListener(alpha => (this.forceActivity = alpha * 100));
+		this.context.addContextKeyValue("graphEditor", graphEditor);
 
-		this.forcesProperties = _context.getContext()['graphEditor']._forces.forcesProperties;
+		this.forcesProperties = _context.getContext()[
+			"graphEditor"
+		]._forces.forcesProperties;
 		this.loaded = true;
-		grdb.connect()
+		grdb.connect();
 	}
-}
-
+};
 </script>
 
 <style type="text/css">
 #graph_ {
-  height: 100%;
-  width: 100%;
+	height: 100%;
+	width: 100%;
 }
 
 .overlay {
-  opacity: 0.5;
+	opacity: 0.5;
 }
 
 .node {
-  stroke: #222;
-  stroke-width: 1.5px;
+	stroke: #222;
+	stroke-width: 1.5px;
 }
 
-.node>text {
-  stroke-width: 0px;
+.node > text {
+	stroke-width: 0px;
 }
 
 .p_node_text {
-	pointer-events:none;
-  text-align: center;
-  vertical-align: middle;
+	pointer-events: none;
+	text-align: center;
+	vertical-align: middle;
 }
 .node_text {
-	pointer-events:none;
-  text-align: center;
-  vertical-align: middle;
-  display:inline-block;
-  line-height: 1.2;
+	pointer-events: none;
+	text-align: center;
+	vertical-align: middle;
+	display: inline-block;
+	line-height: 1.2;
 }
 /*
 .node>circle {
@@ -355,30 +360,30 @@ export default {
 }
 */
 
-.node.over>circle {
-  fill: #F00;
+.node.over > circle {
+	fill: #f00;
 }
 
-.node.selected>circle {
-  fill: #0F0;
+.node.selected > circle {
+	fill: #0f0;
 }
 
 .link {
-  stroke: #999;
-  stroke-opacity: .6;
-  stroke-width: 2px;
-  pointer-events: stroke;
+	stroke: #999;
+	stroke-opacity: 0.6;
+	stroke-width: 2px;
+	pointer-events: stroke;
 }
 
 .link.over {
-  stroke-width: 4px;
+	stroke-width: 4px;
 }
 
 .link.dragline.hidden {
-  stroke-width: 0px;
+	stroke-width: 0px;
 }
 
 .link.selected {
-  stroke: #0F0;
+	stroke: #0f0;
 }
 </style>

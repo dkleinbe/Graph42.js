@@ -57,9 +57,9 @@
 				graphEditor.updateNode();
 			},
 			submitProperties: function() {
-				// this.render();
 
 				let graphEditor = this.context.getContext()['graphEditor'];
+
 				grdb.updateNode(graphEditor._selection._nodeSelection).then(result => {
 					this.render();
 				});
