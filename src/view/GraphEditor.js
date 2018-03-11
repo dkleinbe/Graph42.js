@@ -1,6 +1,7 @@
 /** @module GraphEditor */
 "use strict";
 
+import { grdb } from '../GraphDatabase';
 var _ = require("lodash");
 // import * as state from "@steelbreeze/state";
 import {
@@ -327,7 +328,7 @@ export class GraphEditor {
 		//
 		nodes = nodes.data(graph.nodes, d => {
 			return d.identity;
-		}).classed("update", true); ;
+		}).classed("update", true).classed("new", false); ;
 
 		nodes.exit().remove();
 		//
@@ -595,17 +596,19 @@ export class GraphEditor {
 	addNode() {
 
 		var point = d3.mouse(this._svg.node());
-		var count = this._graph.nodes.length;
-		var newNode = {
-			title: "actor name" + count,
-			label: "actor",
-			x: point[0],
-			y: point[1]
-		};
-		this._graph.nodes.push(newNode);
-		// this._graph.links.push({source: this._graph.nodes[0], target: newNode });
-		// this._graph.links.pop();
-		this.renderGraph(this._graph);
+
+		grdb.createNode().then(node => {
+			node.x = node.fx = point[0];
+			node.y = node.fy = point[1];
+			node.label = "Person";
+			node.properties = {name: "John Doe"};
+
+			this._graph.addNode(node);
+
+			this.renderGraph(this._graph);
+
+			this.selectNode(node, d3.selectAll(".new").node());
+		});
 
 	}
 

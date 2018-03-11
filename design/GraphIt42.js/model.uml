@@ -59,7 +59,7 @@
           </specification>
         </ownedRule>
         <effect xmi:type="uml:Activity" xmi:id="_D5YFdbmiEeei4vW41dEgbw" name="addNode"/>
-        <trigger xmi:id="_D5YFdrmiEeei4vW41dEgbw" name="mouseup"/>
+        <trigger xmi:id="_rn7PsCU5Eei1UpDlneBSDw" name="click"/>
       </transition>
       <transition xmi:id="_D5YFd7miEeei4vW41dEgbw" name="UnselectAll" guard="_D5YFeLmiEeei4vW41dEgbw" source="_D5YsermiEeei4vW41dEgbw" target="_D5YsermiEeei4vW41dEgbw">
         <ownedRule xmi:id="_D5YFeLmiEeei4vW41dEgbw" name="UnselectAll_transition">
@@ -154,5 +154,39 @@
       <subvertex xmi:type="uml:Pseudostate" xmi:id="_QGB5MLv3Eee17qOKs27_SA" name="IsNodeSelected" kind="choice"/>
       <subvertex xmi:type="uml:State" xmi:id="_dkUuMPMJEeeInIuAb5nSQg" name="DragNodeStarted"/>
     </region>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_HpU0ACUxEei1UpDlneBSDw" name="Graph" visibility="public"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_LPnlQCUxEei1UpDlneBSDw" name="Node" visibility="public"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_MqLewCUxEei1UpDlneBSDw" name="Link" visibility="public"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_WdEVICUxEei1UpDlneBSDw" memberEnd="_WdEVISUxEei1UpDlneBSDw _WdXQESUxEei1UpDlneBSDw" navigableOwnedEnd="_WdXQESUxEei1UpDlneBSDw">
+    <ownedEnd xmi:id="_WdEVISUxEei1UpDlneBSDw" name="graphEditors" type="_0izmsKw9Eee1tK58gDkznQ" association="_WdEVICUxEei1UpDlneBSDw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_WdWpACUxEei1UpDlneBSDw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_WdXQECUxEei1UpDlneBSDw" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_WdXQESUxEei1UpDlneBSDw" name="graphs" type="_HpU0ACUxEei1UpDlneBSDw" association="_WdEVICUxEei1UpDlneBSDw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_WdX3ICUxEei1UpDlneBSDw" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_WdX3ISUxEei1UpDlneBSDw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_MTSMQCUyEei1UpDlneBSDw" name="GraphDatabase" visibility="public"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_zY3goCUyEei1UpDlneBSDw" name="graphsToNodes" memberEnd="_zY3goSUyEei1UpDlneBSDw _zY3gpCUyEei1UpDlneBSDw" navigableOwnedEnd="_zY3gpCUyEei1UpDlneBSDw">
+    <ownedEnd xmi:id="_zY3goSUyEei1UpDlneBSDw" name="graphs" type="_HpU0ACUxEei1UpDlneBSDw" association="_zY3goCUyEei1UpDlneBSDw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zY3goiUyEei1UpDlneBSDw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zY3goyUyEei1UpDlneBSDw" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_zY3gpCUyEei1UpDlneBSDw" name="nodes" type="_LPnlQCUxEei1UpDlneBSDw" aggregation="shared" association="_zY3goCUyEei1UpDlneBSDw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zY4HsCUyEei1UpDlneBSDw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zY4HsSUyEei1UpDlneBSDw" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_0aFGACUyEei1UpDlneBSDw" name="graphsToLinks" memberEnd="_0aFGASUyEei1UpDlneBSDw _0aFGBCUyEei1UpDlneBSDw" navigableOwnedEnd="_0aFGBCUyEei1UpDlneBSDw">
+    <ownedEnd xmi:id="_0aFGASUyEei1UpDlneBSDw" name="graphs" type="_HpU0ACUxEei1UpDlneBSDw" association="_0aFGACUyEei1UpDlneBSDw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0aFGAiUyEei1UpDlneBSDw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0aFGAyUyEei1UpDlneBSDw" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_0aFGBCUyEei1UpDlneBSDw" name="links" type="_MqLewCUxEei1UpDlneBSDw" aggregation="shared" association="_0aFGACUyEei1UpDlneBSDw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0aFGBSUyEei1UpDlneBSDw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0aFGBiUyEei1UpDlneBSDw" value="*"/>
+    </ownedEnd>
   </packagedElement>
 </uml:Model>

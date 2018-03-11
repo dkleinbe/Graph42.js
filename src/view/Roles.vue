@@ -32,10 +32,10 @@
 </template>
 
 <script type="text/javascript">
-import { grdb } from '../GraphDatabase';
-import { Graph } from '../models/Graph';
+import { grdb } from "../GraphDatabase";
+import { Graph } from "../models/Graph";
 export default {
-	name: 'roles',
+	name: "roles",
 	props: {
 		context: {
 			// type: Object,
@@ -48,18 +48,15 @@ export default {
 			relations: [],
 			nbNodes: 0,
 			nbRelations: 0
-		}
+		};
 	},
 	created: function() {
-
-		this.showRoles()
-		this.showRelationTypes()
+		this.showRoles();
+		this.showRelationTypes();
 	},
 	methods: {
-
 		render: function() {
-
-			var graphEditor = this.context.getContext()['graphEditor'];
+			var graphEditor = this.context.getContext()["graphEditor"];
 			var thegraph = graphEditor._graph;
 
 			graphEditor.render();
@@ -67,120 +64,112 @@ export default {
 			this.nbRelations = thegraph._links.length;
 		},
 		toggleRole: function(role) {
-
 			role.checked = !role.checked;
 
-			var graphEditor = this.context.getContext()['graphEditor'];
+			var graphEditor = this.context.getContext()["graphEditor"];
 			var thegraph = graphEditor._graph;
 
 			// add  nodes for checked role
 			if (role.checked) {
-
 				let selectedRelations = this.relations.reduce((acc, curr) => {
 					if (curr.checked) {
-						return acc.concat(curr.relation)
+						return acc.concat(curr.relation);
 					}
-					return acc
+					return acc;
 				}, []);
 
 				// reduce to selected roles
 				let selectedRoles = this.roles.reduce((acc, curr) => {
 					if (curr.checked) {
-						return acc.concat(curr.role)
+						return acc.concat(curr.role);
 					}
-					return acc
+					return acc;
 				}, []);
 
 				if (selectedRelations.length === 0) {
-					grdb.getGraphNodesByLabel([role.role], 500)
-						.then(graph => {
-							thegraph.addNodeSet(graph.nodes);
-							this.render();
-						})
-				} else {
-					grdb.getGraphByRelationship(selectedRoles, selectedRelations, 2500).then(graph => {
+					grdb.getGraphNodesByLabel([role.role], 500).then(graph => {
 						thegraph.addNodeSet(graph.nodes);
-						thegraph.addLinkSet(graph.links);
 						this.render();
 					});
+				} else {
+					grdb
+						.getGraphByRelationship(selectedRoles, selectedRelations, 2500)
+						.then(graph => {
+							thegraph.addNodeSet(graph.nodes);
+							thegraph.addLinkSet(graph.links);
+							this.render();
+						});
 				}
-			} else { // remove node for unchecked role
+			} else {
+				// remove node for unchecked role
 				thegraph.removeNodesByLabels([role.role]);
 				this.render();
 			}
 		},
 		toggleRelation: function(relation) {
-
-			relation.checked = !relation.checked
+			relation.checked = !relation.checked;
 			// reduce to selected relation
-			var graphEditor = this.context.getContext()['graphEditor'];
+			var graphEditor = this.context.getContext()["graphEditor"];
 			var thegraph = graphEditor._graph;
 
-			/*if (relation.checked || 1) {*/
-				let selectedRelations = this.relations.reduce((acc, curr) => {
-					if (curr.checked) {
-						return acc.concat(curr.relation)
-					}
-					return acc
-				}, []);
-				
-				// reduce to selected roles
-				let selectedRoles = this.roles.reduce((acc, curr) => {
-					if (curr.checked) {
-						return acc.concat(curr.role)
-					}
-					return acc
-				}, []);
+			let selectedRelations = this.relations.reduce((acc, curr) => {
+				if (curr.checked) {
+					return acc.concat(curr.relation);
+				}
+				return acc;
+			}, []);
 
-				grdb.getGraphByRelationship(selectedRoles, selectedRelations, 2500).then(graph => {
+			// reduce to selected roles
+			let selectedRoles = this.roles.reduce((acc, curr) => {
+				if (curr.checked) {
+					return acc.concat(curr.role);
+				}
+				return acc;
+			}, []);
+
+			grdb.getGraphByRelationship(selectedRoles, selectedRelations, 2500)
+				.then(graph => {
 					thegraph.updateNodeSet(graph.nodes);
 					thegraph.updateLinkSet(graph.links);
 					this.render();
 				});
-				/*
-			}
-			else {
-				thegraph.removeLinksByTypes([relation.relation]);
-				this.render();
-			}*/
 		},
 		showRoles: function() {
-
 			return grdb.getNodeLabelsSet().then(roles => {
-
-				var graphEditor = this.context.getContext()['graphEditor'];
+				var graphEditor = this.context.getContext()["graphEditor"];
 
 				// Reset roles array
-				this.roles.length = 0
+				this.roles.length = 0;
 				roles.forEach(role => {
 					this.roles.push({
 						role: role[0],
 						checked: false
-					})
-				})
+					});
+				});
 				// reduce roles to an array of first roles
-				graphEditor.setNodesTypesSet(roles.reduce((acc, curr, []) => { 
-					acc.push(curr[0]);
-					return acc;
-				}));
-			})
+				graphEditor.setNodesTypesSet(
+					roles.reduce((acc, curr, []) => {
+						acc.push(curr[0]);
+						return acc;
+					})
+				);
+			});
 		},
 		showRelationTypes: function() {
 			grdb.getRelationshipTypes().then(types => {
 				if (!types) {
-					return
+					return;
 				}
 
-				this.relations.length = 0
+				this.relations.length = 0;
 				types.forEach(type => {
 					this.relations.push({
 						relation: type,
 						checked: false
-					})
-				})
-			})
+					});
+				});
+			});
 		}
 	}
-}
-
+};
 </script>

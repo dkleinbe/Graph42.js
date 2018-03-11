@@ -141,7 +141,7 @@ export default class GraphDatabase {
 		let session = this.driver.session();
 		let query =
 			"MATCH (n) WHERE ID(n) = " + node.identity +
-			" SET n = $props" +
+			" SET n = $props" + ", n:" + node.label +
 			" RETURN n;"
 		// console.log(query);
 		let props = { props: node.properties };
@@ -156,7 +156,18 @@ export default class GraphDatabase {
 	/**
 	 **/
 	createNode() {
-		return new this.neo4j.Node();
+		let session = this.driver.session();
+		let query = "CREATE (n) RETURN n;";
+
+		return session
+			.run(query)
+			.then(result => {
+				session.close()
+				// console.log(result.records);
+				let node = result.records[0].get('n');
+				return (new Node(node));
+			});
+		// return new this.neo4j.Node();
 	}
 	/**
 	 **/

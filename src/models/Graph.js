@@ -1,7 +1,6 @@
 /** @module Graph */
 'use strict';
 
-import { grdb } from '../GraphDatabase';
 var _ = require('lodash');
 /**
 Class to access Neo4j database
@@ -14,7 +13,7 @@ export class Graph {
 		this._links = [];
 
 		nodes.map(node => this.addNode(node));
-		links.map(node => this.addLink(link));
+		links.map(link => this.addLink(link));
 	}
 	/**
 	return array of nodes
@@ -28,10 +27,10 @@ export class Graph {
 	 **/
 	addNode(node) {
 		// add node if not already in graph
-		if (_.findIndex(this._nodes, n => {return n.isSame(node) }) == -1) {	
+		if (_.findIndex(this._nodes, n => { return n.isSame(node) }) === -1) {
 			node._graph = this;
-	 		this._nodes.push(node);
-	 	}
+			this._nodes.push(node);
+		}
 	}
 	/**
 	 **/
@@ -44,22 +43,22 @@ export class Graph {
 	/**
 	**/
 	addNodeSet(nodes) {
-		
+
 		nodes.forEach(node => this.addNode(node));
 	}
 	/**
 	**/
 	addLinkSet(links) {
-		
+
 		links.forEach(link => this.addLink(link));
-	}		
+	}
 	/**
 	*/
 	updateNodeSet(nodes) {
 		let nodesToRemove = _.differenceWith(this._nodes, nodes, (n1, n2) => { return n1.isSame(n2); });
 		this.removeNodeSet(nodesToRemove);
 		this.addNodeSet(nodes);
-	}	
+	}
 	/**
 	*/
 	updateLinkSet(links) {
@@ -119,6 +118,7 @@ export class Node {
 	}
 	get key() { return this.identity.toString(); }
 	get label() { return this.labels[0]; }
+	set label(l) { this.labels.push(l); }
 	isSame(node) { return Graph.isSameIdentity(this.identity, node.identity); }
 }
 
