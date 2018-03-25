@@ -131,6 +131,35 @@ export default class GraphDatabase {
 			})
 	}
 	/**
+	 * Returns virtual graph that represents the labels and relationship-types
+	 * available in your database and how they are connected.
+	 *
+	 * @memberof GraphDatabase
+	 * @returns Graph
+	 */
+	getSchemaGraph() {
+		let session = this.driver.session();
+		let query = "CALL apoc.meta.graph";
+
+		return session
+			.run(query)
+			.then(result => {
+				session.close();
+				let graph = new Graph();
+
+				console.log(result.record);
+				result.records.map(record => {
+					record.get('nodes').map(node => {
+						graph.addNode(new Node(node));
+					})
+					record.get('relationships').map(rel => {
+						graph.addLink(new Link(rel));
+					})
+				});
+				return graph;
+			})
+	}
+	/**
 	 * Update all properties of a node
 	 *
 	 * @param {Node} node
