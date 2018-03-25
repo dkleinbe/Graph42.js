@@ -306,11 +306,16 @@ export default {
 		graphEditor.addTickListener(alpha => (this.forceActivity = alpha * 100));
 		this.context.addContextKeyValue("graphEditor", graphEditor);
 
-		this.forcesProperties = _context.getContext()[
-			"graphEditor"
-		]._forces.forcesProperties;
+		this.forcesProperties = _context.getContext()["graphEditor"]._forces.forcesProperties;
 		this.loaded = true;
 		grdb.connect();
+
+		// TESTING STUFF TODO: Remove this
+		grdb.getSchemaGraph().then(g => {
+			graph.addNodeSet(g.nodes);
+			graph.addLinkSet(g.links);
+			graphEditor.render();
+		});
 	}
 };
 </script>
