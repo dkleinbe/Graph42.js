@@ -497,7 +497,17 @@ export class GraphEditor {
 		var	dy = (d.target.y - d.source.y);
 		var	dr = Math.sqrt(dx * dx + dy * dy);
 		var	unevenCorrection = (d.sameUneven ? 0 : 0.5);
-		var	arc = ((dr * d.maxSameHalf) / (d.sameIndexCorrected - unevenCorrection));
+		var arc = 0;
+		var sweep = 0;
+		var shift = 0;
+
+		if (dr === 0) {
+			arc = ((10 * d.maxSameHalf) / (d.sameIndexCorrected - unevenCorrection));
+			sweep = 1;
+			shift = -1;
+		} else {
+			arc = ((dr * d.maxSameHalf) / (d.sameIndexCorrected - unevenCorrection));
+		}
 
 		if (d.sameMiddleLink) {
 			arc = 0;
@@ -505,13 +515,13 @@ export class GraphEditor {
 		if (orient === true) {
 
 			if (d.target.x > d.source.x) {
-				return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
+				return "M " + (d.source.x + shift) + " " + (d.source.y - shift) + " A " + arc + " " + arc + " 0 " + sweep + " " + d.sameArcDirection + " " + d.target.x + " " + d.target.y;
 			}	else {
-				return "M" + d.target.x + "," + d.target.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.source.x + "," + d.source.y;
+				return "M " + (d.source.x + shift) + " " + (d.source.y - shift) + " A " + arc + " " + arc + " 0 " + sweep + " " + d.sameArcDirection + " " + d.source.x + " " + d.source.y;
 			}
 
 		} else {
-			return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
+			return "M " + (d.source.x + shift) + " " + (d.source.y - shift) + " A " + arc + " " + arc + " 0 " + sweep + " " + d.sameArcDirection + " " + d.target.x + " " + d.target.y;
 		}
 	}
 
