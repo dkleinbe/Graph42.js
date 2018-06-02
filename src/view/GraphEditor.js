@@ -501,7 +501,7 @@ export class GraphEditor {
 		var sweep = 0;
 		var shift = 0;
 
-		if (dr === 0) {
+		if (dr === 0) { // Self link
 			arc = ((10 * d.maxSameHalf) / (d.sameIndexCorrected - unevenCorrection));
 			sweep = 1;
 			shift = -1;
@@ -591,9 +591,9 @@ export class GraphEditor {
 	onKeyDown() {
 
 		switch (d3.event.keyCode) {
-		case 0x8:
-			this._fsm.evaluate("BACKSPACE_KEY");
-			break;
+			case 0x8:
+				this._fsm.evaluate("BACKSPACE_KEY");
+				break;
 		}
 	}
 

@@ -21,6 +21,7 @@ export default class GraphDatabase {
 	connect() {
 		this.neo4j = window.neo4j.v1;
 		this.driver = this.neo4j.driver("bolt://localhost", this.neo4j.auth.basic("neo4j", "642lccost"));
+		this.getSchemaGraph().then(g => { this._schemaGraph = g })
 	}
 	/**
 	Gets the set of node labels currently defined within the graph : `MATCH (n) RETURN DISTINCT LABELS(n) as label;`
@@ -128,6 +129,59 @@ export default class GraphDatabase {
 				})
 
 				return graph;
+			})
+	}
+	/**
+	 *
+	 *
+	 * @returns
+	 * @memberof GraphDatabase
+	 */
+	getSchema() {
+		let session = this.driver.session();
+		let query = "CALL apoc.meta.schema";
+
+		return session
+			.run(query)
+			.then(result => {
+				session.close();
+				
+				result.records.map(record => {
+					
+					let schema = record.get('value')
+					_.mapKeys(schema, (value, key) => {
+						console.log("key: " + key + " type: ", schema[key].type)
+						let nodes = this._schemaGraph._nodes
+						let links = this._schemaGraph._links
+						switch (schema[key].type) {
+							case 'node': {
+								console.log(key)
+								// find node in schema graph
+								let nodeIndex = _.findIndex(nodes, n => { return n.label === key })
+								console.log("node: " + nodes[nodeIndex])
+								// add properties to node
+								_.mapKeys(schema[key].properties, (value, k) => {
+									nodes[nodeIndex].properties[k] = value.type
+								})
+								break
+							}
+							case 'relationship': {
+								// find link in schema graph
+								let linkIndex = _.findIndex(links, n => { return n.type === key })
+								console.log("link: " + links[linkIndex])
+								// add properties to link
+								_.mapKeys(schema[key].properties, (value, k) => {
+									links[linkIndex].properties[k] = value.type
+								})
+								break
+							}
+							default: {
+								console.log('default type')
+							}
+						}
+					})
+				});
+				return this._schemaGraph;
 			})
 	}
 	/**

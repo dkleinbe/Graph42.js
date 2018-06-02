@@ -35,7 +35,7 @@ export class Graph {
 	/**
 	 **/
 	addLink(link) {
-		if (_.findIndex(this._links, l => {return l.isSame(link) }) == -1) {
+		if (_.findIndex(this._links, l => { return l.isSame(link) }) === -1) {
 			link._graph = this;
 			this._links.push(link);
 		}
@@ -89,8 +89,9 @@ export class Graph {
 		this._nodes.forEach(n => {
 			let res = _.intersection(labels, n.labels);
 
-			if (res.length > 0)
+			if (res.length > 0) {
 				nodes.push(n);
+			}
 		})
 		// remove node set
 		this.removeNodeSet(nodes);
@@ -99,12 +100,12 @@ export class Graph {
 	/**
 	*/
 	removeLinksByTypes(types) {
-		_.pullAllWith(this._links, types, (l, t) => { return l.type == t; });
+		_.pullAllWith(this._links, types, (l, t) => { return l.type === t; });
 	}
 	/**
 	**/
 	static isSameIdentity(e1, e2) {
-		return e1.low == e2.low && e1.high == e2.high;
+		return e1.low === e2.low && e1.high === e2.high;
 	}
 }
 

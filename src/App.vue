@@ -311,12 +311,21 @@ export default {
 		grdb.connect();
 
 		// TESTING STUFF TODO: Remove this
+		grdb.getSchema().then(s => {
+			console.log('schema ****')
+			console.log(s)
+			graph = s;
+			graphEditor.renderGraph(graph);
+		});
+/*
 		grdb.getSchemaGraph().then(g => {
 			graph.addNodeSet(g.nodes);
 			graph.addLinkSet(g.links);
 			graphEditor.render();
 		});
+		*/
 	}
+	
 };
 </script>
 
