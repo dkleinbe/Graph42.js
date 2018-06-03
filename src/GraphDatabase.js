@@ -3,8 +3,54 @@
 
 require('file-loader?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
 import { Graph, Node, Link } from './models/Graph.js';
+
 var _ = require('lodash');
 
+export class GraphDatabaseSchema {
+	constructor(schema) {
+		this._schema = schema
+	}
+	/**
+	 * Retrun properties of a schema element
+	 * 
+	 * @param {any} node label element 
+	 * @returns properties
+	 * @memberof GraphDatabaseSchema
+	 */
+	getNodeProperties(node) {
+		let properties = {}
+		_.mapKeys(this._schema[node].properties, (value, key) => {
+			// properties.push({ name: key, type: value.type });
+			switch (value.type) {
+				case 'STRING':
+					properties[key] = "string"
+					break
+				case 'INTEGER':
+					properties[key] = 0
+					break
+				default:
+					properties[key] = value.type
+					break
+			}
+			
+		})
+		return properties
+	}
+	getLinkProperties(type) {
+
+	}
+	getPropertyType(elt, prop) {
+		let property = this._schema[elt].properties[prop]
+		switch (property.type) {
+			case 'STRING':
+				return typeof "string"
+			case 'INTEGER':
+				return typeof 666
+			default:
+				return typeof "string"
+		}
+	}
+}
 /**
 Class to access Neo4j database
 **/
@@ -149,6 +195,9 @@ export default class GraphDatabase {
 				result.records.map(record => {
 					
 					let schema = record.get('value')
+					this._schema = new GraphDatabaseSchema(schema)
+					console.log(this._schema.getNodeProperties('Movie'))
+
 					_.mapKeys(schema, (value, key) => {
 						console.log("key: " + key + " type: ", schema[key].type)
 						let nodes = this._schemaGraph._nodes
@@ -225,8 +274,19 @@ export default class GraphDatabase {
 		let query =
 			"MATCH (n) WHERE ID(n) = " + node.identity +
 			" SET n = $props" + ", n:" + node.label +
-			" RETURN n;"
-		// console.log(query);
+			" RETURN n;"		
+		// convert properties to the right type
+		// TODO: add other types management
+		_.mapKeys(node.properties, (value, key) => {
+			switch (this._schema.getPropertyType(node.label, key)) {
+				case 'number':
+					node.properties[key] = Number(value)
+					break
+
+				default:
+					break
+			}
+		})
 		let props = { props: node.properties };
 		return session
 			.run(query, props)

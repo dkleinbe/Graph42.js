@@ -612,7 +612,7 @@ export class GraphEditor {
 			node.y = node.fy = point[1];
 			node.label = "Person";
 			node.properties = {name: "John Doe"};
-
+			node.properties = grdb._schema.getNodeProperties(node.label)
 			this._graph.addNode(node);
 
 			this.renderGraph(this._graph);
