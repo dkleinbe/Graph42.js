@@ -9,7 +9,8 @@
     "lodash": "^4.15.0",
     "neo4j-driver": "^1.0.4",
     "vue": "^2.5.3",
-    "vuetify": "^0.17.6"
+    "vuetify": "^0.17.6",
+    "wheelnav": "^1.7.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

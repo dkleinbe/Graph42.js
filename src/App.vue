@@ -52,7 +52,22 @@
 				   fill-height>
 		<v-layout justify-center
 				  align-center>
-		  <div id="graph_"></div>
+			<div id="canvas_">
+		  	<div id="graph_"></div>
+				<!--
+				<div id="wheelnav_">
+					
+					<div id="divWheel" data-wheelnav 
+						data-wheelnav-wheelradius="100"
+						data-wheelnav-navangle="90"
+						data-wheelnav-slicepath="DonutSlice" 
+						data-wheelnav-colors="#E34C26,#F06529" 
+						data-wheelnav-rotateoff>
+					</div>
+					
+				</div>
+				-->
+			</div>
 		</v-layout>
 	  </v-container>
 	</v-content>
@@ -229,6 +244,7 @@
 </template>
 
 <script>
+require('../node_modules/wheelnav/js/dist/wheelnav.min.js');
 var api = require("./neo4jApi");
 import { grdb } from "./GraphDatabase";
 import { GraphEditor } from "./view/GraphEditor";
@@ -300,6 +316,9 @@ export default {
 			.attr("height", "100%")
 			.attr("pointer-events", "all");
 
+		// var wheel = new wheelnav("divWheel");
+		// wheel.createWheel(["0", "1", "2", "3"]);
+
 		var graph = new Graph();
 
 		var graphEditor = new GraphEditor(svg, graph);
@@ -330,9 +349,25 @@ export default {
 </script>
 
 <style type="text/css">
+
+#canvas_ {
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
 #graph_ {
 	height: 100%;
 	width: 100%;
+}
+
+#wheelnav_ {
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 2;
+	position: absolute;
+	pointer-events: none;
 }
 
 .overlay {
