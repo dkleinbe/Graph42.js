@@ -314,8 +314,8 @@ export default {
 		grdb.getSchema().then(s => {
 			console.log('schema ****')
 			console.log(s)
-			graph = s;
-			graphEditor.renderGraph(graph);
+			//graph = s;
+			//graphEditor.renderGraph(graph);
 		});
 /*
 		grdb.getSchemaGraph().then(g => {
