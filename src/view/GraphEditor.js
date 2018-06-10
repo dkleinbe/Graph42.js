@@ -387,6 +387,7 @@ export class GraphEditor {
 					.attr("height", 200)
 					.attr("x", -100)
 					.attr("y", -100)
+					.style("pointer-events", "none")
 					.append("xhtml:p")
 						.attr("class", "p_node_text")
 						.style("height", "200px")
