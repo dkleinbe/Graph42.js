@@ -54,11 +54,11 @@
 				  align-center>
 			<div id="canvas_">
 		  	<div id="graph_"></div>
-				<!--
-				<div id="wheelnav_">
+				
+				<div id="overlay_">
 					
 					<div id="divWheel" data-wheelnav 
-						data-wheelnav-wheelradius="100"
+						data-wheelnav-wheelradius="50"
 						data-wheelnav-navangle="90"
 						data-wheelnav-slicepath="DonutSlice" 
 						data-wheelnav-colors="#E34C26,#F06529" 
@@ -66,7 +66,7 @@
 					</div>
 					
 				</div>
-				-->
+			
 			</div>
 		</v-layout>
 	  </v-container>
@@ -244,7 +244,9 @@
 </template>
 
 <script>
+
 require('../node_modules/wheelnav/js/dist/wheelnav.min.js');
+
 var api = require("./neo4jApi");
 import { grdb } from "./GraphDatabase";
 import { GraphEditor } from "./view/GraphEditor";
@@ -309,6 +311,7 @@ export default {
 	},
 	mounted() {
 		// var grdb = new GraphDatabase();
+		
 		var svg = d3
 			.select("#graph_")
 			.append("svg")
@@ -316,8 +319,8 @@ export default {
 			.attr("height", "100%")
 			.attr("pointer-events", "all");
 
-		// var wheel = new wheelnav("divWheel");
-		// wheel.createWheel(["0", "1", "2", "3"]);
+		var wheel = new wheelnav("divWheel");
+		wheel.createWheel(["0", "1", "2", "3"]);
 
 		var graph = new Graph();
 
@@ -360,7 +363,7 @@ export default {
 	width: 100%;
 }
 
-#wheelnav_ {
+#overlay_ {
 	top: 0;
 	left: 0;
 	height: 100%;
@@ -368,6 +371,20 @@ export default {
 	z-index: 2;
 	position: absolute;
 	pointer-events: none;
+}
+
+#divWheel {
+	height: 100px;
+	width: 100px;
+	left: 0;
+	bottom: 0;
+	position: absolute;
+	pointer-events: auto;
+}
+
+#divWheel > svg {
+	height: 100%;
+	width: 100%;	
 }
 
 .overlay {
