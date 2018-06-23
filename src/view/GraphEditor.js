@@ -3,7 +3,8 @@
 
 import { grdb } from '../GraphDatabase';
 var _ = require("lodash");
-// import * as state from "@steelbreeze/state";
+require('../../node_modules/wheelnav/js/dist/wheelnav.min.js');
+
 import {
 	GraphEditorSM
 }
@@ -148,7 +149,7 @@ export class GraphEditor {
 			.attr("d", "M0,-5L10,0L0,5");
 
 		// add encompassing group for the zoom
-		var canvas = svg.append("g").attr("class", "canvas");
+		var canvas = svg.append("g").attr("class", "canvas").attr("id", "canvas_g_");
 		this._canvas = canvas;
 
 		this._dragline = canvas.append("svg:path")
@@ -156,6 +157,7 @@ export class GraphEditor {
 			.attr("d", "M0,0L0,0");
 		// .style('marker-end', 'url(#mark-end-arrow)');
 
+		this._divWheel = document.getElementById("divWheel");
 		// listen for key events
 		// d3.select(window)
 		svg
@@ -600,6 +602,14 @@ export class GraphEditor {
 
 	zoomed() {
 		this._canvas.attr("transform", d3.event.transform)
+		
+		// this._divWheel.style.left = parseInt(this._divWheel.style.left, 10) + d3.event.sourceEvent.movementX / 2.5 + "px";
+		if (this._selection._nodeSelection) {
+			// this._divWheel.style.left = parseInt(this._divWheel.style.left, 10) + d3.event.transform.x + "px"
+			let transform = d3.event.transform
+			this._divWheel.style.transform = "translate(" + transform.x + "px," + transform.y + "px) scale(" + transform.k + ")";
+			
+		}
 	}
 
 	onKeyUp() {}
@@ -619,6 +629,20 @@ export class GraphEditor {
 			this.renderGraph(this._graph);
 
 			this.selectNode(node, d3.selectAll(".new").node());
+
+			let aze = d3.select("#canvas_g_").node()
+			let transform = d3.zoomTransform(aze);
+			let tpoint = transform.apply(point)
+
+			console.log("tpoint: ", tpoint)
+
+			this._divWheel.style.left = (node.x - 50) + "px";
+			this._divWheel.style.top = (node.y - 50) + "px";
+			let ori = (node.x - 50) + "px " + (node.y - 50) + "px";
+			this._divWheel.style.transformOrigin = ori;
+			var wheel = new wheelnav("divWheel");
+			wheel.createWheel(["0", "1", "2", "3"]);
+			
 		});
 
 	}

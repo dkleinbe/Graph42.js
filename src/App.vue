@@ -245,8 +245,6 @@
 
 <script>
 
-require('../node_modules/wheelnav/js/dist/wheelnav.min.js');
-
 var api = require("./neo4jApi");
 import { grdb } from "./GraphDatabase";
 import { GraphEditor } from "./view/GraphEditor";
@@ -318,9 +316,6 @@ export default {
 			.attr("width", "100%")
 			.attr("height", "100%")
 			.attr("pointer-events", "all");
-
-		var wheel = new wheelnav("divWheel");
-		wheel.createWheel(["0", "1", "2", "3"]);
 
 		var graph = new Graph();
 
