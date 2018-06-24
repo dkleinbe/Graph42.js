@@ -325,15 +325,15 @@ export default {
 
 		this.forcesProperties = _context.getContext()["graphEditor"]._forces.forcesProperties;
 		this.loaded = true;
-		grdb.connect();
+		//grdb.connect();
 
 		// TESTING STUFF TODO: Remove this
 		grdb.getSchema().then(s => {
 			console.log('schema ****')
 			console.log(s)
-			//graph = s;
-			//graphEditor.renderGraph(graph);
+			console.log("SCHEMA LABELS: ", grdb._schema.getNodeLabelsSet())
 		});
+		
 /*
 		grdb.getSchemaGraph().then(g => {
 			graph.addNodeSet(g.nodes);

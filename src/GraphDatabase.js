@@ -11,6 +11,23 @@ export class GraphDatabaseSchema {
 		this._schema = schema
 	}
 	/**
+	 * Return array of labels defined in the schema
+	 *
+	 * @returns labels
+	 * @memberof GraphDatabaseSchema
+	 */
+	getNodeLabelsSet() {
+		let labels = []
+
+		_.mapKeys(this._schema, (value, key) => {
+			
+			if (value.type === 'node') {
+				labels.push(key)
+			}
+		})
+		return labels
+	}
+	/**
 	 * Retrun properties of a schema element
 	 * 
 	 * @param {any} node label element 
