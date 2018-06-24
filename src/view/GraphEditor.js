@@ -157,6 +157,7 @@ export class GraphEditor {
 			.attr("d", "M0,0L0,0");
 		// .style('marker-end', 'url(#mark-end-arrow)');
 
+		this._divOverlay = document.getElementById("divoverlay_");
 		this._divWheel = document.getElementById("divWheel");
 		// listen for key events
 		// d3.select(window)
@@ -602,12 +603,13 @@ export class GraphEditor {
 
 	zoomed() {
 		this._canvas.attr("transform", d3.event.transform)
+		// apply transform to overlay
+		let transform = d3.event.transform
 		
 		// this._divWheel.style.left = parseInt(this._divWheel.style.left, 10) + d3.event.sourceEvent.movementX / 2.5 + "px";
 		if (this._selection._nodeSelection) {
 			// this._divWheel.style.left = parseInt(this._divWheel.style.left, 10) + d3.event.transform.x + "px"
-			let transform = d3.event.transform
-			this._divWheel.style.transform = "translate(" + transform.x + "px," + transform.y + "px) scale(" + transform.k + ")";
+			this._divWheel.style.transform = "translate(" + transform.x + "px," + transform.y + "px) scale(" + transform.k + ")";	
 			
 		}
 	}
@@ -619,8 +621,16 @@ export class GraphEditor {
 		var point = d3.mouse(this._svg.node());
 
 		grdb.createNode().then(node => {
-			node.x = node.fx = point[0];
-			node.y = node.fy = point[1];
+			// retrieve current transformaton
+			let transform = d3.zoomTransform(d3.select("svg").node())
+			console.log("transfo: ", transform)
+			// compute mouse position in svg coordinates
+			console.log("point: ", point)
+			let tpoint = transform.invert(point)
+			console.log("tpoint: ", tpoint)
+
+			node.x = node.fx = tpoint[0];
+			node.y = node.fy = tpoint[1];
 			node.label = "Person";
 			node.properties = {name: "John Doe"};
 			node.properties = grdb._schema.getNodeProperties(node.label)
@@ -630,16 +640,16 @@ export class GraphEditor {
 
 			this.selectNode(node, d3.selectAll(".new").node());
 
-			let aze = d3.select("#canvas_g_").node()
-			let transform = d3.zoomTransform(aze);
-			let tpoint = transform.apply(point)
-
-			console.log("tpoint: ", tpoint)
-
-			this._divWheel.style.left = (node.x - 50) + "px";
-			this._divWheel.style.top = (node.y - 50) + "px";
-			let ori = (node.x - 50) + "px " + (node.y - 50) + "px";
+			let wheelPoint = []
+			wheelPoint[0] = tpoint[0] - 50
+			wheelPoint[1] = tpoint[1] - 50
+			this._divWheel.style.left = (wheelPoint[0]) + "px";
+			this._divWheel.style.top = (wheelPoint[1]) + "px";
+			this._divWheel.style.transform = "translate(" + transform.x + "px," + transform.y + "px) scale(" + transform.k + ")";
+			// set CSS transformation origine
+			let ori = "-" + wheelPoint[0] + "px " + "-" + wheelPoint[1] + "px";
 			this._divWheel.style.transformOrigin = ori;
+			// create wheel menu
 			var wheel = new wheelnav("divWheel");
 			wheel.createWheel(["0", "1", "2", "3"]);
 			

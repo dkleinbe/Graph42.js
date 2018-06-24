@@ -55,7 +55,7 @@
 			<div id="canvas_">
 		  	<div id="graph_"></div>
 				
-				<div id="overlay_">
+				<div id="divoverlay_">
 					
 					<div id="divWheel" data-wheelnav 
 						data-wheelnav-wheelradius="50"
@@ -358,7 +358,7 @@ export default {
 	width: 100%;
 }
 
-#overlay_ {
+#divoverlay_ {
 	top: 0;
 	left: 0;
 	height: 100%;
