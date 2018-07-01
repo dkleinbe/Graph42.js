@@ -9,6 +9,7 @@ import {
 	GraphEditorSM
 }
 from "./fsm/GraphEditorSM";
+import { CreatingNodeWheelMenu } from './WheelMenu';
 
 /**
 Class to define force simulation parameters
@@ -606,8 +607,8 @@ export class GraphEditor {
 		// apply transform to overlay
 		let transform = d3.event.transform
 		
-		// this._divWheel.style.left = parseInt(this._divWheel.style.left, 10) + d3.event.sourceEvent.movementX / 2.5 + "px";
-		if (this._selection._nodeSelection) {
+		// TODO: refactor this test !
+		if (this._selection._nodeSelection || 1) {
 			// this._divWheel.style.left = parseInt(this._divWheel.style.left, 10) + d3.event.transform.x + "px"
 			this._divWheel.style.transform = "translate(" + transform.x + "px," + transform.y + "px) scale(" + transform.k + ")";	
 			
@@ -616,10 +617,31 @@ export class GraphEditor {
 
 	onKeyUp() {}
 
+	hideCreatingNodeMenu() {
+		this._creatingNodeMenu.hideMenu()
+	}
+
+	createNode(role) {
+		console.log("Create node :", role)
+	}
+
 	addNode() {
 
-		var point = d3.mouse(this._svg.node());
+		let point = d3.mouse(this._svg.node());
+		// retrieve current transformaton
+		let transform = d3.zoomTransform(d3.select("svg").node())
+		console.log("transfo: ", transform)
+		// compute mouse position in svg coordinates
+		console.log("point: ", point)
+		let tpoint = transform.invert(point)
+		console.log("tpoint: ", tpoint)
+		let wheelPoint = []
+		wheelPoint[0] = tpoint[0] - 50
+		wheelPoint[1] = tpoint[1] - 50
 
+		this._creatingNodeMenu = new CreatingNodeWheelMenu(this._divWheel, this._fsm, wheelPoint, transform)
+
+		if (0)
 		grdb.createNode().then(node => {
 			// retrieve current transformaton
 			let transform = d3.zoomTransform(d3.select("svg").node())

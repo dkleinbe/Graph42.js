@@ -15,27 +15,30 @@ export class GraphEditorSM {
 		//
 		// states
 		//
+		// state: <Idle>
+		this._stateIdle = new state.State("Idle", this._model);
+
 		// state: <TargetNodeSelected>
 		this._stateTargetNodeSelected = new state.State("TargetNodeSelected", this._model);
 		this._stateTargetNodeSelected.entry((fsm, msg, ...args) => { this._owner.highlightNode(...args); });
 		this._stateTargetNodeSelected.exit((fsm, msg, ...args) => { this._owner.unHighlightNode(...args); });
 
-		// state: <DragNodeStarted>
-		this._stateDragNodeStarted = new state.State("DragNodeStarted", this._model);
-
-		// state: <Idle>
-		this._stateIdle = new state.State("Idle", this._model);
+		// state: <HoveringLink>
+		this._stateHoveringLink = new state.State("HoveringLink", this._model);
 
 		// state: <DraggingNode>
 		this._stateDraggingNode = new state.State("DraggingNode", this._model);
 		this._stateDraggingNode.entry((fsm, msg, ...args) => { this._owner.dragged(...args); });
 
+		// choice state: <IsNodeSelected>
+		this._stateIsNodeSelected = new state.PseudoState("IsNodeSelected", this._model, state.PseudoStateKind.Choice);			
+
 		// state: <CreateLink>
 		this._stateCreateLink = new state.State("CreateLink", this._model);
 		this._stateCreateLink.entry((fsm, msg, ...args) => { this._owner.dragLine(...args); });
 
-		// choice state: <IsNodeSelected>
-		this._stateIsNodeSelected = new state.PseudoState("IsNodeSelected", this._model, state.PseudoStateKind.Choice);			
+		// state: <DragNodeStarted>
+		this._stateDragNodeStarted = new state.State("DragNodeStarted", this._model);
 
 		// state: <HoveringNode>
 		this._stateHoveringNode = new state.State("HoveringNode", this._model);
@@ -43,82 +46,39 @@ export class GraphEditorSM {
 		// initial state: <Initial>
 		this._stateInitial = new state.PseudoState("Initial", this._model, state.PseudoStateKind.Initial);
 
-		// state: <HoveringLink>
-		this._stateHoveringLink = new state.State("HoveringLink", this._model);
+		// state: <CreatingNode>
+		this._stateCreatingNode = new state.State("CreatingNode", this._model);
+		this._stateCreatingNode.exit((fsm, msg, ...args) => { this._owner.hideCreatingNodeMenu(...args); });
 		//
 		// transitions
 		//
-		this._stateIdle.to(this._stateHoveringNode)
-			.when((fsm, msg, ...args) => { return (((msg === "mouseover_node"))); })
-			.effect((fsm, msg, ...args) => { this._owner.highlightNode(...args); });
-
-		this._stateHoveringNode.to(this._stateHoveringNode)
+		this._stateDragNodeStarted.to(this._stateHoveringNode)
 			.when((fsm, msg, ...args) => { return (((msg === "click"))); })
 			.effect((fsm, msg, ...args) => { this._owner.selectNode(...args); });
-
-		this._stateIdle.to(this._stateIdle)
-			.when((fsm, msg, ...args) => { return (((msg === "click")) && (this._owner.isShiftDown())); })
-			.effect((fsm, msg, ...args) => { this._owner.addNode(...args); });
-
-		this._stateHoveringNode.to(this._stateIdle)
-			.when((fsm, msg, ...args) => { return (((msg === "mouseleave_node"))); })
-			.effect((fsm, msg, ...args) => { this._owner.unHighlightNode(...args); });
-
-		this._stateIdle.to(this._stateIdle)
-			.when((fsm, msg, ...args) => { return (((msg === "click")) && (this._owner.isShiftDown() == false)); })
-			.effect((fsm, msg, ...args) => { this._owner.unselectAll(...args); });
-
-		this._stateIsNodeSelected.to(this._stateDraggingNode)
-			.when((fsm, msg, ...args) => { return ((this._owner.isSelectedNode(...args) === false)); })
-			.effect((fsm, msg, ...args) => { this._owner.dragstarted(...args); });
 
 		this._stateDraggingNode.to(this._stateDraggingNode)
 			.when((fsm, msg, ...args) => { return (((msg === "node_dragged"))); })
 			;
 
-		this._stateCreateLink.to(this._stateCreateLink)
-			.when((fsm, msg, ...args) => { return (((msg === "node_dragged"))); })
-			;
-
-		this._stateHoveringNode.to(this._stateDragNodeStarted)
-			.when((fsm, msg, ...args) => { return (((msg === "drag_node_started"))); })
-			;
-
-		this._stateCreateLink.to(this._stateIdle)
-			.when((fsm, msg, ...args) => { return (((msg === "drag_node_ended"))); })
-			.effect((fsm, msg, ...args) => { this._owner.dragLineVisibility(false); });
-
-		this._stateIdle.to(this._stateHoveringLink)
-			.when((fsm, msg, ...args) => { return (((msg === "mouseover_link"))); })
-			.effect((fsm, msg, ...args) => { this._owner.highlightNode(...args); });
-
-		this._stateDragNodeStarted.to(this._stateIsNodeSelected)
-			.when((fsm, msg, ...args) => { return (((msg === "node_dragged"))); })
-			;
+		this._stateDraggingNode.to(this._stateHoveringNode)
+			.when((fsm, msg, ...args) => { return (((msg === "drag_node_ended")) && (this._owner.isShiftDown() == false)); })
+			.effect((fsm, msg, ...args) => { this._owner.dragended(...args); });
 
 		this._stateIdle.to(this._stateIdle)
 			.when((fsm, msg, ...args) => { return (((msg === "BACKSPACE_KEY"))); })
 			.effect((fsm, msg, ...args) => { this._owner.deleteSelection(...args); });
 
-		this._stateIsNodeSelected.to(this._stateCreateLink)
-			.when((fsm, msg, ...args) => { return ((this._owner.isSelectedNode(...args) === true)); })
-			.effect((fsm, msg, ...args) => { this._owner.dragLineVisibility(true); });
+		this._stateIdle.to(this._stateIdle)
+			.when((fsm, msg, ...args) => { return (((msg === "click")) && (this._owner.isShiftDown() == false)); })
+			.effect((fsm, msg, ...args) => { this._owner.unselectAll(...args); });
 
-		this._stateDraggingNode.to(this._stateHoveringNode)
-			.when((fsm, msg, ...args) => { return (((msg === "drag_node_ended")) && (this._owner.isShiftDown() == false)); })
-			.effect((fsm, msg, ...args) => { this._owner.dragended(...args); });
+		this._stateHoveringNode.to(this._stateDragNodeStarted)
+			.when((fsm, msg, ...args) => { return (((msg === "drag_node_started"))); })
+			;
 
-		this._stateTargetNodeSelected.to(this._stateHoveringNode)
-			.when((fsm, msg, ...args) => { return (((msg === "drag_node_ended"))); })
-			.effect((fsm, msg, ...args) => { this._owner.addRelation(...args); });
-
-		this._stateHoveringLink.to(this._stateIdle)
-			.when((fsm, msg, ...args) => { return (((msg === "mouseleave_link"))); })
-			.effect((fsm, msg, ...args) => { this._owner.unHighlightNode(...args); });
-
-		this._stateHoveringLink.to(this._stateHoveringLink)
-			.when((fsm, msg, ...args) => { return (((msg === "click"))); })
-			.effect((fsm, msg, ...args) => { this._owner.selectLink(...args); });
+		this._stateDragNodeStarted.to(this._stateIsNodeSelected)
+			.when((fsm, msg, ...args) => { return (((msg === "node_dragged"))); })
+			;
 
 		this._stateInitial.to(this._stateIdle)
 			
@@ -132,11 +92,63 @@ export class GraphEditorSM {
 			.when((fsm, msg, ...args) => { return (((msg === "mouseover_node"))); })
 			;
 
+		this._stateIsNodeSelected.to(this._stateCreateLink)
+			.when((fsm, msg, ...args) => { return ((this._owner.isSelectedNode(...args) === true)); })
+			.effect((fsm, msg, ...args) => { this._owner.dragLineVisibility(true); });
+
+		this._stateCreatingNode.to(this._stateIdle)
+			.when((fsm, msg, ...args) => { return (((msg === "exit_menu"))); })
+			;
+
+		this._stateHoveringLink.to(this._stateIdle)
+			.when((fsm, msg, ...args) => { return (((msg === "mouseleave_link"))); })
+			.effect((fsm, msg, ...args) => { this._owner.unHighlightNode(...args); });
+
+		this._stateCreatingNode.to(this._stateIdle)
+			.when((fsm, msg, ...args) => { return (((msg === "item_selected"))); })
+			.effect((fsm, msg, ...args) => { this._owner.createNode(...args); });
+
+		this._stateTargetNodeSelected.to(this._stateHoveringNode)
+			.when((fsm, msg, ...args) => { return (((msg === "drag_node_ended"))); })
+			.effect((fsm, msg, ...args) => { this._owner.addRelation(...args); });
+
+		this._stateIsNodeSelected.to(this._stateDraggingNode)
+			.when((fsm, msg, ...args) => { return ((this._owner.isSelectedNode(...args) === false)); })
+			.effect((fsm, msg, ...args) => { this._owner.dragstarted(...args); });
+
 		this._stateTargetNodeSelected.to(this._stateCreateLink)
 			.when((fsm, msg, ...args) => { return (((msg === "mouseleave_node"))); })
 			;
 
-		this._stateDragNodeStarted.to(this._stateHoveringNode)
+		this._stateHoveringLink.to(this._stateHoveringLink)
+			.when((fsm, msg, ...args) => { return (((msg === "click"))); })
+			.effect((fsm, msg, ...args) => { this._owner.selectLink(...args); });
+
+		this._stateIdle.to(this._stateCreatingNode)
+			.when((fsm, msg, ...args) => { return (((msg === "click")) && (this._owner.isShiftDown())); })
+			.effect((fsm, msg, ...args) => { this._owner.addNode(...args); });
+
+		this._stateCreateLink.to(this._stateIdle)
+			.when((fsm, msg, ...args) => { return (((msg === "drag_node_ended"))); })
+			.effect((fsm, msg, ...args) => { this._owner.dragLineVisibility(false); });
+
+		this._stateIdle.to(this._stateHoveringLink)
+			.when((fsm, msg, ...args) => { return (((msg === "mouseover_link"))); })
+			.effect((fsm, msg, ...args) => { this._owner.highlightNode(...args); });
+
+		this._stateHoveringNode.to(this._stateIdle)
+			.when((fsm, msg, ...args) => { return (((msg === "mouseleave_node"))); })
+			.effect((fsm, msg, ...args) => { this._owner.unHighlightNode(...args); });
+
+		this._stateCreateLink.to(this._stateCreateLink)
+			.when((fsm, msg, ...args) => { return (((msg === "node_dragged"))); })
+			;
+
+		this._stateIdle.to(this._stateHoveringNode)
+			.when((fsm, msg, ...args) => { return (((msg === "mouseover_node"))); })
+			.effect((fsm, msg, ...args) => { this._owner.highlightNode(...args); });
+
+		this._stateHoveringNode.to(this._stateHoveringNode)
 			.when((fsm, msg, ...args) => { return (((msg === "click"))); })
 			.effect((fsm, msg, ...args) => { this._owner.selectNode(...args); });
 		//

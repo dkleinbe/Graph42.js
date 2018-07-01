@@ -52,7 +52,7 @@
         <effect xmi:type="uml:Activity" xmi:id="_D5YFcLmiEeei4vW41dEgbw" name="unHighlightNode"/>
         <trigger xmi:id="_D5YFcbmiEeei4vW41dEgbw" name="mouseleave_node"/>
       </transition>
-      <transition xmi:id="_D5YFcrmiEeei4vW41dEgbw" name="Idle_mouseup_Idle" guard="_D5YFc7miEeei4vW41dEgbw" source="_D5YsermiEeei4vW41dEgbw" target="_D5YsermiEeei4vW41dEgbw">
+      <transition xmi:id="_D5YFcrmiEeei4vW41dEgbw" name="Idle_shiftclick_CreatingNode" guard="_D5YFc7miEeei4vW41dEgbw" source="_D5YsermiEeei4vW41dEgbw" target="_Qhr9AH0vEei5v-qlsknvuw">
         <ownedRule xmi:id="_D5YFc7miEeei4vW41dEgbw">
           <specification xmi:type="uml:OpaqueExpression" xmi:id="_D5YFdLmiEeei4vW41dEgbw" name="isShiftDown">
             <body>isShiftDown()</body>
@@ -137,6 +137,13 @@
         <effect xmi:type="uml:OpaqueBehavior" xmi:id="_H6S1QPMKEeeInIuAb5nSQg" name="selectNode"/>
         <trigger xmi:id="_H6cmQPMKEeeInIuAb5nSQg" name="click"/>
       </transition>
+      <transition xmi:id="_03A50H07Eei5v-qlsknvuw" name="CreatingNode_exitmenu_Idle" source="_Qhr9AH0vEei5v-qlsknvuw" target="_D5YsermiEeei4vW41dEgbw">
+        <trigger xmi:id="_I9mNkH08Eei5v-qlsknvuw" name="exit_menu"/>
+      </transition>
+      <transition xmi:id="_DvquIH1SEei5v-qlsknvuw" source="_Qhr9AH0vEei5v-qlsknvuw" target="_D5YsermiEeei4vW41dEgbw">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_NhbjIH1SEei5v-qlsknvuw" name="createNode"/>
+        <trigger xmi:id="_NhbjIX1SEei5v-qlsknvuw" name="item_selected"/>
+      </transition>
       <subvertex xmi:type="uml:Pseudostate" xmi:id="_D5YsebmiEeei4vW41dEgbw" name="Initial"/>
       <subvertex xmi:type="uml:State" xmi:id="_D5YsermiEeei4vW41dEgbw" name="Idle"/>
       <subvertex xmi:type="uml:State" xmi:id="_D5Yse7miEeei4vW41dEgbw" name="HoveringNode"/>
@@ -153,6 +160,9 @@
       <subvertex xmi:type="uml:State" xmi:id="_qSHcsLm0Eeei4vW41dEgbw" name="HoveringLink"/>
       <subvertex xmi:type="uml:Pseudostate" xmi:id="_QGB5MLv3Eee17qOKs27_SA" name="IsNodeSelected" kind="choice"/>
       <subvertex xmi:type="uml:State" xmi:id="_dkUuMPMJEeeInIuAb5nSQg" name="DragNodeStarted"/>
+      <subvertex xmi:type="uml:State" xmi:id="_Qhr9AH0vEei5v-qlsknvuw" name="CreatingNode">
+        <exit xmi:type="uml:Activity" xmi:id="_-1itkH09Eei5v-qlsknvuw" name="hideCreatingNodeMenu"/>
+      </subvertex>
     </region>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_HpU0ACUxEei1UpDlneBSDw" name="Graph" visibility="public"/>
