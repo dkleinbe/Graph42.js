@@ -623,6 +623,19 @@ export class GraphEditor {
 
 	createNode(role) {
 		console.log("Create node :", role)
+		grdb.createNode(role).then(node => {
+
+			node.x = node.fx = this._lastClickPoint[0];
+			node.y = node.fy = this._lastClickPoint[1];
+			node.label = "Person";
+			node.properties = {name: "John Doe"};
+			node.properties = grdb._schema.getNodeProperties(node.label)
+			this._graph.addNode(node);
+
+			this.renderGraph(this._graph);
+
+			this.selectNode(node, d3.selectAll(".new").node());
+		})
 	}
 
 	addNode() {
@@ -639,43 +652,10 @@ export class GraphEditor {
 		wheelPoint[0] = tpoint[0] - 50
 		wheelPoint[1] = tpoint[1] - 50
 
+		// store point in canvas coordinates for future use
+		this._lastClickPoint = tpoint
+
 		this._creatingNodeMenu = new CreatingNodeWheelMenu(this._divWheel, this._fsm, wheelPoint, transform)
-
-		if (0)
-		grdb.createNode().then(node => {
-			// retrieve current transformaton
-			let transform = d3.zoomTransform(d3.select("svg").node())
-			console.log("transfo: ", transform)
-			// compute mouse position in svg coordinates
-			console.log("point: ", point)
-			let tpoint = transform.invert(point)
-			console.log("tpoint: ", tpoint)
-
-			node.x = node.fx = tpoint[0];
-			node.y = node.fy = tpoint[1];
-			node.label = "Person";
-			node.properties = {name: "John Doe"};
-			node.properties = grdb._schema.getNodeProperties(node.label)
-			this._graph.addNode(node);
-
-			this.renderGraph(this._graph);
-
-			this.selectNode(node, d3.selectAll(".new").node());
-
-			let wheelPoint = []
-			wheelPoint[0] = tpoint[0] - 50
-			wheelPoint[1] = tpoint[1] - 50
-			this._divWheel.style.left = (wheelPoint[0]) + "px";
-			this._divWheel.style.top = (wheelPoint[1]) + "px";
-			this._divWheel.style.transform = "translate(" + transform.x + "px," + transform.y + "px) scale(" + transform.k + ")";
-			// set CSS transformation origine
-			let ori = "-" + wheelPoint[0] + "px " + "-" + wheelPoint[1] + "px";
-			this._divWheel.style.transformOrigin = ori;
-			// create wheel menu
-			var wheel = new wheelnav("divWheel");
-			wheel.createWheel(["0", "1", "2", "3"]);
-			
-		});
 
 	}
 

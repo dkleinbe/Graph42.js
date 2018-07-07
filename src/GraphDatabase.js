@@ -315,12 +315,16 @@ export default class GraphDatabase {
 	}
 	/**
 	 **/
-	createNode() {
+	createNode(label) {
 		let session = this.driver.session();
-		let query = "CREATE (n) RETURN n;";
+		let query = "CREATE (n:" + label + ") SET n = $props RETURN n;";
 
+		// get node properties form schema
+		let properties = grdb._schema.getNodeProperties(label)
+		let props = { props: properties }
+		// create node
 		return session
-			.run(query)
+			.run(query, props)
 			.then(result => {
 				session.close()
 				// console.log(result.records);
