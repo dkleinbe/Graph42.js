@@ -58,7 +58,6 @@
 				<div id="divoverlay_">
 					
 					<div id="divWheel" data-wheelnav 
-						data-wheelnav-wheelradius="50"
 						data-wheelnav-navangle="90"
 						data-wheelnav-slicepath="DonutSlice" 
 						data-wheelnav-colors="#E34C26,#F06529" 

@@ -653,7 +653,7 @@ export class GraphEditor {
 		// store point in canvas coordinates for future use
 		this._lastClickPoint = tpoint
 
-		this._creatingNodeMenu = new CreatingNodeWheelMenu(this._divWheel, this._fsm, wheelPoint, transform)
+		this._creatingNodeMenu = new CreatingNodeWheelMenu(this._divWheel, this._fsm, tpoint, transform)
 
 	}
 

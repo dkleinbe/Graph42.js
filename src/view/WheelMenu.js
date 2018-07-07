@@ -16,16 +16,26 @@ export class CreatingNodeWheelMenu {
 		this._fsm = fsm
 		this._divWheel = divWheel
 
+		let size = 200;
+		let wheelPoint = []
+		wheelPoint[0] = point[0] - size / 2
+		wheelPoint[1] = point[1] - size / 2
+
 		this._divWheel.style.visibility = "visible"
-		this._divWheel.style.left = (point[0]) + "px";
-		this._divWheel.style.top = (point[1]) + "px";
+		this._divWheel.style.height = size + "px"
+		this._divWheel.style.width = size + "px"
+		this._divWheel.style.left = (wheelPoint[0]) + "px";
+		this._divWheel.style.top = (wheelPoint[1]) + "px";
 		this._divWheel.style.transform = "translate(" + transform.x + "px," + transform.y + "px) scale(" + transform.k + ")";
 		// set CSS transformation origine
-		let ori = "-" + point[0] + "px " + "-" + point[1] + "px";
+		let ori = "-" + wheelPoint[0] + "px " + "-" + wheelPoint[1] + "px";
 		this._divWheel.style.transformOrigin = ori;
 		// create wheel menu
 		this._wheel = new wheelnav("divWheel");
+		this._wheel.wheelradius = size
+		//this._wheel.slicePathFunction = slicePath().MenuSlice;
 		this._wheel.createWheel(["Exit", "Movie", "Person"]);
+		
 		// add menu items trigger
 		this._wheel.navItems.forEach((i, index) => {
 			if (index === 0) {
