@@ -652,8 +652,8 @@ export class GraphEditor {
 
 		// store point in canvas coordinates for future use
 		this._lastClickPoint = tpoint
-
-		this._creatingNodeMenu = new CreatingNodeWheelMenu(this._divWheel, this._fsm, tpoint, transform)
+		let menuItems = grdb._schema.getNodeLabelsSet()
+		this._creatingNodeMenu = new CreatingNodeWheelMenu(this._divWheel, menuItems, this._fsm, tpoint, transform)
 
 	}
 
