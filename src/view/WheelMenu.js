@@ -22,6 +22,7 @@ export class CreatingNodeWheelMenu {
 		wheelPoint[0] = point[0] - size / 2
 		wheelPoint[1] = point[1] - size / 2
 
+		this._divWheel.style.opacity = 1
 		this._divWheel.style.visibility = "visible"
 		this._divWheel.style.height = size + "px"
 		this._divWheel.style.width = size + "px"
@@ -31,11 +32,13 @@ export class CreatingNodeWheelMenu {
 		// set CSS transformation origine
 		let ori = "-" + wheelPoint[0] + "px " + "-" + wheelPoint[1] + "px";
 		this._divWheel.style.transformOrigin = ori;
+		// add listener to displqy transition
+		this.hideMenuEndTransition = this.hideMenuEndTransition.bind(this)
+		this._divWheel.addEventListener("transitionend", this.hideMenuEndTransition, false)
 		// create wheel menu
 		this._wheel = new wheelnav("divWheel");
 		this._wheel.wheelradius = size
-		// this._wheel.slicePathFunction = slicePath().MenuSlice;
-		// this._wheel.createWheel(["Exit", "Movie", "Person"]);
+		// create wheel whith list of items
 		this._wheel.createWheel(["Exit"].concat(menuItems))
 		// add menu items trigger
 		this._wheel.navItems.forEach((i, index) => {
@@ -56,7 +59,28 @@ export class CreatingNodeWheelMenu {
 	 * @memberof CreatingNodeWheelMenu
 	 */
 	hideMenu() {
-		this._wheel.removeWheel()
-		this._divWheel.style.visibility = "hidden"
+		
+		this._divWheel.style.opacity = 0
+		
+		// this._wheel.removeWheel()
 	}
+	/**
+	 * Removes wheel at end of transition
+	 *
+	 * @param {*} ev
+	 * @memberof CreatingNodeWheelMenu
+	 */
+	hideMenuEndTransition(ev) { 
+ 
+		if (ev.propertyName === 'opacity' && this._divWheel.style.opacity === "0") {
+			console.log("end transition")
+			// remove wheel and hide div
+			this._wheel.removeWheel()
+			this._divWheel.style.visibility = "hidden"
+			// remove event handler
+			this._divWheel.removeEventListener("transitionend", this.hideMenuEndTransition, false)
+		}
+
+	} 
 }
+

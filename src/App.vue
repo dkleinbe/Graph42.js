@@ -374,6 +374,8 @@ export default {
 	bottom: 0;
 	position: absolute;
 	pointer-events: auto;
+	opacity:0;
+  transition: opacity 0.5s linear;
 }
 
 #divWheel > svg {
